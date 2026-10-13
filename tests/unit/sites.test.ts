@@ -55,6 +55,12 @@ for (const [id, site] of entries) describe(`site "${id}"`, () => {
   it('keeps button text readable on the accent colour', () => {
     expect(contrastRatio(site.theme.accentContrast, site.theme.accent)).toBeGreaterThanOrEqual(4.5);
   });
+  it('has a readable error colour that differs from the accent', () => {
+    const t = site.theme;
+    expect(contrastRatio(t.error, t.surfaceBase), 'error on base').toBeGreaterThanOrEqual(4.5);
+    expect(contrastRatio(t.error, t.surfaceCard), 'error on card').toBeGreaterThanOrEqual(4.5);
+    expect(t.error.toLowerCase()).not.toBe(t.accent.toLowerCase());
+  });
   it('keeps hero text readable on the hero background', () => {
     const t = site.theme;
     for (const fg of [t.textPrimary, t.textSecondary, t.accent]) {

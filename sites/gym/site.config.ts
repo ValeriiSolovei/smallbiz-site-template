@@ -24,6 +24,7 @@ const gym: SiteConfig = {
     accentDim: 'rgba(182, 255, 46, 0.14)',
     accentGlow: 'rgba(182, 255, 46, 0.30)',
     accentContrast: '#0b0c0a',
+    error: '#ff6b6b',
   },
   contact: {
     phone: '(416) 555-0167',

@@ -14,6 +14,7 @@ export type ThemeTokens = {
   accentDim: string;
   accentGlow: string;
   accentContrast: string;
+  error: string;
 };
 
 export type Photo = { src: string; alt: string };

@@ -24,6 +24,7 @@ const cafe: SiteConfig = {
     accentDim: 'rgba(107, 63, 38, 0.10)',
     accentGlow: 'rgba(107, 63, 38, 0.22)',
     accentContrast: '#ffffff',
+    error: '#b42318',
   },
   contact: {
     phone: '(416) 555-0118',

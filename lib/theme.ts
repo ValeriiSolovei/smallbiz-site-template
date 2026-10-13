@@ -15,6 +15,7 @@ export const TOKEN_TO_VAR: Record<ColourToken, string> = {
   accentDim: '--accent-dim',
   accentGlow: '--accent-glow',
   accentContrast: '--accent-contrast',
+  error: '--error',
 };
 
 export function themeToCssVars(theme: ThemeTokens): Record<string, string> {

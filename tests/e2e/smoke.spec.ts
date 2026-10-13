@@ -96,3 +96,36 @@ test(`${site.id}: footer links are big enough to tap on a phone`, async ({ page 
     expect(box?.height ?? 0, await link.innerText()).toBeGreaterThanOrEqual(24);
   }
 });
+
+const rgb = (hex: string) => {
+  const n = parseInt(hex.slice(1), 16);
+  return `rgb(${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255})`;
+};
+
+test(`${site.id}: contact form guides keyboard and screen-reader users`, async ({ page }) => {
+  await page.goto('/contact/');
+  const required = site.form.fields.filter((f) => f.required);
+  for (const f of required) await expect(page.locator(`#field-${f.name}`)).toHaveAttribute('aria-required', 'true');
+
+  const submit = page.getByRole('button', { name: site.form.submitLabel });
+  await submit.click();
+  const first = page.locator(`#field-${required[0].name}`);
+  await expect(first).toBeFocused();
+  await expect(first).toHaveAttribute('aria-invalid', 'true');
+  expect(await first.evaluate((el) => getComputedStyle(el).boxShadow)).not.toBe('none');
+  const error = page.locator(`#field-${required[0].name}-error`);
+  await expect(error).toHaveCSS('color', rgb(site.theme.error));
+
+  await first.fill(required[0].type === 'email' ? 'test@example.com' : 'Alex');
+  await expect(error).toHaveCount(0);
+
+  for (const f of site.form.fields) {
+    const input = page.locator(`#field-${f.name}`);
+    if (f.type === 'select') await input.selectOption(f.options![0]);
+    else if (f.type === 'email') await input.fill('test+demo@example.com');
+    else if (f.type === 'tel') await input.fill('(416) 555-0199');
+    else await input.fill('Testing the demo form');
+  }
+  await submit.click();
+  await expect(page.getByRole('status')).toBeFocused();
+});

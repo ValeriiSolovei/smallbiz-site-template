@@ -24,6 +24,7 @@ const trades: SiteConfig = {
     accentDim: 'rgba(255, 122, 26, 0.16)',
     accentGlow: 'rgba(255, 122, 26, 0.35)',
     accentContrast: '#111111',
+    error: '#ff6b81',
   },
   contact: {
     phone: '(416) 555-0142',

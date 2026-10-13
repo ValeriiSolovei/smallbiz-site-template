@@ -24,6 +24,7 @@ const shop: SiteConfig = {
     accentDim: 'rgba(15, 110, 100, 0.10)',
     accentGlow: 'rgba(15, 110, 100, 0.24)',
     accentContrast: '#ffffff',
+    error: '#b42318',
   },
   contact: {
     phone: '(416) 555-0183',

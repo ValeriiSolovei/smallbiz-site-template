@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, type FormEvent } from 'react';
+import { useEffect, useRef, useState, type FormEvent } from 'react';
 import type { FormSpec } from '@/lib/types';
 import { HONEYPOT_FIELD } from '@/lib/constants';
 import { isSpam, validateContact } from '@/lib/validate-contact';
@@ -10,6 +10,30 @@ const AUTOCOMPLETE: Record<string, string> = { name: 'name', email: 'email', pho
 export default function ContactForm({ form }: { form: FormSpec }) {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [sent, setSent] = useState(false);
+  const statusRef = useRef<HTMLDivElement>(null);
+  const focusAfterRender = useRef<string | null>(null);
+
+  // After a failed submit, take the user to the first problem once its error text is rendered,
+  // so screen readers read the field together with its message.
+  useEffect(() => {
+    if (!focusAfterRender.current) return;
+    document.getElementById(focusAfterRender.current)?.focus();
+    focusAfterRender.current = null;
+  }, [errors]);
+
+  // Move focus to the confirmation so it is announced and keyboard users are not dropped on <body>.
+  useEffect(() => {
+    if (sent) statusRef.current?.focus();
+  }, [sent]);
+
+  function clearError(name: string) {
+    setErrors((prev) => {
+      if (!(name in prev)) return prev;
+      const next = { ...prev };
+      delete next[name];
+      return next;
+    });
+  }
 
   function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -22,13 +46,15 @@ export default function ContactForm({ form }: { form: FormSpec }) {
       return;
     }
     const found = validateContact(form.fields, values);
+    const firstBad = form.fields.find((f) => found[f.name]);
+    focusAfterRender.current = firstBad ? `field-${firstBad.name}` : null;
     setErrors(found);
-    if (Object.keys(found).length === 0) setSent(true);
+    if (!firstBad) setSent(true);
   }
 
   if (sent) {
     return (
-      <div role="status" className="glow rounded-2xl border border-border-default bg-surface-card p-8">
+      <div ref={statusRef} role="status" tabIndex={-1} className="glow rounded-2xl border border-border-default bg-surface-card p-8 focus:outline-none">
         <p className="text-xl font-semibold">Thanks, we&apos;ll be in touch.</p>
         <p className="mt-2 text-text-secondary">This is a demo site, so nothing was actually sent.</p>
       </div>
@@ -44,15 +70,22 @@ export default function ContactForm({ form }: { form: FormSpec }) {
           id,
           name: f.name,
           'aria-invalid': err ? true : undefined,
+          'aria-required': f.required || undefined,
           'aria-describedby': err ? `${id}-error` : undefined,
+          onInput: () => clearError(f.name),
           className:
-            'mt-1 w-full rounded-xl border border-border-default bg-surface-base px-3 py-2 text-text-primary focus:border-accent focus:outline-none',
+            'mt-1 w-full rounded-xl border border-text-muted bg-surface-base px-3 py-2 text-text-primary focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent aria-[invalid=true]:border-error',
         };
         return (
           <div key={f.name}>
             <label htmlFor={id} className="text-sm font-medium">
               {f.label}
-              {f.required && <span className="text-accent"> *</span>}
+              {f.required && (
+                <span aria-hidden="true" className="text-accent">
+                  {' '}
+                  *
+                </span>
+              )}
             </label>
             {f.type === 'textarea' ? (
               <textarea rows={5} {...common} />
@@ -71,7 +104,7 @@ export default function ContactForm({ form }: { form: FormSpec }) {
               <input type={f.type} autoComplete={AUTOCOMPLETE[f.name]} {...common} />
             )}
             {err && (
-              <p id={`${id}-error`} className="mt-1 text-sm text-accent">
+              <p id={`${id}-error`} className="mt-1 text-sm text-error">
                 {err}
               </p>
             )}
