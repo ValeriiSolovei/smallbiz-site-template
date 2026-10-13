@@ -30,6 +30,14 @@ npm test                       # unit tests + content validation for every site
 SITE=cafe npm run build && SITE=cafe npm run e2e   # browser smoke tests
 ```
 
+## Deploy (Cloudflare Pages)
+
+One Pages project per site, all from this repo:
+
+- Build command: `npm run build`, output directory: `out`
+- Environment variables: `SITE` (`trades`, `gym`, `cafe` or `shop`), `SITE_URL` (the site's own address, for example `https://my-demo.pages.dev`, used for link-preview images) and `NODE_VERSION` = `24`
+- The build stops with a clear message if `SITE` is missing, or if `SITE_URL` is missing on Cloudflare.
+
 Photos are public-domain (CC0) images found through [Openverse](https://openverse.org); see `CREDITS.md`.
 
 To add photos: `npm run find-photos -- <search words>` lists public-domain candidates, copy the ones you want into `sites/<id>/photos.json` (with your own alt text), then `npm run fetch-photos -- <id>` downloads and resizes them (resizing uses macOS `sips`).

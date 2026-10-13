@@ -5,20 +5,16 @@ import './globals.css';
 import { getSite } from '@/lib/site';
 import { themeToCssVars } from '@/lib/theme';
 import { siteIconDataUri } from '@/lib/icon';
+import { resolveBaseUrl } from '@/lib/base-url';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
-// Absolute base for Open Graph image URLs: SITE_URL if set, else Vercel's production domain, else localhost.
-const baseUrl =
-  process.env.SITE_URL ??
-  (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : 'http://localhost:3000');
-
 export function generateMetadata(): Metadata {
   const site = getSite();
   return {
-    metadataBase: new URL(baseUrl),
+    metadataBase: new URL(resolveBaseUrl()),
     title: { default: `${site.name} | ${site.tagline}`, template: `%s | ${site.name}` },
     description: site.hero.subhead,
     robots: site.indexable ? { index: true, follow: true } : { index: false, follow: false },
