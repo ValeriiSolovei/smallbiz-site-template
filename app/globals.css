@@ -1,0 +1,58 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-surface-base: var(--surface-base);
+  --color-surface-card: var(--surface-card);
+  --color-surface-hero: var(--surface-hero);
+  --color-border-default: var(--border-default);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-dim: var(--accent-dim);
+  --color-accent-glow: var(--accent-glow);
+  --color-accent-contrast: var(--accent-contrast);
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+/* Native form controls and scrollbars follow the site's mode */
+html.dark { color-scheme: dark; }
+html.light { color-scheme: light; }
+body {
+  background-color: var(--surface-base);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Small uppercase label above headings */
+.eyebrow {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+/* Accent glow for hero images, primary buttons and CTA cards */
+.glow { box-shadow: 0 0 0 1px var(--accent-dim), 0 12px 40px -12px var(--accent-glow); }
+
+/* Lists with accent dots */
+.accent-list li { position: relative; padding-left: 1.25rem; }
+.accent-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.65em;
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 9999px;
+  background: var(--accent);
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--surface-base); }
+::-webkit-scrollbar-thumb { background: var(--border-default); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
