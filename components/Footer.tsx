@@ -13,10 +13,10 @@ export default function Footer({ site }: { site: SiteConfig }) {
         <div>
           <p className="font-semibold text-text-primary">Contact</p>
           <p className="mt-2">
-            <a href={telHref(site.contact.phone)} className="hover:text-accent">{site.contact.phone}</a>
+            <a href={telHref(site.contact.phone)} className="inline-block py-1 hover:text-accent">{site.contact.phone}</a>
           </p>
           <p>
-            <a href={`mailto:${site.contact.email}`} className="hover:text-accent">{site.contact.email}</a>
+            <a href={`mailto:${site.contact.email}`} className="inline-block py-1 hover:text-accent">{site.contact.email}</a>
           </p>
           <p className="mt-2">{site.contact.addressLine}</p>
         </div>

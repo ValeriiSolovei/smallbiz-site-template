@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import { getSite } from '@/lib/site';
 import { themeToCssVars } from '@/lib/theme';
+import { siteIconDataUri } from '@/lib/icon';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
@@ -21,6 +22,7 @@ export function generateMetadata(): Metadata {
     title: { default: `${site.name} | ${site.tagline}`, template: `%s | ${site.name}` },
     description: site.hero.subhead,
     robots: site.indexable ? { index: true, follow: true } : { index: false, follow: false },
+    icons: { icon: siteIconDataUri(site) },
     openGraph: {
       type: 'website',
       locale: 'en_CA',

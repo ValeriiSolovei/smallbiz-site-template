@@ -14,6 +14,7 @@ for (const route of ROUTES) {
     await expect(page.getByTestId('demo-label')).toHaveText('Demo site — fictional business, built by Valerii Solovei');
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex/);
     await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', new RegExp(`/${site.id}/hero\\.jpg$`));
+    await expect(page.locator('link[rel="icon"]')).toHaveAttribute('href', /^data:image\/svg\+xml,/);
   });
 }
 
@@ -73,4 +74,25 @@ test(`${site.id}: contact form validates, then confirms without sending`, async 
   await submit.click();
   await expect(page.getByRole('status')).toContainText('Thanks');
   expect(requests).toEqual([]);
+});
+
+test(`${site.id}: home page logs no browser errors`, async ({ page }) => {
+  const errors: string[] = [];
+  page.on('console', (m) => {
+    if (m.type() === 'error') errors.push(m.text());
+  });
+  page.on('pageerror', (e) => errors.push(e.message));
+  await page.goto('/', { waitUntil: 'networkidle' });
+  expect(errors).toEqual([]);
+});
+
+test(`${site.id}: footer links are big enough to tap on a phone`, async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.goto('/');
+  const links = page.locator('footer a');
+  await expect(links).not.toHaveCount(0);
+  for (const link of await links.all()) {
+    const box = await link.boundingBox();
+    expect(box?.height ?? 0, await link.innerText()).toBeGreaterThanOrEqual(24);
+  }
 });

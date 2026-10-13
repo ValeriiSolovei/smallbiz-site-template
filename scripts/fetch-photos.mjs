@@ -15,13 +15,17 @@ const bySite = {};
 // Sized at download because static export has no image optimizer: large for hero/team, smaller for grids.
 const widthFor = (file) => (/^(hero|team)\./.test(file) ? 1200 : 800);
 
-// macOS `sips`: re-encode as JPEG and shrink to `width` when wider. Never upscales.
+// macOS `sips`: re-encode as JPEG and shrink to `width` when wider (never upscales).
+// Busy photos (leaves, crowds) stay heavy at 78%, so step the quality down until the file fits the budget.
+const BYTE_BUDGET = 160_000;
 async function toJpeg(src, dest, width) {
   const { stdout } = await run('sips', ['-g', 'pixelWidth', src]);
   const current = Number(/pixelWidth: (\d+)/.exec(stdout)?.[1] ?? 0);
-  const args = ['-s', 'format', 'jpeg', '-s', 'formatOptions', '78'];
-  if (current > width) args.push('--resampleWidth', String(width));
-  await run('sips', [...args, src, '--out', dest]);
+  const resize = current > width ? ['--resampleWidth', String(width)] : [];
+  for (const quality of ['78', 'normal', 'low']) {
+    await run('sips', ['-s', 'format', 'jpeg', '-s', 'formatOptions', quality, ...resize, src, '--out', dest]);
+    if ((await fs.stat(dest)).size <= BYTE_BUDGET) return;
+  }
 }
 
 for (const site of siteDirs) {
