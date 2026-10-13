@@ -129,3 +129,10 @@ test(`${site.id}: contact form guides keyboard and screen-reader users`, async (
   await submit.click();
   await expect(page.getByRole('status')).toBeFocused();
 });
+
+test(`${site.id}: smooth scrolling respects reduced motion and stays off during page changes`, async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/');
+  expect(await page.evaluate(() => getComputedStyle(document.documentElement).scrollBehavior)).toBe('auto');
+  await expect(page.locator('html')).toHaveAttribute('data-scroll-behavior', 'smooth');
+});

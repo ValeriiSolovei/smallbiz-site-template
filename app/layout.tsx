@@ -33,7 +33,7 @@ export function generateMetadata(): Metadata {
 export default function RootLayout({ children }: { children: ReactNode }) {
   const site = getSite();
   return (
-    <html lang="en-CA" className={`${inter.variable} ${site.theme.mode}`} style={themeToCssVars(site.theme) as CSSProperties}>
+    <html lang="en-CA" data-scroll-behavior="smooth" className={`${inter.variable} ${site.theme.mode}`} style={themeToCssVars(site.theme) as CSSProperties}>
       <body className="flex min-h-screen flex-col font-sans">
         <Header site={site} />
         <main className="flex-1">{children}</main>
