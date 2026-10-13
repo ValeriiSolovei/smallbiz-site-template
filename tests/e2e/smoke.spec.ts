@@ -4,7 +4,7 @@ import { getSite } from '../../lib/site';
 const site = getSite(process.env.SITE);
 
 // Tasks 5–7 add '/about/', '/gallery/', `/${site.primary.slug}/` and '/contact/' here.
-const ROUTES: string[] = ['/'];
+const ROUTES: string[] = ['/', '/about/', '/gallery/'];
 
 for (const route of ROUTES) {
   test(`${site.id} ${route}: one h1, demo label, noindex`, async ({ page }) => {
@@ -31,4 +31,14 @@ test(`${site.id}: unknown URL shows the site's 404 page`, async ({ page }) => {
   const res = await page.goto('/this-page-does-not-exist/');
   expect(res?.status()).toBe(404);
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Page not found');
+});
+
+test(`${site.id}: home shows sample reviews and every image has alt text`, async ({ page }) => {
+  await page.goto('/');
+  await expect(page.getByText('Sample reviews', { exact: true })).toBeVisible();
+  for (const name of site.reviews.map((r) => r.name)) await expect(page.getByText(name, { exact: true })).toBeVisible();
+  await page.goto('/gallery/');
+  const imgs = page.locator('main img');
+  await expect(imgs).toHaveCount(site.gallery.length);
+  for (const img of await imgs.all()) expect((await img.getAttribute('alt'))?.length ?? 0).toBeGreaterThan(8);
 });
