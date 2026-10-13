@@ -136,3 +136,23 @@ test(`${site.id}: smooth scrolling respects reduced motion and stays off during 
   expect(await page.evaluate(() => getComputedStyle(document.documentElement).scrollBehavior)).toBe('auto');
   await expect(page.locator('html')).toHaveAttribute('data-scroll-behavior', 'smooth');
 });
+
+test(`${site.id}: weekly schedule fits a phone screen`, async ({ page }) => {
+  test.skip(site.primary.kind !== 'classes', 'only sites with a class schedule');
+  if (site.primary.kind !== 'classes') return;
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.goto(`/${site.primary.slug}/`);
+  const schedule = page.locator('div:has(> h2:text-is("Weekly schedule"))');
+  await expect(schedule).toBeVisible();
+  const spilling = await schedule.evaluate((el) => {
+    const vw = document.documentElement.clientWidth;
+    return [...el.querySelectorAll('*')].filter((n) => {
+      const r = n.getBoundingClientRect();
+      return r.width > 0 && r.right > vw + 0.5;
+    }).length;
+  });
+  expect(spilling).toBe(0);
+  for (const c of site.primary.schedule.flatMap((d) => d.classes)) {
+    await expect(schedule.getByText(`with ${c.coach}`).first()).toBeVisible();
+  }
+});
