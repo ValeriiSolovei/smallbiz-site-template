@@ -4,7 +4,7 @@ import { getSite } from '../../lib/site';
 const site = getSite(process.env.SITE);
 
 // Tasks 5–7 add '/about/', '/gallery/', `/${site.primary.slug}/` and '/contact/' here.
-const ROUTES: string[] = ['/', '/about/', '/gallery/'];
+const ROUTES: string[] = ['/', '/about/', `/${site.primary.slug}/`, '/gallery/'];
 
 for (const route of ROUTES) {
   test(`${site.id} ${route}: one h1, demo label, noindex`, async ({ page }) => {
@@ -41,4 +41,15 @@ test(`${site.id}: home shows sample reviews and every image has alt text`, async
   const imgs = page.locator('main img');
   await expect(imgs).toHaveCount(site.gallery.length);
   for (const img of await imgs.all()) expect((await img.getAttribute('alt'))?.length ?? 0).toBeGreaterThan(8);
+});
+
+test(`${site.id}: business page shows its content`, async ({ page }) => {
+  await page.goto(`/${site.primary.slug}/`);
+  const p = site.primary;
+  const first =
+    p.kind === 'menu' ? p.sections[0].items[0].name
+    : p.kind === 'services' ? p.services[0].name
+    : p.kind === 'classes' ? p.plans[0].name
+    : p.products[0].name;
+  await expect(page.getByText(first, { exact: true }).first()).toBeVisible();
 });
