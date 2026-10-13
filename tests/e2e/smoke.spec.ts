@@ -4,7 +4,7 @@ import { getSite } from '../../lib/site';
 const site = getSite(process.env.SITE);
 
 // Tasks 5–7 add '/about/', '/gallery/', `/${site.primary.slug}/` and '/contact/' here.
-const ROUTES: string[] = ['/', '/about/', `/${site.primary.slug}/`, '/gallery/'];
+const ROUTES: string[] = ['/', '/about/', `/${site.primary.slug}/`, '/gallery/', '/contact/'];
 
 for (const route of ROUTES) {
   test(`${site.id} ${route}: one h1, demo label, noindex`, async ({ page }) => {
@@ -52,4 +52,25 @@ test(`${site.id}: business page shows its content`, async ({ page }) => {
     : p.kind === 'classes' ? p.plans[0].name
     : p.products[0].name;
   await expect(page.getByText(first, { exact: true }).first()).toBeVisible();
+});
+
+test(`${site.id}: contact form validates, then confirms without sending`, async ({ page }) => {
+  const requests: string[] = [];
+  page.on('request', (r) => {
+    if (r.method() === 'POST') requests.push(r.url());
+  });
+  await page.goto('/contact/');
+  const submit = page.getByRole('button', { name: site.form.submitLabel });
+  await submit.click();
+  await expect(page.getByText('This field is required.').first()).toBeVisible();
+  for (const f of site.form.fields) {
+    const input = page.locator(`#field-${f.name}`);
+    if (f.type === 'select') await input.selectOption(f.options![0]);
+    else if (f.type === 'email') await input.fill('test+demo@example.com');
+    else if (f.type === 'tel') await input.fill('(416) 555-0199');
+    else await input.fill('Testing the demo form');
+  }
+  await submit.click();
+  await expect(page.getByRole('status')).toContainText('Thanks');
+  expect(requests).toEqual([]);
 });
