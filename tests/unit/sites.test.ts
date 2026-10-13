@@ -6,7 +6,7 @@ import { getSite, getSiteId } from '@/lib/site';
 import { contrastRatio } from '@/lib/contrast';
 import { osmEmbedUrl } from '@/lib/map';
 import { HONEYPOT_FIELD } from '@/lib/constants';
-import type { Photo, SiteConfig } from '@/lib/types';
+import type { Photo, PhotoEntry, SiteConfig } from '@/lib/types';
 
 const root = process.cwd();
 
@@ -81,6 +81,14 @@ for (const [id, site] of entries) describe(`site "${id}"`, () => {
     expect(names).not.toContain(HONEYPOT_FIELD);
     expect(site.form.fields.some((f) => f.type === 'email' && f.required)).toBe(true);
     for (const f of site.form.fields) if (f.type === 'select') expect(f.options?.length ?? 0).toBeGreaterThan(1);
+  });
+  it('uses only public-domain photos (no attribution needed on the page)', () => {
+    const entries = JSON.parse(fs.readFileSync(path.join(root, 'sites', id, 'photos.json'), 'utf8')) as PhotoEntry[];
+    for (const e of entries) {
+      expect(e.license, e.file).toMatch(/^(CC0 1\.0|Public Domain Mark 1\.0)$/);
+      expect(e.licenseUrl, e.file).toMatch(/^https:\/\/creativecommons\.org\/publicdomain\//);
+      expect(e.sourceUrl, e.file).toMatch(/^https:\/\//);
+    }
   });
   it('has every photo on disk with real alt text', () => {
     for (const p of collectPhotos(site)) {

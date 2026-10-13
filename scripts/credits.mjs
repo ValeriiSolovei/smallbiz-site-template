@@ -1,15 +1,18 @@
-/** @param {Record<string, {file:string, unsplashId:string, alt?:string, photographer:string, photographerUrl:string}[]>} bySite */
+/** Escape a value for a Markdown table cell: no pipes, no line breaks. */
+const cell = (value) => String(value ?? '').replace(/\|/g, '\\|').replace(/\s+/g, ' ').trim();
+
+/** @param {Record<string, {file:string, alt?:string, imageUrl?:string, sourceUrl:string, license:string, licenseUrl:string, creator:string}[]>} bySite */
 export function buildCredits(bySite) {
   const lines = [
     '# Photo credits',
     '',
-    'All photos are from [Unsplash](https://unsplash.com) under the [Unsplash License](https://unsplash.com/license) (free for commercial use; credit appreciated).',
+    'Every photo is in the public domain (CC0 or Public Domain Mark) and was found through [Openverse](https://openverse.org). No attribution is required; creators are listed here anyway.',
     '',
   ];
   for (const [site, entries] of Object.entries(bySite).sort(([a], [b]) => a.localeCompare(b))) {
-    lines.push(`## ${site}`, '', '| File | Photo | Photographer |', '|---|---|---|');
+    lines.push(`## ${site}`, '', '| File | Photo | Creator | Licence |', '|---|---|---|---|');
     for (const e of entries) {
-      lines.push(`| public/${site}/${e.file} | [${e.unsplashId}](https://unsplash.com/photos/${e.unsplashId}) | [${e.photographer}](${e.photographerUrl}) |`);
+      lines.push(`| public/${site}/${e.file} | [source](${e.sourceUrl}) | ${cell(e.creator) || 'Unknown'} | [${cell(e.license)}](${e.licenseUrl}) |`);
     }
     lines.push('');
   }

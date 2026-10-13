@@ -17,7 +17,16 @@ export type ThemeTokens = {
 };
 
 export type Photo = { src: string; alt: string };
-export type PhotoEntry = { file: string; unsplashId: string; alt: string; photographer: string; photographerUrl: string };
+/** One row of sites/<id>/photos.json: a public-domain photo found through Openverse. */
+export type PhotoEntry = {
+  file: string;
+  alt: string;
+  imageUrl: string;
+  sourceUrl: string;
+  license: string;
+  licenseUrl: string;
+  creator: string;
+};
 export type NavItem = { label: string; href: string };
 export type Card = { title: string; body: string };
 export type Review = { quote: string; name: string };

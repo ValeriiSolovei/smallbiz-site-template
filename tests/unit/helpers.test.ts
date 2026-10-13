@@ -27,7 +27,15 @@ describe('telHref', () => {
 
 describe('photoSet', () => {
   const ph = photoSet('cafe', [
-    { file: 'hero.jpg', unsplashId: 'abc', alt: 'Window seat with a latte', photographer: 'A', photographerUrl: 'https://unsplash.com/@a' },
+    {
+      file: 'hero.jpg',
+      alt: 'Window seat with a latte',
+      imageUrl: 'https://cdn.example/abc.jpg',
+      sourceUrl: 'https://stocksnap.io/photo/abc',
+      license: 'CC0 1.0',
+      licenseUrl: 'https://creativecommons.org/publicdomain/zero/1.0/',
+      creator: 'A',
+    },
   ]);
   it('returns src and alt for a known file', () => {
     expect(ph('hero.jpg')).toEqual({ src: '/cafe/hero.jpg', alt: 'Window seat with a latte' });
