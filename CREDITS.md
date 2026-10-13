@@ -2,6 +2,19 @@
 
 Every photo is in the public domain (CC0 or Public Domain Mark) and was found through [Openverse](https://openverse.org). No attribution is required; creators are listed here anyway.
 
+## cafe
+
+| File | Photo | Creator | Licence |
+|---|---|---|---|
+| public/cafe/hero.jpg | [source](https://www.rawpixel.com/image/3303531/free-photo-image-zoom-background-cafe-beverage) | Unknown | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| public/cafe/team.jpg | [source](https://stocksnap.io/photo/barista-pouring-MD4L58LL1E) | Burst | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| public/cafe/gallery-1.jpg | [source](https://stocksnap.io/photo/coffee-cappuccino-UXO5P8KFS5) | Hello Goodbye | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| public/cafe/gallery-2.jpg | [source](https://stocksnap.io/photo/croissant-pastry-3020ACDE09) | JESHOOTS.com | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| public/cafe/gallery-3.jpg | [source](https://stocksnap.io/photo/bread-pastry-73EV0ODLNO) | Roman Kraft | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| public/cafe/gallery-4.jpg | [source](https://stocksnap.io/photo/coffee-beans-X2HTBSJDKF) | Anastasia Zhenina | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| public/cafe/gallery-5.jpg | [source](https://stocksnap.io/photo/food-sandwich-D8ED06DFE2) | Julien Sister | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| public/cafe/gallery-6.jpg | [source](https://stocksnap.io/photo/breakfast-morning-JMR76BK6PG) | Alondra Olivas | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+
 ## gym
 
 | File | Photo | Creator | Licence |
