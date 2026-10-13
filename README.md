@@ -12,6 +12,13 @@ The four demos are **fictional businesses** created to show the template in diff
 | Lantern & Crumb Café (cafe) | light, espresso |
 | Mossbank Plant Co. (plant shop) | light, deep teal |
 
+Live demos:
+
+- [Volt Ridge Electric](https://voltridge-electric-demo.pages.dev)
+- [Ironline Athletic Club](https://ironline-gym-demo.pages.dev)
+- [Lantern & Crumb Café](https://lantern-crumb-cafe-demo.pages.dev)
+- [Mossbank Plant Co.](https://mossbank-plants-demo.pages.dev)
+
 ## How it works
 
 - `sites/<id>/site.config.ts` holds all content and theme tokens; `SITE=<id>` picks the site at build time.
