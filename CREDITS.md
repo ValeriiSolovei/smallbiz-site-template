@@ -31,6 +31,25 @@ Every photo is in the public domain (CC0 or Public Domain Mark) and was found th
 | public/gym/gallery-5.jpg | [source](https://www.rawpixel.com/image/5964869/hotel-fitness) | Unknown | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 | public/gym/gallery-6.jpg | [source](https://www.rawpixel.com/image/5905913/photo-image-public-domain-black-person) | Unknown | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 
+## shop
+
+| File | Photo | Creator | Licence |
+|---|---|---|---|
+| public/shop/hero.jpg | [source](https://stocksnap.io/photo/potted-plants-JOHHVIOMIW) | Burst | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| public/shop/team.jpg | [source](https://stocksnap.io/photo/gardening-pots-WV6Q25F8ZJ) | Neslihan Gunaydin | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| public/shop/product-1.jpg | [source](https://stocksnap.io/photo/indoor-plants-UDSMYLOVW4) | Unknown | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| public/shop/product-2.jpg | [source](https://wordpress.org/photos/photo/484653103f/) | Bigul Malayi | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| public/shop/product-3.jpg | [source](https://wordpress.org/photos/photo/2036a20495/) | Manjil Aryal | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| public/shop/product-4.jpg | [source](https://www.rawpixel.com/image/3282492/free-photo-image-house-plants-fig) | Unknown | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| public/shop/product-5.jpg | [source](https://wordpress.org/photos/photo/6056a27e7b/) | Mohammed Kateregga | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| public/shop/product-6.jpg | [source](https://www.rawpixel.com/image/3301451/free-photo-image-aloe-cactus-cc0) | Unknown | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| public/shop/gallery-1.jpg | [source](https://wordpress.org/photos/photo/35768dba97/) | Abishkaar Chettri | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| public/shop/gallery-2.jpg | [source](https://stocksnap.io/photo/plant-garden-C8C6M7BSEX) | Clark Street Mercantile | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| public/shop/gallery-3.jpg | [source](https://stocksnap.io/photo/gardening-pots-OAI0YI23DR) | Neslihan Gunaydin | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| public/shop/gallery-4.jpg | [source](https://stocksnap.io/photo/succulents-plants-TUFQLV3ZDD) | Matt Bango | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| public/shop/gallery-5.jpg | [source](https://www.rawpixel.com/image/3301565/free-photo-image-vine-potted-plant-hanging-plants) | Unknown | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| public/shop/gallery-6.jpg | [source](https://stocksnap.io/photo/green-leaves-GY7743ZHG4) | Jordan Sanchez | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+
 ## trades
 
 | File | Photo | Creator | Licence |
