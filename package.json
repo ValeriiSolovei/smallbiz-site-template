@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && node scripts/prune-out.mjs",
     "serve": "http-server out -p 3000 -c-1 -s",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",

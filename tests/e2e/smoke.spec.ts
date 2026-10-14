@@ -54,6 +54,7 @@ test(`${site.id}: unknown URL shows the site's 404 page`, async ({ page }) => {
   const res = await page.goto('/this-page-does-not-exist/');
   expect(res?.status()).toBe(404);
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Page not found');
+  await expect(page).toHaveTitle(/^Page not found \| /);
 });
 
 test(`${site.id}: home shows sample reviews and every image has alt text`, async ({ page }) => {
@@ -177,4 +178,22 @@ test(`${site.id}: weekly schedule fits a phone screen`, async ({ page }) => {
   for (const c of site.primary.schedule.flatMap((d) => d.classes)) {
     await expect(schedule.getByText(`with ${c.coach}`).first()).toBeVisible();
   }
+});
+
+test(`${site.id}: keyboard users can skip straight to the content`, async ({ page }) => {
+  await page.goto('/');
+  await page.keyboard.press('Tab');
+  const skip = page.getByRole('link', { name: 'Skip to content' });
+  await expect(skip).toBeFocused();
+  await expect(skip).toBeVisible();
+  await expect(skip).toHaveAttribute('href', '#main');
+  await expect(page.locator('main#main')).toHaveCount(1);
+});
+
+test(`${site.id}: ships only its own photos and no stray copies of the 404 page`, async ({ request }) => {
+  for (const other of ['trades', 'gym', 'cafe', 'shop'].filter((id) => id !== site.id)) {
+    expect((await request.get(`/${other}/hero.jpg`)).status(), other).toBe(404);
+  }
+  expect((await request.get(`/${site.id}/hero.jpg`)).status()).toBe(200);
+  for (const p of ['/404/', '/_not-found/']) expect((await request.get(p)).status(), p).toBe(404);
 });

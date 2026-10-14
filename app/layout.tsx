@@ -35,8 +35,16 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en-CA" data-scroll-behavior="smooth" className={`${inter.variable} ${site.theme.mode}`} style={themeToCssVars(site.theme) as CSSProperties}>
       <body className="flex min-h-screen flex-col font-sans">
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-accent focus:px-4 focus:py-2 focus:font-semibold focus:text-accent-contrast"
+        >
+          Skip to content
+        </a>
         <Header site={site} />
-        <main className="flex-1">{children}</main>
+        <main id="main" tabIndex={-1} className="flex-1 focus:outline-none">
+          {children}
+        </main>
         <Footer site={site} />
       </body>
     </html>
