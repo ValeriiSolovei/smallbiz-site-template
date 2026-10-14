@@ -9,7 +9,16 @@ const run = promisify(execFile);
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const exists = (p) => fs.access(p).then(() => true, () => false);
 const siteDirs = (await fs.readdir(path.join(root, 'sites'), { withFileTypes: true })).filter((d) => d.isDirectory()).map((d) => d.name);
-const only = process.argv.slice(2);
+// Usage: npm run fetch-photos -- [--force] [site ...]
+// Existing files are kept unless --force is given (needed after changing an entry in photos.json).
+const args = process.argv.slice(2);
+const force = args.includes('--force');
+const only = args.filter((a) => a !== '--force');
+const unknown = only.filter((id) => !siteDirs.includes(id));
+if (unknown.length) {
+  console.error(`Unknown site: ${unknown.join(', ')}. Use one of: ${siteDirs.join(', ')}`);
+  process.exit(1);
+}
 const bySite = {};
 
 // Sized at download because static export has no image optimizer: large for hero/team, smaller for grids.
@@ -26,6 +35,7 @@ async function toJpeg(src, dest, width) {
     await run('sips', ['-s', 'format', 'jpeg', '-s', 'formatOptions', quality, ...resize, src, '--out', dest]);
     if ((await fs.stat(dest)).size <= BYTE_BUDGET) return;
   }
+  console.warn(`warning: ${path.relative(root, dest)} is still over ${BYTE_BUDGET} bytes; consider another photo`);
 }
 
 for (const site of siteDirs) {
@@ -37,7 +47,10 @@ for (const site of siteDirs) {
   await fs.mkdir(path.join(root, 'public', site), { recursive: true });
   for (const p of list) {
     const dest = path.join(root, 'public', site, p.file);
-    if (await exists(dest)) continue;
+    if (!force && (await exists(dest))) {
+      console.log(`skipped public/${site}/${p.file} (exists; --force re-downloads)`);
+      continue;
+    }
     const res = await fetch(p.imageUrl, { redirect: 'follow', headers: { 'user-agent': 'smallbiz-site-template/0.1 (personal project)' } });
     const type = res.headers.get('content-type') ?? '';
     if (!res.ok || !type.startsWith('image/')) throw new Error(`${site}/${p.file}: download failed (${res.status} ${type}) from ${p.imageUrl}`);
