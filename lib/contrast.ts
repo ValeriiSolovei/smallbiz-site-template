@@ -19,3 +19,16 @@ export function contrastRatio(a: string, b: string): number {
   const [hi, lo] = [luminance(a), luminance(b)].sort((x, y) => y - x);
   return (hi + 0.05) / (lo + 0.05);
 }
+
+/** The solid colour you see when `colour` (#rrggbb or rgba(r, g, b, a)) is painted over the solid `base`. */
+export function blendOver(colour: string, base: string): string {
+  if (/^#[0-9a-f]{6}$/i.test(colour.trim())) return colour.trim().toLowerCase();
+  const m = /^rgba\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*([\d.]+)\s*\)$/i.exec(colour.trim());
+  if (!m) throw new Error(`Expected #rrggbb or rgba(r, g, b, a), got "${colour}"`);
+  const alpha = Number(m[4]);
+  const under = hexToRgb(base);
+  return `#${[1, 2, 3]
+    .map((i) => Math.round(Number(m[i]) * alpha + under[i - 1] * (1 - alpha)))
+    .map((c) => c.toString(16).padStart(2, '0'))
+    .join('')}`;
+}

@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { sites } from '@/sites';
 import { getSite, getSiteId } from '@/lib/site';
-import { contrastRatio } from '@/lib/contrast';
+import { blendOver, contrastRatio } from '@/lib/contrast';
 import { osmEmbedUrl } from '@/lib/map';
 import { HONEYPOT_FIELD } from '@/lib/constants';
 import type { Photo, PhotoEntry, SiteConfig } from '@/lib/types';
@@ -29,8 +29,8 @@ describe('getSiteId', () => {
 const entries = Object.entries(sites);
 
 describe('registry', () => {
-  it('has no more than the four planned sites', () => {
-    for (const id of Object.keys(sites)) expect(['trades', 'gym', 'cafe', 'shop']).toContain(id);
+  it('has exactly the four planned sites', () => {
+    expect(Object.keys(sites).sort()).toEqual(['cafe', 'gym', 'shop', 'trades']);
   });
 });
 
@@ -52,8 +52,15 @@ for (const [id, site] of entries) describe(`site "${id}"`, () => {
       expect(contrastRatio(fg, t.surfaceCard), `${fg} on card`).toBeGreaterThanOrEqual(4.5);
     }
   });
-  it('keeps button text readable on the accent colour', () => {
+  it('keeps button text readable on the accent colour, including on hover', () => {
     expect(contrastRatio(site.theme.accentContrast, site.theme.accent)).toBeGreaterThanOrEqual(4.5);
+    expect(contrastRatio(site.theme.accentContrast, site.theme.accentHover), 'hover').toBeGreaterThanOrEqual(4.5);
+  });
+  it('keeps pill text readable on the tinted pill background', () => {
+    const t = site.theme;
+    for (const bg of [t.surfaceBase, t.surfaceCard]) {
+      expect(contrastRatio(t.accent, blendOver(t.accentDim, bg)), `accent on accentDim over ${bg}`).toBeGreaterThanOrEqual(4.5);
+    }
   });
   it('has a readable error colour that differs from the accent', () => {
     const t = site.theme;

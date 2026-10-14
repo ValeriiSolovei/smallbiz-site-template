@@ -3,7 +3,6 @@ import { getSite } from '../../lib/site';
 
 const site = getSite(process.env.SITE);
 
-// Tasks 5–7 add '/about/', '/gallery/', `/${site.primary.slug}/` and '/contact/' here.
 const ROUTES: string[] = ['/', '/about/', `/${site.primary.slug}/`, '/gallery/', '/contact/'];
 
 for (const route of ROUTES) {
