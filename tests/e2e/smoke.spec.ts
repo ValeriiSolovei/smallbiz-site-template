@@ -24,7 +24,7 @@ test(`${site.id}: phone-width menu opens and links work`, async ({ page }) => {
   await page.getByRole('button', { name: 'Open navigation' }).click();
   const mobile = page.getByRole('navigation', { name: 'Mobile' });
   await expect(mobile).toBeVisible();
-  await mobile.getByRole('link', { name: 'About' }).click();
+  await mobile.getByRole('link', { name: 'About', exact: true }).click();
   await expect(page).toHaveURL(/\/about\/$/);
   await expect(mobile).toBeHidden();
 });
@@ -34,7 +34,7 @@ test(`${site.id}: phone-width menu closes with Escape and when going Back`, asyn
   await page.goto('/');
   const mobile = page.getByRole('navigation', { name: 'Mobile' });
   await page.getByRole('button', { name: 'Open navigation' }).click();
-  await mobile.getByRole('link', { name: 'About' }).click();
+  await mobile.getByRole('link', { name: 'About', exact: true }).click();
   await expect(page).toHaveURL(/\/about\/$/);
 
   await page.getByRole('button', { name: 'Open navigation' }).click();
