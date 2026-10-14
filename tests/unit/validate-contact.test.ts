@@ -29,21 +29,22 @@ describe('validateContact', () => {
   it.each(['alex@example.com', 'alex+quotes@example.co', 'a.b@sub.example.ca'])('accepts email %s', (email) => {
     expect(validateContact(fields, { ...valid, email })).toEqual({});
   });
-  it.each(['alex', 'alex@', 'alex@example', 'alex @example.com'])('rejects email %s', (email) => {
+  it.each(['alex', 'alex@', 'alex@example', 'alex @example.com', 'alex@example..com', 'alex@.example.com', 'alex@example.com.'])('rejects email %s', (email) => {
     expect(validateContact(fields, { ...valid, email })).toEqual({ email: 'Please enter a valid email address.' });
   });
-  it.each(['(416) 555-0142', '416-555-0142', '416.555.0142', '+1 416 555 0142', '4165550142', '1-416-555-0142'])('accepts phone %s', (phone) => {
+  it.each(['(416) 555-0142', '416-555-0142', '416.555.0142', '+1 416 555 0142', '4165550142', '1-416-555-0142', '416-555-0142 ext. 12', '(416) 555-0142 x204', '416 555 0142 #7'])('accepts phone %s', (phone) => {
     expect(validateContact(fields, { ...valid, phone })).toEqual({});
   });
-  it.each(['555-0142', '22345678901', 'call me'])('rejects phone %s', (phone) => {
+  it.each(['555-0142', '22345678901', 'call me', '416-555-0142 call after 5', 'abc4165550142'])('rejects phone %s', (phone) => {
     expect(validateContact(fields, { ...valid, phone })).toEqual({ phone: 'Please enter a 10-digit phone number.' });
   });
   it('rejects a select value that is not an option', () => {
     expect(validateContact(fields, { ...valid, jobType: 'Hacked' })).toEqual({ jobType: 'Please choose one of the options.' });
   });
   it('caps message length', () => {
-    expect(validateContact(fields, { ...valid, details: 'x'.repeat(2001) })).toEqual({ details: 'Please keep this under 2000 characters.' });
-    expect(validateContact(fields, { ...valid, name: 'x'.repeat(201) })).toEqual({ name: 'Please keep this under 200 characters.' });
+    expect(validateContact(fields, { ...valid, details: 'x'.repeat(2000) })).toEqual({});
+    expect(validateContact(fields, { ...valid, details: 'x'.repeat(3000) })).toEqual({ details: 'Please keep this to 2000 characters or fewer (you have 3000).' });
+    expect(validateContact(fields, { ...valid, name: 'x'.repeat(201) })).toEqual({ name: 'Please keep this to 200 characters or fewer (you have 201).' });
   });
   it('treats a missing key like an empty value', () => {
     const { details: _omit, ...rest } = valid;

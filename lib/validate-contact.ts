@@ -2,7 +2,10 @@ import type { FieldSpec } from './types';
 import { HONEYPOT_FIELD } from './constants';
 
 export const REQUIRED_MESSAGE = 'This field is required.';
-const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+// Domain may not start with a dot, contain '..', or end with a dot.
+const EMAIL = /^[^\s@]+@(?!\.)(?!.*\.\.)[^\s@]+\.[^\s@.]{2,}$/;
+// A trailing extension like "ext. 12", "x204" or "#7" is allowed and ignored.
+const EXTENSION = /\s*(?:ext\.?|x|#)\s*\d{1,6}$/i;
 
 export function isSpam(values: Record<string, string>): boolean {
   return (values[HONEYPOT_FIELD] ?? '').trim() !== '';
@@ -18,13 +21,14 @@ export function validateContact(fields: FieldSpec[], values: Record<string, stri
     }
     const max = f.type === 'textarea' ? 2000 : 200;
     if (v.length > max) {
-      errors[f.name] = `Please keep this under ${max} characters.`;
+      errors[f.name] = `Please keep this to ${max} characters or fewer (you have ${v.length}).`;
       continue;
     }
     if (f.type === 'email' && !EMAIL.test(v)) errors[f.name] = 'Please enter a valid email address.';
     if (f.type === 'tel') {
-      const d = v.replace(/\D/g, '');
-      const ok = d.length === 10 || (d.length === 11 && d.startsWith('1'));
+      const number = v.replace(EXTENSION, '');
+      const d = number.replace(/\D/g, '');
+      const ok = !/[a-z]/i.test(number) && (d.length === 10 || (d.length === 11 && d.startsWith('1')));
       if (!ok) errors[f.name] = 'Please enter a 10-digit phone number.';
     }
     if (f.type === 'select' && !(f.options ?? []).includes(v)) errors[f.name] = 'Please choose one of the options.';
