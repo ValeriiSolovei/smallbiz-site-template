@@ -46,8 +46,26 @@ test(`${site.id}: phone-width menu closes with Escape and when going Back`, asyn
   await page.getByRole('button', { name: 'Open navigation' }).click();
   await expect(mobile).toBeVisible();
   await page.goBack();
-  await expect(page).toHaveURL(/\/$/);
+  expect(new URL(page.url()).pathname).toBe('/');
   await expect(mobile).toBeHidden();
+  await page.goForward();
+  expect(new URL(page.url()).pathname).toBe('/about/');
+  await expect(mobile).toBeHidden();
+});
+
+test(`${site.id}: phone-width menu stays closed when coming back to the page it was opened on`, async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.goto('/');
+  const toggle = page.getByRole('button', { name: 'Open navigation' });
+  const box = await toggle.boundingBox();
+  expect(box?.width ?? 0).toBeGreaterThanOrEqual(44);
+  expect(box?.height ?? 0).toBeGreaterThanOrEqual(44);
+  await toggle.click();
+  await page.locator('main a[href^="/"]').first().click();
+  await expect(page).not.toHaveURL(/localhost:3000\/$/);
+  await page.goBack();
+  expect(new URL(page.url()).pathname).toBe('/');
+  await expect(page.getByRole('navigation', { name: 'Mobile' })).toBeHidden();
 });
 
 test(`${site.id}: unknown URL shows the site's 404 page`, async ({ page }) => {
@@ -185,9 +203,10 @@ test(`${site.id}: keyboard users can skip straight to the content`, async ({ pag
   await page.keyboard.press('Tab');
   const skip = page.getByRole('link', { name: 'Skip to content' });
   await expect(skip).toBeFocused();
-  await expect(skip).toBeVisible();
+  expect((await skip.boundingBox())?.width ?? 0).toBeGreaterThan(40);
   await expect(skip).toHaveAttribute('href', '#main');
-  await expect(page.locator('main#main')).toHaveCount(1);
+  await page.keyboard.press('Enter');
+  await expect(page.locator('main#main')).toBeFocused();
 });
 
 test(`${site.id}: ships only its own photos and no stray copies of the 404 page`, async ({ request }) => {

@@ -26,9 +26,11 @@ export function blendOver(colour: string, base: string): string {
   const m = /^rgba\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*([\d.]+)\s*\)$/i.exec(colour.trim());
   if (!m) throw new Error(`Expected #rrggbb or rgba(r, g, b, a), got "${colour}"`);
   const alpha = Number(m[4]);
+  const channels = [1, 2, 3].map((i) => Number(m[i]));
+  if (!(alpha >= 0 && alpha <= 1) || channels.some((c) => c > 255)) throw new Error(`Colour out of range: "${colour}"`);
   const under = hexToRgb(base);
-  return `#${[1, 2, 3]
-    .map((i) => Math.round(Number(m[i]) * alpha + under[i - 1] * (1 - alpha)))
+  return `#${channels
+    .map((c, i) => Math.round(c * alpha + under[i] * (1 - alpha)))
     .map((c) => c.toString(16).padStart(2, '0'))
     .join('')}`;
 }

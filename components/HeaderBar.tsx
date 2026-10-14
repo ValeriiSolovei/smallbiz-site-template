@@ -10,18 +10,22 @@ const norm = (p: string) => p.replace(/\/+$/, '') || '/';
 export default function HeaderBar({ name, nav, cta }: { name: string; nav: NavItem[]; cta: NavItem }) {
   const pathname = usePathname() ?? '/';
   const current = norm(pathname);
-  // The phone menu is open only on the page where it was opened, so any page change
-  // (a link, Back or Forward) closes it.
-  const [openOn, setOpenOn] = useState<string | null>(null);
-  const open = openOn === pathname;
-  const close = () => setOpenOn(null);
+  const [open, setOpen] = useState(false);
+  // Any page change (a link, Back or Forward) closes the phone menu. Adjusting state during
+  // render when the path changes avoids a setState-in-effect and an extra paint.
+  const [seenPath, setSeenPath] = useState(pathname);
+  if (seenPath !== pathname) {
+    setSeenPath(pathname);
+    setOpen(false);
+  }
+  const close = () => setOpen(false);
   const toggleRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key !== 'Escape') return;
-      setOpenOn(null);
+      setOpen(false);
       toggleRef.current?.focus();
     };
     document.addEventListener('keydown', onKey);
@@ -52,11 +56,11 @@ export default function HeaderBar({ name, nav, cta }: { name: string; nav: NavIt
         <button
           ref={toggleRef}
           type="button"
-          className="rounded-lg border border-border-default p-2 md:hidden"
+          className="rounded-lg border border-border-default p-3 md:hidden"
           aria-expanded={open}
           aria-controls="mobile-menu"
           aria-label={open ? 'Close navigation' : 'Open navigation'}
-          onClick={() => setOpenOn(open ? null : pathname)}
+          onClick={() => setOpen((v) => !v)}
         >
           <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
             {open ? <path d="M6 6l12 12M18 6L6 18" /> : <path d="M4 7h16M4 12h16M4 17h16" />}

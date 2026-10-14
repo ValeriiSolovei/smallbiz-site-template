@@ -32,10 +32,10 @@ describe('validateContact', () => {
   it.each(['alex', 'alex@', 'alex@example', 'alex @example.com', 'alex@example..com', 'alex@.example.com', 'alex@example.com.'])('rejects email %s', (email) => {
     expect(validateContact(fields, { ...valid, email })).toEqual({ email: 'Please enter a valid email address.' });
   });
-  it.each(['(416) 555-0142', '416-555-0142', '416.555.0142', '+1 416 555 0142', '4165550142', '1-416-555-0142', '416-555-0142 ext. 12', '(416) 555-0142 x204', '416 555 0142 #7'])('accepts phone %s', (phone) => {
+  it.each(['(416) 555-0142', '416-555-0142', '416.555.0142', '+1 416 555 0142', '4165550142', '1-416-555-0142', '416-555-0142 ext. 12', '(416) 555-0142 x204', '416 555 0142 #7', '416-555-0142 extension 12', '416-555-0142 poste 12'])('accepts phone %s', (phone) => {
     expect(validateContact(fields, { ...valid, phone })).toEqual({});
   });
-  it.each(['555-0142', '22345678901', 'call me', '416-555-0142 call after 5', 'abc4165550142'])('rejects phone %s', (phone) => {
+  it.each(['555-0142', '22345678901', 'call me', '416-555-0142 call after 5', 'abc4165550142', '416-555-0142 #', '416-555-0142 é', '416-555-0142 ☎'])('rejects phone %s', (phone) => {
     expect(validateContact(fields, { ...valid, phone })).toEqual({ phone: 'Please enter a 10-digit phone number.' });
   });
   it('rejects a select value that is not an option', () => {

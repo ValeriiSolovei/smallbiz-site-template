@@ -55,9 +55,9 @@ Every photo is in the public domain (CC0 or Public Domain Mark) and was found th
 | File | Photo | Creator | Licence |
 |---|---|---|---|
 | public/trades/hero.jpg | [source](https://stocksnap.io/photo/construction-worker-6B70C91911) | Leeroy | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
-| public/trades/team.jpg | [source](https://www.rawpixel.com/image/9658874/image-person-public-domain-concrete) | Unknown | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| public/trades/team.jpg | [source](https://stocksnap.io/photo/house-home-9G5X445AP9) | WDnet Studio | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 | public/trades/gallery-1.jpg | [source](https://stocksnap.io/photo/electrical-outlets-ZE54KB2ZLQ) | Design by Matt | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
-| public/trades/gallery-2.jpg | [source](https://stocksnap.io/photo/house-home-9G5X445AP9) | WDnet Studio | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| public/trades/gallery-2.jpg | [source](https://www.rawpixel.com/image/5937771/free-public-domain-cc0-photo) | Unknown | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 | public/trades/gallery-3.jpg | [source](https://www.rawpixel.com/image/6081044/electric-car-charging-station) | Unknown | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 | public/trades/gallery-4.jpg | [source](https://stocksnap.io/photo/light-bulb-HHY8J753TD) | Saya Kimura | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 | public/trades/gallery-5.jpg | [source](https://stocksnap.io/photo/light-switch-GCFFRMA9VR) | Matt Bango | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |

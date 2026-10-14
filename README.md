@@ -47,4 +47,4 @@ One Pages project per site, all from this repo:
 
 Photos are public-domain (CC0) images found through [Openverse](https://openverse.org); see `CREDITS.md`.
 
-To add photos: `npm run find-photos -- <search words>` lists public-domain candidates, copy the ones you want into `sites/<id>/photos.json` (with your own alt text), then `npm run fetch-photos -- <id>` downloads and resizes them (resizing uses macOS `sips`).
+To add photos: `npm run find-photos -- <search words>` lists public-domain candidates, copy the ones you want into `sites/<id>/photos.json` (with your own alt text), then `npm run fetch-photos -- <id>` downloads and resizes them (resizing uses macOS `sips`). Existing files are kept; to replace a photo after editing its entry, run `npm run fetch-photos -- --force <id>` (re-downloads every photo for that site).

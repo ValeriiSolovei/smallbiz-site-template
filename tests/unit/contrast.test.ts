@@ -34,4 +34,12 @@ describe('blendOver', () => {
   it('rejects colours it cannot read', () => {
     expect(() => blendOver('hsl(0 0% 0%)', '#ffffff')).toThrow(/Expected #rrggbb or rgba/);
   });
+  it('handles fully transparent and fully opaque rgba', () => {
+    expect(blendOver('rgba(255, 0, 0, 0)', '#123456')).toBe('#123456');
+    expect(blendOver('rgba(255, 0, 0, 1)', '#123456')).toBe('#ff0000');
+  });
+  it('rejects out-of-range alpha or channels', () => {
+    expect(() => blendOver('rgba(0, 0, 0, 1.5)', '#ffffff')).toThrow(/out of range/);
+    expect(() => blendOver('rgba(300, 0, 0, 0.5)', '#ffffff')).toThrow(/out of range/);
+  });
 });
