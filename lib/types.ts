@@ -64,6 +64,8 @@ export type SiteConfig = {
   theme: ThemeTokens;
   contact: { phone: string; email: string; addressLine: string; mapBbox: Bbox; hours: { days: string; time: string }[] };
   hero: { eyebrow: string; headline: string; subhead: string; cta: NavItem; secondaryCta?: NavItem; photo: Photo };
+  /** Header button; defaults to the hero's main button. Point it at /contact/. */
+  headerCta?: NavItem;
   highlights: Card[];
   whyUs: { title: string; points: string[] };
   reviews: Review[];

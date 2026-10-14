@@ -5,6 +5,7 @@ import { sites } from '@/sites';
 import { getSite, getSiteId } from '@/lib/site';
 import { blendOver, contrastRatio } from '@/lib/contrast';
 import { osmEmbedUrl } from '@/lib/map';
+import { headerCta } from '@/lib/nav';
 import { HONEYPOT_FIELD } from '@/lib/constants';
 import type { Photo, PhotoEntry, SiteConfig } from '@/lib/types';
 
@@ -38,6 +39,9 @@ for (const [id, site] of entries) describe(`site "${id}"`, () => {
   it('is registered under its own id and loads via getSite', () => {
     expect(site.id).toBe(id);
     expect(getSite(id)).toBe(site);
+  });
+  it('points the header button at the contact page', () => {
+    expect(headerCta(site).href).toBe('/contact/');
   });
   it('is hidden from search engines', () => {
     expect(site.indexable).toBe(false);

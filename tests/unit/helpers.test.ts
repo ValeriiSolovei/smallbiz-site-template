@@ -63,4 +63,8 @@ describe('buildNav', () => {
   it('uses the hero CTA as the header button', () => {
     expect(headerCta(site)).toEqual({ label: 'See the menu', href: '/menu/' });
   });
+  it("prefers the site's own header button when set", () => {
+    const withCta = { ...site, headerCta: { label: 'Catering', href: '/contact/' } } as SiteConfig;
+    expect(headerCta(withCta)).toEqual({ label: 'Catering', href: '/contact/' });
+  });
 });

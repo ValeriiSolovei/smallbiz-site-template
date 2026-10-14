@@ -44,6 +44,7 @@ const cafe: SiteConfig = {
     secondaryCta: { label: 'Catering for your event', href: '/contact/' },
     photo: ph('hero.jpg'),
   },
+  headerCta: { label: 'Catering', href: '/contact/' },
   highlights: [
     { title: 'Baked in-house', body: 'Croissants, loaves and cookies made here before we open.' },
     { title: 'Local roasters', body: 'Rotating beans from small Ontario roasters.' },

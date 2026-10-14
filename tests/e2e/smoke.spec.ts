@@ -20,11 +20,34 @@ for (const route of ROUTES) {
 test(`${site.id}: phone-width menu opens and links work`, async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 812 });
   await page.goto('/');
-  await page.getByRole('button', { name: 'Menu' }).click();
+  await expect(page.locator('#mobile-menu')).toBeAttached();
+  await page.getByRole('button', { name: 'Open navigation' }).click();
   const mobile = page.getByRole('navigation', { name: 'Mobile' });
   await expect(mobile).toBeVisible();
   await mobile.getByRole('link', { name: 'About' }).click();
   await expect(page).toHaveURL(/\/about\/$/);
+  await expect(mobile).toBeHidden();
+});
+
+test(`${site.id}: phone-width menu closes with Escape and when going Back`, async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.goto('/');
+  const mobile = page.getByRole('navigation', { name: 'Mobile' });
+  await page.getByRole('button', { name: 'Open navigation' }).click();
+  await mobile.getByRole('link', { name: 'About' }).click();
+  await expect(page).toHaveURL(/\/about\/$/);
+
+  await page.getByRole('button', { name: 'Open navigation' }).click();
+  await expect(mobile).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(mobile).toBeHidden();
+  await expect(page.getByRole('button', { name: 'Open navigation' })).toBeFocused();
+
+  await page.getByRole('button', { name: 'Open navigation' }).click();
+  await expect(mobile).toBeVisible();
+  await page.goBack();
+  await expect(page).toHaveURL(/\/$/);
+  await expect(mobile).toBeHidden();
 });
 
 test(`${site.id}: unknown URL shows the site's 404 page`, async ({ page }) => {

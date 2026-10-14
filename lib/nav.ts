@@ -11,5 +11,5 @@ export function buildNav(site: SiteConfig): NavItem[] {
 }
 
 export function headerCta(site: SiteConfig): NavItem {
-  return site.hero.cta;
+  return site.headerCta ?? site.hero.cta;
 }

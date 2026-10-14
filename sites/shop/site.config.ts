@@ -45,6 +45,7 @@ const shop: SiteConfig = {
     secondaryCta: { label: 'Ask about a plant', href: '/contact/' },
     photo: ph('hero.jpg'),
   },
+  headerCta: { label: 'Ask about a plant', href: '/contact/' },
   highlights: [
     { title: 'Matched to your light', body: 'Tell us about your window and we will suggest plants that will thrive.' },
     { title: 'Pots and soil on site', body: 'Pick a pot and we repot your plant while you wait.' },
