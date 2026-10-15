@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import type { CSSProperties, ReactNode } from 'react';
-import { Inter } from 'next/font/google';
+import { fontClasses } from '@site-fonts';
 import './globals.css';
 import { getSite } from '@/lib/site';
 import { themeToCssVars } from '@/lib/theme';
@@ -8,8 +8,6 @@ import { siteIconDataUri } from '@/lib/icon';
 import { resolveBaseUrl } from '@/lib/base-url';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
 export function generateMetadata(): Metadata {
   const site = getSite();
@@ -33,7 +31,7 @@ export function generateMetadata(): Metadata {
 export default function RootLayout({ children }: { children: ReactNode }) {
   const site = getSite();
   return (
-    <html lang="en-CA" data-scroll-behavior="smooth" className={`${inter.variable} ${site.theme.mode}`} style={themeToCssVars(site.theme) as CSSProperties}>
+    <html lang="en-CA" data-scroll-behavior="smooth" className={`${fontClasses} ${site.theme.mode}`} style={themeToCssVars(site.theme) as CSSProperties}>
       <body className="flex min-h-screen flex-col font-sans">
         <a
           href="#main"
