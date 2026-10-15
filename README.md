@@ -23,6 +23,8 @@ Live demos:
 
 - `sites/<id>/site.config.ts` holds all content and theme tokens; `SITE=<id>` picks the site at build time.
 - Theme tokens become CSS variables, and Tailwind utilities read them, so components never hard-code colours.
+- Each site picks its design system with `system: 'v1' | 'v2'` in its config (v1 when unset). v2 components live in `components/v2/`, and v2 styles are scoped to `html[data-system="v2"]`, so a v1 site renders exactly as before. v2 sections set a tone (`data-tone`: base, tint, brand, inverse, accent) and the unit tests check that neighbouring sections differ.
+- Fonts live in `sites/<id>/fonts.ts`; the build resolves the `@site-fonts` import to the current site's file, so only that site's fonts are bundled and preloaded.
 - Fully static export (`output: 'export'`): fast, free to host, nothing to maintain.
 - Forms validate input and show a confirmation; in the demos nothing is sent.
 - Demos are marked `noindex` so search engines skip them.

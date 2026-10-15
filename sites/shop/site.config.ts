@@ -1,10 +1,11 @@
-import type { PhotoEntry, SiteConfig } from '@/lib/types';
+import type { PhotoEntry, SiteConfigV1 } from '@/lib/types';
 import { photoSet } from '@/lib/photos';
 import photos from './photos.json';
 
 const ph = photoSet('shop', photos as PhotoEntry[]);
 
-const shop: SiteConfig = {
+const shop: SiteConfigV1 = {
+  system: 'v1',
   id: 'shop',
   name: 'Mossbank Plant Co.',
   tagline: 'Houseplants, pots and plant advice on Ossington',

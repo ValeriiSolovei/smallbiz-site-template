@@ -1,7 +1,7 @@
 import Link from 'next/link';
-import type { SiteConfig } from '@/lib/types';
+import type { SiteConfigV1 } from '@/lib/types';
 
-export default function CtaBand({ band }: { band: SiteConfig['ctaBand'] }) {
+export default function CtaBand({ band }: { band: SiteConfigV1['ctaBand'] }) {
   return (
     <section className="mx-auto max-w-6xl px-4 pb-20">
       <div className="glow flex flex-col items-start justify-between gap-6 rounded-2xl border border-border-default bg-surface-card p-8 md:flex-row md:items-center md:p-12">

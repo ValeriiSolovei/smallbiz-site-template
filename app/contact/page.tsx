@@ -3,6 +3,7 @@ import { getSite } from '@/lib/site';
 import PageHeader from '@/components/PageHeader';
 import ContactForm from '@/components/ContactForm';
 import HoursAndMap from '@/components/HoursAndMap';
+import ContactV2 from '@/components/v2/pages/Contact';
 
 export function generateMetadata(): Metadata {
   return { title: 'Contact' };
@@ -10,6 +11,7 @@ export function generateMetadata(): Metadata {
 
 export default function ContactPage() {
   const site = getSite();
+  if (site.system === 'v2') return <ContactV2 site={site} />;
   return (
     <>
       <PageHeader eyebrow="Contact" title={site.form.title} intro={site.form.intro} />

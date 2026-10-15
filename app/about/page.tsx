@@ -4,6 +4,7 @@ import PageHeader from '@/components/PageHeader';
 import Section from '@/components/Section';
 import CardGrid from '@/components/CardGrid';
 import CtaBand from '@/components/CtaBand';
+import AboutV2 from '@/components/v2/pages/About';
 
 export function generateMetadata(): Metadata {
   return { title: 'About' };
@@ -11,6 +12,7 @@ export function generateMetadata(): Metadata {
 
 export default function AboutPage() {
   const site = getSite();
+  if (site.system === 'v2') return <AboutV2 site={site} />;
   const { about } = site;
   return (
     <>

@@ -1,7 +1,7 @@
 import Link from 'next/link';
-import type { SiteConfig } from '@/lib/types';
+import type { SiteConfigV1 } from '@/lib/types';
 
-export default function Hero({ hero }: { hero: SiteConfig['hero'] }) {
+export default function Hero({ hero }: { hero: SiteConfigV1['hero'] }) {
   return (
     <section className="relative overflow-hidden bg-surface-hero">
       <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 py-16 md:grid-cols-2 md:py-24">

@@ -34,3 +34,10 @@ export function blendOver(colour: string, base: string): string {
     .map((c) => c.toString(16).padStart(2, '0'))
     .join('')}`;
 }
+
+/** `#rrggbb` plus an alpha as `rgba(r, g, b, a)`, for use with blendOver. */
+export function withAlpha(hex: string, alpha: number): string {
+  if (!(alpha >= 0 && alpha <= 1)) throw new Error(`Alpha must be between 0 and 1, got ${alpha}`);
+  const [r, g, b] = hexToRgb(hex);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}

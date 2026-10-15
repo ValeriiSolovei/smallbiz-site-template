@@ -1,9 +1,12 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { getSite } from '@/lib/site';
+import NotFoundV2 from '@/components/v2/pages/NotFound';
 
 export const metadata: Metadata = { title: 'Page not found' };
 
 export default function NotFound() {
+  if (getSite().system === 'v2') return <NotFoundV2 />;
   return (
     <section className="mx-auto max-w-3xl px-4 py-24 text-center">
       <p className="eyebrow">404</p>

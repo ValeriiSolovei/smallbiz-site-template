@@ -15,6 +15,23 @@
   --color-accent-contrast: var(--accent-contrast);
   --color-error: var(--error);
   --font-sans: var(--font-inter), system-ui, sans-serif;
+
+  /* v2 role utilities (text-fg, bg-bg, border-rule, bg-btn, ...); the values come from the tone in scope */
+  --color-bg: var(--bg);
+  --color-fg: var(--fg);
+  --color-fg-2: var(--fg-2);
+  --color-fg-3: var(--fg-3);
+  --color-rule: var(--rule);
+  --color-link: var(--link);
+  --color-mark: var(--mark);
+  --color-chip: var(--chip);
+  --color-btn: var(--btn-bg);
+  --color-btn-fg: var(--btn-fg);
+  --color-btn-border: var(--btn-border);
+  /* v2 font roles; the --ff-* variables come from the site's fonts module, Inter when it sets none */
+  --font-display: var(--ff-display, var(--font-inter)), system-ui, sans-serif;
+  --font-body: var(--ff-body, var(--ff-display, var(--font-inter))), system-ui, sans-serif;
+  --font-voice: var(--ff-voice, var(--ff-display, var(--font-inter))), serif;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -59,3 +76,234 @@ body {
 ::-webkit-scrollbar-track { background: var(--surface-base); }
 ::-webkit-scrollbar-thumb { background: var(--border-default); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ------------------------------------------------------------------------------------------------
+   Design system v2. Everything below is scoped to html[data-system="v2"], so v1 sites are unaffected.
+   It sits in the components layer, so Tailwind utilities on an element still win.
+   ------------------------------------------------------------------------------------------------ */
+@layer components {
+  html[data-system="v2"] {
+    /* Type scale: phone value at 390 px, desktop value at 1440 px */
+    --fs-label: 0.8125rem;
+    --fs-small: 0.9375rem;
+    --fs-body: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+    --fs-lead: clamp(1.125rem, 1rem + 0.6vw, 1.5rem);
+    --fs-h3: clamp(1.375rem, 1.15rem + 1vw, 2rem);
+    --fs-h2: clamp(2rem, 1.25rem + 3.2vw, 3.75rem);
+    --fs-h1: clamp(2.75rem, 1.4rem + 5.8vw, 6rem);
+    --fs-statement: clamp(2.75rem, 0.9rem + 8.2vw, 8.5rem);
+    --fs-numeral: clamp(2.75rem, 1.6rem + 3.6vw, 4.5rem);
+    /* Layout */
+    --container: 1280px;
+    --gutter: clamp(20px, 5.5vw, 80px);
+    --space-tight: clamp(48px, 6vw, 80px);
+    --space-regular: clamp(72px, 9vw, 128px);
+    --space-loose: clamp(96px, 13vw, 192px);
+    --overlap: clamp(40px, 7vw, 120px);
+    --callbar-h: 64px;
+    overflow-x: clip;
+  }
+  html[data-system="v2"] body {
+    overflow-x: clip;
+    font-size: var(--fs-body);
+    line-height: 1.65;
+  }
+
+  /* Tones: every tone sets all role variables, so a nested tone resets everything */
+  html[data-system="v2"] :is([data-tone="base"], [data-tone="tint"], [data-tone="brand"]) {
+    --fg: var(--text-primary);
+    --fg-2: var(--text-secondary);
+    --fg-3: var(--text-muted);
+    --rule: var(--border-default);
+    --link: var(--accent-text);
+  }
+  html[data-system="v2"] [data-tone="base"] { --bg: var(--surface-base); --chip: var(--surface-card); }
+  html[data-system="v2"] [data-tone="tint"] { --bg: var(--surface-card); --chip: var(--surface-base); }
+  html[data-system="v2"] [data-tone="brand"] { --bg: var(--surface-brand); --chip: var(--surface-base); }
+  /* Light grounds: marks and buttons in ink; the accent never draws text or indicators here */
+  html[data-system="v2"].light :is([data-tone="base"], [data-tone="tint"], [data-tone="brand"]) {
+    --mark: var(--text-primary);
+    --btn-bg: var(--text-primary);
+    --btn-fg: var(--surface-base);
+    --btn-border: var(--text-primary);
+  }
+  html[data-system="v2"].dark :is([data-tone="base"], [data-tone="tint"], [data-tone="brand"]) {
+    --mark: var(--accent);
+    --btn-bg: var(--accent);
+    --btn-fg: var(--accent-contrast);
+    --btn-border: var(--accent);
+  }
+  html[data-system="v2"] [data-tone="inverse"] {
+    --bg: var(--surface-inverse);
+    --fg: var(--surface-base);
+    --fg-2: color-mix(in srgb, var(--surface-base) 76%, var(--surface-inverse));
+    --fg-3: var(--fg-2);
+    --rule: color-mix(in srgb, var(--surface-base) 22%, var(--surface-inverse));
+    --chip: color-mix(in srgb, var(--surface-base) 12%, var(--surface-inverse));
+  }
+  html[data-system="v2"].light [data-tone="inverse"] {
+    --link: var(--accent);
+    --mark: var(--accent);
+    --btn-bg: var(--accent);
+    --btn-fg: var(--accent-contrast);
+    --btn-border: var(--accent);
+  }
+  html[data-system="v2"].dark [data-tone="inverse"] {
+    --link: var(--surface-base);
+    --mark: var(--surface-base);
+    --btn-bg: var(--surface-base);
+    --btn-fg: var(--surface-inverse);
+    --btn-border: var(--surface-base);
+  }
+  html[data-system="v2"] [data-tone="accent"] {
+    --bg: var(--accent);
+    --fg: var(--accent-contrast);
+    --fg-2: var(--accent-contrast);
+    --fg-3: var(--accent-contrast);
+    --rule: color-mix(in srgb, var(--accent-contrast) 35%, var(--accent));
+    --link: var(--accent-contrast);
+    --mark: var(--accent-contrast);
+    --chip: color-mix(in srgb, var(--accent-contrast) 10%, var(--accent));
+    --btn-bg: var(--accent-contrast);
+    --btn-fg: var(--accent);
+    --btn-border: var(--accent-contrast);
+  }
+  /* Button shapes that change the fill */
+  html[data-system="v2"][data-button="plate"] [data-tone]:not([data-tone="accent"]) {
+    --btn-bg: var(--accent);
+    --btn-fg: var(--accent-contrast);
+    --btn-border: var(--accent-contrast);
+  }
+  html[data-system="v2"][data-button="tab"] :is([data-tone="base"], [data-tone="tint"], [data-tone="brand"]) {
+    --btn-bg: var(--surface-inverse);
+    --btn-fg: var(--surface-base);
+    --btn-border: var(--surface-inverse);
+  }
+  html[data-system="v2"] [data-tone] { background-color: var(--bg); color: var(--fg); }
+
+  /* Container, grid, section padding */
+  html[data-system="v2"] .wrap { width: min(100% - 2 * var(--gutter), var(--container)); margin-inline: auto; }
+  html[data-system="v2"] .grid-12 { display: grid; grid-template-columns: minmax(0, 1fr); row-gap: 32px; }
+  @media (min-width: 768px) {
+    html[data-system="v2"] .grid-12 { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(16px, 2vw, 32px); }
+  }
+  html[data-system="v2"] [data-space="tight"] { padding-block: var(--space-tight); }
+  html[data-system="v2"] [data-space="regular"] { padding-block: var(--space-regular); }
+  html[data-system="v2"] [data-space="loose"] { padding-block: var(--space-loose); }
+  html[data-system="v2"] [data-space][data-after-cross] { padding-top: calc(var(--space-regular) + var(--overlap)); }
+  html[data-system="v2"] .crossing { position: relative; z-index: 2; margin-bottom: calc(-1 * var(--overlap)); }
+  html[data-system="v2"] .bleed-right { margin-right: calc(-1 * max(var(--gutter), (100vw - var(--container)) / 2)); }
+  html[data-system="v2"] .bleed-left { margin-left: calc(-1 * max(var(--gutter), (100vw - var(--container)) / 2)); }
+  html[data-system="v2"][data-rhythm="single"] main > section[data-space] + section[data-space] { border-top: 1px solid var(--rule); }
+
+  /* Display type */
+  html[data-system="v2"] .h-display {
+    font-family: var(--font-display);
+    font-weight: var(--display-weight);
+    letter-spacing: var(--display-tracking);
+    line-height: var(--display-leading);
+    text-wrap: balance;
+  }
+  html[data-system="v2"][data-case="uppercase"] .h-display { text-transform: uppercase; }
+  html[data-system="v2"] .h1 { font-size: var(--h1-size, var(--fs-h1)); font-weight: var(--h1-weight, var(--display-weight)); }
+  html[data-system="v2"] .h1 .line { display: block; }
+  html[data-system="v2"] .h2 { font-size: var(--fs-h2); }
+  html[data-system="v2"] .h3 { font-size: var(--fs-h3); line-height: 1.15; }
+  html[data-system="v2"] .statement { font-size: var(--fs-statement); }
+  html[data-system="v2"] .numeral { font-family: var(--font-display); font-size: var(--fs-numeral); line-height: 1; font-variant-numeric: tabular-nums; }
+  html[data-system="v2"][data-voice="italic"] .h-display em { font-family: var(--font-voice); font-style: italic; font-weight: var(--voice-weight, 400); }
+  html[data-system="v2"][data-voice="weight"] .h-display em { font-style: normal; font-weight: 800; }
+  html[data-system="v2"][data-voice="none"] .h-display em { font-style: normal; }
+  html[data-system="v2"] .lead { font-size: var(--fs-lead); line-height: 1.45; max-width: 46ch; }
+  html[data-system="v2"] .measure { max-width: 62ch; }
+  html[data-system="v2"] .text-small { font-size: var(--fs-small); line-height: 1.5; }
+  html[data-system="v2"] .tabular { font-variant-numeric: tabular-nums; }
+
+  /* Rules */
+  html[data-system="v2"] .rule { border-top: 1px solid var(--rule); }
+  html[data-system="v2"] .rule-structural { border-top: 1px solid var(--rule); }
+  html[data-system="v2"][data-rule="2"] .rule-structural { border-top: 2px solid var(--fg); }
+
+  /* Labels: the text always sits in its own span so exact-text matches work */
+  html[data-system="v2"] .label { display: inline-flex; align-items: center; gap: 10px; font-size: var(--fs-small); font-weight: 600; line-height: 1.2; color: var(--fg-2); }
+  html[data-system="v2"][data-label="numbered"] .label .n {
+    display: inline-grid; place-items: center; width: 28px; height: 28px;
+    background: var(--fg); color: var(--bg); font-family: var(--font-display); font-weight: 600; font-size: 15px;
+  }
+  html[data-system="v2"][data-label="numbered"] [data-tone="inverse"] .label .n { background: var(--mark); color: var(--bg); }
+  html[data-system="v2"][data-label="tag"] .label .text {
+    display: inline-block; padding: 4px 10px; background: var(--fg); color: var(--bg);
+    font-size: 14px; text-transform: uppercase; letter-spacing: 0.08em;
+  }
+  html[data-system="v2"][data-label="rule"] .label { font-size: var(--fs-label); text-transform: uppercase; letter-spacing: 0.16em; }
+  html[data-system="v2"][data-label="italic"] .label { font-family: var(--font-voice); font-style: italic; font-weight: 400; font-size: 18px; }
+  html[data-system="v2"][data-label="rule"] .section-head { position: relative; padding-top: 24px; }
+  html[data-system="v2"][data-label="rule"] .section-head::before {
+    content: ""; position: absolute; top: 0; left: 0; right: -64px; border-top: 1px solid var(--rule);
+  }
+
+  /* Buttons: one committed shape per site */
+  html[data-system="v2"] .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    min-height: 52px; padding-inline: 26px; border: 2px solid var(--btn-border);
+    background: var(--btn-bg); color: var(--btn-fg); font-weight: 600; line-height: 1.1; text-align: center;
+    text-decoration: none;
+  }
+  html[data-system="v2"] .btn-hero { min-height: 56px; }
+  @media (max-width: 767px) {
+    html[data-system="v2"] .btn-block { display: flex; width: 100%; }
+  }
+  html[data-system="v2"][data-button="plate"] .btn { border-radius: 2px; font-family: var(--font-display); font-size: 20px; text-transform: uppercase; letter-spacing: 0.04em; }
+  html[data-system="v2"][data-button="plate"] .btn:active { transform: translateY(1px); }
+  html[data-system="v2"][data-button="pill"] .btn { border-radius: 9999px; }
+  html[data-system="v2"][data-button="tab"] .btn { border-radius: 0; text-transform: lowercase; }
+  html[data-system="v2"] .btn:focus-visible,
+  html[data-system="v2"] .text-link:focus-visible { outline: 3px solid var(--link); outline-offset: 3px; }
+  /* Secondary action and every link outside running text: at least 44 px tall */
+  html[data-system="v2"] .text-link {
+    display: inline-flex; align-items: center; gap: 8px; min-height: 44px; color: var(--fg); font-weight: 600;
+    text-decoration: underline; text-decoration-color: var(--mark); text-decoration-thickness: 2px; text-underline-offset: 6px;
+  }
+  html[data-system="v2"] p a { text-decoration: underline; text-decoration-color: var(--mark); text-underline-offset: 3px; }
+
+  /* Photos: square corners, a chip-coloured placeholder while loading */
+  html[data-system="v2"] main img { border-radius: 0; background-color: var(--chip); }
+
+  /* Call bar on phones; space is reserved from the first paint, so it causes no layout shift */
+  html[data-system="v2"] .callbar {
+    position: fixed; inset-inline: 0; bottom: 0; z-index: 30; display: flex;
+    height: calc(var(--callbar-h) + env(safe-area-inset-bottom)); padding-bottom: env(safe-area-inset-bottom);
+  }
+  html[data-system="v2"] .callbar a {
+    flex: 1 1 0; display: flex; align-items: center; justify-content: center; gap: 10px;
+    font-size: 16px; font-weight: 600; text-decoration: none;
+  }
+  html[data-system="v2"] .callbar a:focus-visible { outline: 3px solid var(--fg); outline-offset: -4px; }
+  @media (max-width: 767px) {
+    html[data-system="v2"]:has(.callbar) { scroll-padding-bottom: calc(var(--callbar-h) + env(safe-area-inset-bottom)); }
+    html[data-system="v2"] body:has(> .callbar) { padding-bottom: calc(var(--callbar-h) + env(safe-area-inset-bottom)); }
+  }
+  @media (min-width: 768px) {
+    html[data-system="v2"] .callbar { display: none; }
+    html[data-system="v2"] { scroll-padding-top: 96px; }
+  }
+
+  /* FAQ rows */
+  html[data-system="v2"] .faq summary { list-style: none; cursor: pointer; }
+  html[data-system="v2"] .faq summary::-webkit-details-marker { display: none; }
+  html[data-system="v2"] .faq .plus { position: relative; width: 18px; height: 18px; flex: none; }
+  html[data-system="v2"] .faq .plus::before,
+  html[data-system="v2"] .faq .plus::after { content: ""; position: absolute; inset: 8px 0 auto; height: 2px; background: currentColor; }
+  html[data-system="v2"] .faq .plus::after { transform: rotate(90deg); }
+  @media (prefers-reduced-motion: no-preference) {
+    html[data-system="v2"] .faq .plus { transition: transform 150ms ease; }
+  }
+  html[data-system="v2"] .faq details[open] .plus { transform: rotate(45deg); }
+  @media (prefers-reduced-motion: reduce) {
+    html[data-system="v2"] .faq details[open] .plus { transform: none; }
+    html[data-system="v2"] .faq details[open] .plus::after { display: none; }
+  }
+
+  /* The demo notice never drops below the 13 px floor */
+  html[data-system="v2"] [data-testid="demo-label"] { font-size: var(--fs-label); line-height: 1.4; color: var(--fg-3); }
+}

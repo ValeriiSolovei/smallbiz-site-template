@@ -1,10 +1,11 @@
-import type { PhotoEntry, SiteConfig } from '@/lib/types';
+import type { PhotoEntry, SiteConfigV1 } from '@/lib/types';
 import { photoSet } from '@/lib/photos';
 import photos from './photos.json';
 
 const ph = photoSet('trades', photos as PhotoEntry[]);
 
-const trades: SiteConfig = {
+const trades: SiteConfigV1 = {
+  system: 'v1',
   id: 'trades',
   name: 'Volt Ridge Electric',
   tagline: 'Residential and small-commercial electrical work across the GTA',

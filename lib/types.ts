@@ -1,6 +1,10 @@
 export type SiteId = 'trades' | 'gym' | 'cafe' | 'shop';
 
-export type ThemeTokens = {
+/** The design system a site renders with. Sites without `system` render with v1. */
+export type SystemId = 'v1' | 'v2';
+
+/** Colour tokens of the v1 design system. */
+export type ThemeV1 = {
   mode: 'light' | 'dark';
   surfaceBase: string;
   surfaceCard: string;
@@ -14,6 +18,27 @@ export type ThemeTokens = {
   accentDim: string;
   accentGlow: string;
   accentContrast: string;
+  error: string;
+};
+export type ThemeTokens = ThemeV1;
+
+/** Colour tokens of the v2 design system: still 13 colours, every value #rrggbb. */
+export type ThemeV2 = {
+  mode: 'light' | 'dark';
+  surfaceBase: string;
+  surfaceCard: string;
+  surfaceBrand: string;
+  /** Opposite-mode band: ink on light sites, paper on dark ones. */
+  surfaceInverse: string;
+  borderDefault: string;
+  textPrimary: string;
+  textSecondary: string;
+  textMuted: string;
+  accent: string;
+  accentHover: string;
+  accentContrast: string;
+  /** Accent used for links on base, card and brand grounds. */
+  accentText: string;
   error: string;
 };
 
@@ -30,7 +55,7 @@ export type PhotoEntry = {
 };
 export type NavItem = { label: string; href: string };
 export type Card = { title: string; body: string };
-export type Review = { quote: string; name: string };
+export type Review = { quote: string; name: string; context?: string };
 export type Bbox = [minLon: number, minLat: number, maxLon: number, maxLat: number];
 
 export type FieldSpec = {
@@ -43,11 +68,11 @@ export type FieldSpec = {
 export type FormSpec = { title: string; intro: string; submitLabel: string; fields: FieldSpec[] };
 
 export type MenuSection = { name: string; items: { name: string; description?: string; price: string }[] };
-export type Service = { name: string; description: string; tags?: string[] };
+export type Service = { name: string; description: string; tags?: string[]; time?: string };
 export type ScheduleDay = { day: string; classes: { time: string; name: string; coach: string }[] };
 export type Plan = { name: string; price: string; period: string; features: string[]; featured?: boolean };
 export type Trainer = { name: string; specialty: string; photo: Photo };
-export type Product = { name: string; description: string; price: string; photo: Photo; tags?: string[] };
+export type Product = { name: string; description: string; price: string; photo: Photo; tags?: string[]; latin?: string };
 
 export type PrimaryPage =
   | { kind: 'menu'; slug: 'menu'; title: string; intro: string; sections: MenuSection[] }
@@ -55,14 +80,17 @@ export type PrimaryPage =
   | { kind: 'classes'; slug: 'classes'; title: string; intro: string; schedule: ScheduleDay[]; plans: Plan[]; trainers: Trainer[] }
   | { kind: 'products'; slug: 'products'; title: string; intro: string; products: Product[] };
 
-export type SiteConfig = {
+type Contact = { phone: string; email: string; addressLine: string; mapBbox: Bbox; hours: { days: string; time: string }[] };
+
+export type SiteConfigV1 = {
+  system?: 'v1';
   id: SiteId;
   name: string;
   tagline: string;
   neighbourhood: string;
   indexable: boolean;
-  theme: ThemeTokens;
-  contact: { phone: string; email: string; addressLine: string; mapBbox: Bbox; hours: { days: string; time: string }[] };
+  theme: ThemeV1;
+  contact: Contact;
   hero: { eyebrow: string; headline: string; subhead: string; cta: NavItem; secondaryCta?: NavItem; photo: Photo };
   /** Header button; defaults to the hero's main button. Point it at /contact/. */
   headerCta?: NavItem;
@@ -75,3 +103,93 @@ export type SiteConfig = {
   form: FormSpec;
   ctaBand: { headline: string; body: string; cta: NavItem };
 };
+
+// ---- v2 design system ----
+
+/** Background family of a section. Neighbouring sections never share a tone. */
+export type Tone = 'base' | 'tint' | 'brand' | 'inverse' | 'accent';
+/** Vertical padding step of a section. */
+export type Space = 'tight' | 'regular' | 'loose';
+/** A heading with an optional second voice; `voice` must be a substring of `text`. */
+export type Voice = { text: string; voice?: string };
+export type Stat = { value: string; unit?: string; label: string };
+
+export type TypeSpec = {
+  case: 'uppercase' | 'none';
+  displayWeight: number;
+  h1Weight?: number;
+  tracking: string;
+  leading: number;
+  h1Size: string;
+  voice: 'none' | 'italic' | 'weight';
+  voiceWeight?: number;
+};
+
+export type Design = {
+  /** 'alternate': neighbouring sections change tone. 'single': one ground, sections split by space and a hairline. */
+  rhythm: 'alternate' | 'single';
+  label: 'numbered' | 'tag' | 'rule' | 'italic';
+  /** One committed button shape per site. */
+  button: 'plate' | 'pill' | 'tab';
+  /** Structural rule weight in px. */
+  rule: 1 | 2;
+  shadow: 'tiles' | 'none';
+  footerTone: Tone;
+  /** Family names the site's fonts module loads (checked by unit and e2e tests). */
+  fonts: { h1: string; body: string };
+  type: TypeSpec;
+};
+
+export type HomeBlock = { tone: Tone; space: Space } & (
+  | { kind: 'strip'; items: { photo: Photo; caption: string }[] }
+  | { kind: 'services'; title: Voice; count: number; label?: string }
+  | { kind: 'symptoms'; title: Voice; note?: string }
+  | { kind: 'faq'; title: Voice }
+  | { kind: 'reviews'; title: Voice; variant: 'stack' }
+  | { kind: 'slab'; label: string; body: string }
+);
+
+export type HeroV2 = {
+  variant: 'signboard';
+  tone: Tone;
+  label: string;
+  headline: Voice;
+  subhead: string;
+  cta: NavItem;
+  secondaryCta?: NavItem;
+  /** Used for og:image, so it is required even when the hero shows no photo. */
+  photo: Photo;
+};
+
+export type SiteConfigV2 = {
+  system: 'v2';
+  id: SiteId;
+  name: string;
+  tagline: string;
+  neighbourhood: string;
+  indexable: boolean;
+  theme: ThemeV2;
+  contact: Contact;
+  design: Design;
+  wordmark: { main: string; sub?: string };
+  /** Desktop strip above the header. */
+  utilityBar?: { left: string; right: string };
+  /** Fixed bar on phones; the primary cell is the call action. */
+  callBar: { primary: NavItem; secondary?: NavItem };
+  /** The primary action repeated word for word at the end of home blocks. */
+  cta: { primary: NavItem; secondary?: NavItem };
+  hero: HeroV2;
+  headerCta?: NavItem;
+  home: HomeBlock[];
+  highlights: Card[];
+  reviews: Review[];
+  about: { label: string; headline: string; story: string[]; photo: Photo; values: Card[] };
+  gallery: Photo[];
+  primary: PrimaryPage;
+  form: FormSpec;
+  stats?: Stat[];
+  symptoms?: string[];
+  faq?: { q: string; a: string }[];
+};
+
+export type SiteConfig = SiteConfigV1 | SiteConfigV2;

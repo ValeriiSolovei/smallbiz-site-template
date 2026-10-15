@@ -1,10 +1,11 @@
-import type { PhotoEntry, SiteConfig } from '@/lib/types';
+import type { PhotoEntry, SiteConfigV1 } from '@/lib/types';
 import { photoSet } from '@/lib/photos';
 import photos from './photos.json';
 
 const ph = photoSet('gym', photos as PhotoEntry[]);
 
-const gym: SiteConfig = {
+const gym: SiteConfigV1 = {
+  system: 'v1',
   id: 'gym',
   name: 'Ironline Athletic Club',
   tagline: 'Small-group strength and conditioning in the Junction',

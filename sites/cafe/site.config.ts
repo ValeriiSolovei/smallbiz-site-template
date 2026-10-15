@@ -1,10 +1,11 @@
-import type { PhotoEntry, SiteConfig } from '@/lib/types';
+import type { PhotoEntry, SiteConfigV1 } from '@/lib/types';
 import { photoSet } from '@/lib/photos';
 import photos from './photos.json';
 
 const ph = photoSet('cafe', photos as PhotoEntry[]);
 
-const cafe: SiteConfig = {
+const cafe: SiteConfigV1 = {
+  system: 'v1',
   id: 'cafe',
   name: 'Lantern & Crumb Café',
   tagline: 'Neighbourhood café and bakery on Queen East',
