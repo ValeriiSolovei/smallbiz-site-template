@@ -1,4 +1,6 @@
 import { test, expect } from '@playwright/test';
+import fs from 'node:fs';
+import path from 'node:path';
 import { getSite } from '../../lib/site';
 
 const site = getSite(process.env.SITE);
@@ -215,4 +217,107 @@ test(`${site.id}: ships only its own photos and no stray copies of the 404 page`
   }
   expect((await request.get(`/${site.id}/hero.jpg`)).status()).toBe(200);
   for (const p of ['/404/', '/_not-found/']) expect((await request.get(p)).status(), p).toBe(404);
+});
+
+// ---- Fonts (every site) and the v2 guards (v2 sites only) ----
+
+const unquote = (family: string) => family.replace(/["']/g, '').trim();
+const fonts = site.system === 'v2' ? site.design.fonts : { h1: 'Inter', body: 'Inter' };
+
+test(`${site.id}: h1 and body use the site's own fonts`, async ({ page }) => {
+  await page.goto('/');
+  const h1 = unquote(await page.locator('h1').evaluate((el) => getComputedStyle(el).fontFamily));
+  const body = unquote(await page.evaluate(() => getComputedStyle(document.body).fontFamily));
+  expect(h1.startsWith(fonts.h1), h1).toBe(true);
+  expect(body.startsWith(fonts.body), body).toBe(true);
+});
+
+// next/font writes every unicode-range subset to the media folder; only the preloaded ones (*.p.*) load up front.
+const FONT_BUDGET_KB: Record<string, number> = { trades: 120, gym: 120, cafe: 140, shop: 100 };
+
+test(`${site.id}: preloads few, small font files`, async ({ page }) => {
+  const media = path.join(process.cwd(), 'out', '_next', 'static', 'media');
+  const preloaded = fs.readdirSync(media).filter((f) => /\.p\.[^.]+\.woff2$/.test(f));
+  const kb = preloaded.reduce((sum, f) => sum + fs.statSync(path.join(media, f)).size, 0) / 1024;
+  if (site.system === 'v2') expect(preloaded.length).toBeLessThanOrEqual(3);
+  else expect(preloaded).toHaveLength(1);
+  expect(kb, `${kb.toFixed(1)} KB`).toBeLessThanOrEqual(FONT_BUDGET_KB[site.id]);
+  await page.goto('/');
+  const links = await page.locator('link[rel="preload"][as="font"]').evaluateAll((els) => els.map((e) => (e as HTMLLinkElement).href));
+  expect(links.map((l) => l.split('/').pop()).sort()).toEqual(preloaded.sort());
+});
+
+test.describe('v2 guards', () => {
+  test.skip(site.system !== 'v2', 'only sites on the v2 design system');
+
+  for (const route of ROUTES) {
+    test(`${site.id} ${route}: nothing spills past the right edge at 375 px`, async ({ page }) => {
+      await page.setViewportSize({ width: 375, height: 812 });
+      await page.goto(route);
+      const spilling = await page.evaluate(() => {
+        const vw = document.documentElement.clientWidth;
+        return [...document.querySelectorAll('body *')]
+          .filter((n) => {
+            const r = n.getBoundingClientRect();
+            return r.width > 0 && r.right > vw + 0.5;
+          })
+          .map((n) => `${n.tagName.toLowerCase()}.${(n as HTMLElement).className}`.slice(0, 80));
+      });
+      expect(spilling).toEqual([]);
+    });
+  }
+
+  test(`${site.id}: no text below 13 px on the home page`, async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 812 });
+    await page.goto('/');
+    const small = await page.evaluate(() =>
+      [...document.querySelectorAll('body *')]
+        .filter((el) => !el.closest('.sr-only') && [...el.childNodes].some((n) => n.nodeType === Node.TEXT_NODE && n.textContent?.trim()))
+        .filter((el) => parseFloat(getComputedStyle(el).fontSize) < 13)
+        .map((el) => `${el.tagName.toLowerCase()}: ${el.textContent?.trim().slice(0, 40)}`),
+    );
+    expect(small).toEqual([]);
+  });
+
+  test(`${site.id}: every visible link and button is at least 44 px tall on a phone`, async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 812 });
+    await page.goto('/');
+    const targets = page.locator('header a, header button, main a:not(p a), main button, footer a, nav[aria-label="Quick actions"] a');
+    let checked = 0;
+    for (const el of await targets.all()) {
+      const box = await el.boundingBox();
+      if (!(await el.isVisible()) || !box) continue;
+      checked++;
+      expect(box.height, await el.innerText()).toBeGreaterThanOrEqual(44);
+    }
+    expect(checked).toBeGreaterThan(3);
+  });
+
+  test(`${site.id}: the call bar shows on phones only, and not on the contact page`, async ({ page }) => {
+    const bar = page.getByRole('navigation', { name: 'Quick actions' });
+    await page.setViewportSize({ width: 375, height: 812 });
+    await page.goto('/');
+    await expect(bar).toBeVisible();
+    await expect(bar.locator('a[href^="tel:"]')).toHaveCount(1);
+    const box = await bar.boundingBox();
+    expect(Math.round((box?.y ?? 0) + (box?.height ?? 0))).toBe(812);
+    expect(await page.evaluate(() => getComputedStyle(document.body).paddingBottom)).toBe(`${box?.height}px`);
+    await page.goto('/contact/');
+    await expect(bar).toHaveCount(0);
+    await page.setViewportSize({ width: 1280, height: 800 });
+    await page.goto('/');
+    await expect(bar).toBeHidden();
+  });
+
+  test(`${site.id}: the call bar never hides the focused element`, async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 812 });
+    await page.goto('/');
+    const last = page.locator('main a, main button, main summary').last();
+    await last.focus();
+    await page.keyboard.press('Shift+Tab');
+    await page.keyboard.press('Tab');
+    await expect(last).toBeFocused();
+    const box = await last.boundingBox();
+    expect((box?.y ?? 0) + (box?.height ?? 0)).toBeLessThanOrEqual(812 - 64);
+  });
 });
