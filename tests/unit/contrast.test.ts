@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { blendOver, contrastRatio, hexToRgb, luminance } from '@/lib/contrast';
+import { blendOver, contrastRatio, hexToRgb, luminance, withAlpha } from '@/lib/contrast';
 
 describe('contrast', () => {
   it('parses hex colours', () => {
@@ -41,5 +41,16 @@ describe('blendOver', () => {
   it('rejects out-of-range alpha or channels', () => {
     expect(() => blendOver('rgba(0, 0, 0, 1.5)', '#ffffff')).toThrow(/out of range/);
     expect(() => blendOver('rgba(300, 0, 0, 0.5)', '#ffffff')).toThrow(/out of range/);
+  });
+});
+
+describe('withAlpha', () => {
+  it('turns #rrggbb and an alpha into rgba()', () => {
+    expect(withAlpha('#edeff0', 0.76)).toBe('rgba(237, 239, 240, 0.76)');
+    expect(blendOver(withAlpha('#ffffff', 0.5), '#000000')).toBe('#808080');
+  });
+  it('rejects bad input', () => {
+    expect(() => withAlpha('#fff', 0.5)).toThrow(/Expected #rrggbb/);
+    expect(() => withAlpha('#ffffff', 1.5)).toThrow(/between 0 and 1/);
   });
 });
