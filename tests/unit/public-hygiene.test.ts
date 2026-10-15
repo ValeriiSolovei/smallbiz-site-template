@@ -22,6 +22,11 @@ const GUARDED = new Set([
   'b7280384d165ee0a28fcb03b429b4891543aadabf2645d38ab80d8175c306c56',
   'cb8689619bad91d58e16aa46b96784926360bd186e7dc738822fab2973043a0d',
   'c6218d4db8d43ca0027bf789cd36dcc54d9ceceb81e33365cf46d82c529cee9a',
+  '36f1ae8a345ed6017437d0a962ba898c250f12f1765d67166ada41dfbff877fb',
+  '4732dcd121cecfb03fede36554b791fc748388ac45941bbe1601a2fcfee9d166',
+  '8f428255e697ff13a49a4994e699ea56d27100797968090734ea8698dd252f19',
+  '748abe891a4919fbb3e51aba7f5c5e02354f59ea4e8e74fdfac2e59b5de5ba26',
+  '9411e812c6cdab127e0b711a4268b4f8e6546c343ea66ffef2704afcfa13f571',
 ]);
 
 const sha256 = (s: string) => createHash('sha256').update(s).digest('hex');
@@ -46,5 +51,12 @@ describe('public repo hygiene', () => {
   it('no tracked file contains a guarded word', () => {
     const hits = tracked.flatMap((f) => (guardedHits(fs.readFileSync(f, 'utf8')).length ? [f] : []));
     expect(hits).toEqual([]);
+  });
+  it('no recent commit message or the branch name contains a guarded word', () => {
+    const log = execFileSync('git', ['log', '-n', '200', '--format=%s%n%b'], { encoding: 'utf8' });
+    const branch =
+      process.env.GITHUB_HEAD_REF || process.env.GITHUB_REF_NAME || execFileSync('git', ['rev-parse', '--abbrev-ref', 'HEAD'], { encoding: 'utf8' }).trim();
+    expect(guardedHits(log).length, 'commit messages').toBe(0);
+    expect(guardedHits(branch).length, 'branch name').toBe(0);
   });
 });
