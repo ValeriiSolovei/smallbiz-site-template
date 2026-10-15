@@ -20,7 +20,7 @@ const isInternal = (href: string) => href.startsWith('/');
 export default function Button({ item, kind = 'primary', hero, block, arrow = true, className = '' }: Props) {
   const tel = item.href.startsWith('tel:');
   const classes =
-    kind === 'primary' ? `btn ${hero ? 'btn-hero' : ''} ${block ? 'btn-block' : ''} ${className}` : `text-link ${className}`;
+    kind === 'primary' ? `btn ${hero ? 'btn-hero' : ''} ${block ? 'btn-block' : ''} ${className}` : `link-action ${className}`;
   const content = (
     <>
       {kind === 'primary' && tel && <PhoneIcon />}

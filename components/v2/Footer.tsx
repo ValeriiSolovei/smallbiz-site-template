@@ -15,11 +15,11 @@ export default function Footer({ site, nav }: { site: SiteConfigV2; nav: NavItem
         </div>
         <div className="border-t border-rule py-8 md:border-t-0 md:border-r md:px-6">
           <p className={head}>Phone and email</p>
-          <a href={telHref(site.contact.phone)} className="text-link mt-1">
+          <a href={telHref(site.contact.phone)} className="link-action mt-1">
             {site.contact.phone}
           </a>
           <br />
-          <a href={`mailto:${site.contact.email}`} className="text-link">
+          <a href={`mailto:${site.contact.email}`} className="link-action">
             {site.contact.email}
           </a>
         </div>

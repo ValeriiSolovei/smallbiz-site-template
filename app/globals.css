@@ -258,9 +258,9 @@ body {
   html[data-system="v2"][data-button="pill"] .btn { border-radius: 9999px; }
   html[data-system="v2"][data-button="tab"] .btn { border-radius: 0; text-transform: lowercase; }
   html[data-system="v2"] .btn:focus-visible,
-  html[data-system="v2"] .text-link:focus-visible { outline: 3px solid var(--link); outline-offset: 3px; }
+  html[data-system="v2"] .link-action:focus-visible { outline: 3px solid var(--link); outline-offset: 3px; }
   /* Secondary action and every link outside running text: at least 44 px tall */
-  html[data-system="v2"] .text-link {
+  html[data-system="v2"] .link-action {
     display: inline-flex; align-items: center; gap: 8px; min-height: 44px; color: var(--fg); font-weight: 600;
     text-decoration: underline; text-decoration-color: var(--mark); text-decoration-thickness: 2px; text-underline-offset: 6px;
   }

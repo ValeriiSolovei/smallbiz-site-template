@@ -310,6 +310,8 @@ test.describe('v2 guards', () => {
   });
 
   test(`${site.id}: the call bar never hides the focused element`, async ({ page }) => {
+    // Instant scrolling, so the position is final when it is measured.
+    await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.setViewportSize({ width: 375, height: 812 });
     await page.goto('/');
     const last = page.locator('main a, main button, main summary').last();
