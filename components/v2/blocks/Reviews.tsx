@@ -16,14 +16,14 @@ export default function Reviews({ tone, space, title, reviews, cta, n }: { tone:
   const [lead, ...rest] = reviews;
   return (
     <Section tone={tone} space={space} title={title} label={{ n, text: 'Sample reviews' }}>
-      <div className="grid-12">
+      <div className="grid-12 items-start md:grid-rows-[auto_1fr]">
         {lead && (
           <figure className="md:col-span-7">
             <blockquote className="text-[clamp(1.375rem,1rem+1.4vw,1.875rem)] leading-[1.35] font-medium">&ldquo;{lead.quote}&rdquo;</blockquote>
             <Byline r={lead} />
           </figure>
         )}
-        <div className="space-y-8 md:col-span-4 md:col-start-9">
+        <div className="space-y-8 md:col-span-4 md:col-start-9 md:row-span-2">
           {rest.map((r) => (
             <figure key={r.name}>
               <blockquote>&ldquo;{r.quote}&rdquo;</blockquote>
@@ -31,9 +31,9 @@ export default function Reviews({ tone, space, title, reviews, cta, n }: { tone:
             </figure>
           ))}
         </div>
-      </div>
-      <div className="mt-10">
-        <Button item={cta} block />
+        <div className="md:col-span-7 md:mt-4">
+          <Button item={cta} block />
+        </div>
       </div>
     </Section>
   );

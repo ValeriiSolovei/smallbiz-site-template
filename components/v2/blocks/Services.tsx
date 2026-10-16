@@ -12,7 +12,7 @@ export default function Services({ tone, space, title, label, count, primary, hi
   const total = primary.kind === 'services' ? NUMBER_WORDS[primary.services.length] : undefined;
   const rows: IndexRow[] =
     primary.kind === 'services'
-      ? primary.services.slice(0, count).map((s) => ({ title: s.name, body: s.description, meta: s.time, sub: s.tags?.join(' ~ ') }))
+      ? primary.services.slice(0, count).map((s) => ({ title: s.name, body: s.description, meta: s.time, sub: s.tags?.join(' · ') }))
       : highlights.slice(0, count).map((h) => ({ title: h.title, body: h.body }));
   return (
     <Section

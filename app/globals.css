@@ -103,6 +103,7 @@ body {
     --callbar-h: 64px;
     overflow-x: clip;
   }
+  html[data-system="v2"] :is(p, li, dd, dt, figcaption, blockquote, summary) { text-wrap: pretty; }
   html[data-system="v2"] body {
     overflow-x: clip;
     font-size: var(--fs-body);
@@ -279,6 +280,7 @@ body {
     font-size: 16px; font-weight: 600; text-decoration: none;
   }
   html[data-system="v2"] .callbar a:focus-visible { outline: 3px solid var(--fg); outline-offset: -4px; }
+  html[data-system="v2"][data-button="plate"] .callbar a { font-family: var(--font-display); font-size: 18px; text-transform: uppercase; letter-spacing: 0.04em; }
   @media (max-width: 767px) {
     html[data-system="v2"]:has(.callbar) { scroll-padding-bottom: calc(var(--callbar-h) + env(safe-area-inset-bottom)); }
     /* The footer carries the reserved space, so the page ends on the footer's own colour */

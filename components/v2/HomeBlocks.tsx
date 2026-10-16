@@ -24,7 +24,7 @@ function Block({ block, site }: { block: HomeBlock; site: SiteConfigV2 }) {
     case 'services':
       return <Services tone={tone} space={space} title={block.title} label={block.label} count={block.count} primary={site.primary} highlights={site.highlights} cta={cta} n={labelNumber(site, block)} />;
     case 'workorder':
-      return <WorkOrder tone={tone} space={space} title={block.title} label={block.label} body={block.body} highlights={site.highlights} data={site.workOrder} cta={cta} n={labelNumber(site, block)} />;
+      return <WorkOrder tone={tone} space={space} title={block.title} label={block.label} body={block.body} data={site.workOrder} cta={cta} n={labelNumber(site, block)} />;
     case 'symptoms':
       return <Symptoms tone={tone} space={space} title={block.title} items={site.symptoms ?? []} note={block.note} cta={cta} />;
     case 'faq':

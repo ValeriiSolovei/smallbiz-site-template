@@ -39,15 +39,17 @@ type Props = HeadProps & {
 
 /** A full-width band with one tone and one padding step. */
 export default function Section({ tone, space, label, title, headRule, aside, layout = 'stack', afterCross, id, className = '', children }: Props) {
-  const head = <SectionHead label={label} title={title} headRule={headRule} aside={aside} />;
+  const head = <SectionHead label={label} title={title} headRule={headRule} aside={layout === 'side' ? undefined : aside} />;
   const hasHead = Boolean(label || title || aside);
   return (
     <section id={id} data-tone={tone} data-space={space} data-after-cross={afterCross ? '' : undefined} className={className}>
       <div className="wrap">
         {layout === 'side' ? (
-          <div className="grid-12">
+          // On a phone the aside (the section's call action) follows the content; from 768 px it sits under the heading.
+          <div className="grid-12 items-start md:grid-rows-[auto_1fr]">
             <div className="md:col-span-4">{head}</div>
-            <div className="md:col-span-8">{children}</div>
+            <div className="md:col-span-8 md:row-span-2">{children}</div>
+            {aside && <div className="md:col-span-4">{aside}</div>}
           </div>
         ) : (
           <>

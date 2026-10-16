@@ -1,13 +1,12 @@
-import type { Card, NavItem, Space, Tone, Voice, WorkOrder as WorkOrderData } from '@/lib/types';
+import type { NavItem, Space, Tone, Voice, WorkOrder as WorkOrderData } from '@/lib/types';
 import Section, { SectionHead } from '../Section';
-import IndexRows from '../IndexRows';
 import Button from '../Button';
 
-function Tick({ filled }: { filled?: boolean }) {
+function Tick({ filled, className = '' }: { filled?: boolean; className?: string }) {
   return (
     <span
       aria-hidden="true"
-      className={`inline-grid h-5 w-5 flex-none place-items-center border-2 border-fg ${filled ? 'bg-fg text-bg' : 'text-fg'}`}
+      className={`inline-grid h-5 w-5 flex-none place-items-center border-2 border-fg ${filled ? 'bg-fg text-bg' : 'text-fg'} ${className}`}
     >
       <svg viewBox="0 0 16 16" className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="square">
         <path d="M3 8.5l3 3 7-7" />
@@ -35,11 +34,11 @@ function Sheet({ data }: { data: WorkOrderData }) {
       <h3 className="h-display mt-8 text-[1.375rem] leading-none">{data.checkedTitle}</h3>
       <ol className="mt-3">
         {data.checked.map((c, i) => (
-          <li key={c} className="flex items-center gap-4 border-b border-rule py-2.5">
-            <span aria-hidden="true" className="h-display w-7 text-[1.25rem] leading-none text-fg-3">
+          <li key={c} className="grid grid-cols-[2rem_20px_minmax(0,1fr)] items-start gap-3 border-b border-rule py-2.5 leading-[1.6]">
+            <span aria-hidden="true" className="h-display text-[1.125rem] leading-[1.6rem] text-fg-3">
               {String(i + 1).padStart(2, '0')}
             </span>
-            <Tick />
+            <Tick className="mt-[3px]" />
             <span>{c}</span>
           </li>
         ))}
@@ -73,19 +72,16 @@ function Sheet({ data }: { data: WorkOrderData }) {
   );
 }
 
-type Props = { tone: Tone; space: Space; title: Voice; label?: string; body: string; highlights: Card[]; data?: WorkOrderData; cta: NavItem; n?: string };
+type Props = { tone: Tone; space: Space; title: Voice; label?: string; body: string; data?: WorkOrderData; cta: NavItem; n?: string };
 
 /** Signature block: why the price holds on the left, the filled-in sheet on the right. */
-export default function WorkOrder({ tone, space, title, label, body, highlights, data, cta, n }: Props) {
+export default function WorkOrder({ tone, space, title, label, body, data, cta, n }: Props) {
   return (
     <Section tone={tone} space={space}>
       <div className="grid-12 items-start">
-        <div className="md:col-span-5">
+        <div className="md:sticky md:top-28 md:col-span-5">
           <SectionHead label={label ? { n, text: label } : undefined} title={title} />
           <p className="lead mt-6 text-fg-2">{body}</p>
-          <div className="mt-8">
-            <IndexRows rows={highlights} compact />
-          </div>
           <div className="mt-8 hidden md:block">
             <Button item={cta} />
           </div>

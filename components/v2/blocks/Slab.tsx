@@ -2,6 +2,7 @@ import type { NavItem, Space, Tone } from '@/lib/types';
 import { telHref } from '@/lib/phone';
 import Label from '../Label';
 import Button from '../Button';
+import Joined from '../Joined';
 
 /** Closing statement band: the phone number at statement size, one line of hours, one button. */
 export default function Slab({ tone, space, label, body, phone, cta }: { tone: Tone; space: Space; label: string; body: string; phone: string; cta?: NavItem }) {
@@ -15,7 +16,9 @@ export default function Slab({ tone, space, label, body, phone, cta }: { tone: T
               {phone}
             </a>
           </p>
-          <p className="lead mt-6">{body}</p>
+          <p className="lead mt-6">
+            <Joined items={body.split(' · ')} />
+          </p>
           {cta && (
             <div className="mt-8">
               <Button item={cta} block />

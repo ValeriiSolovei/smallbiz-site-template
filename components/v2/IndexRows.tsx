@@ -17,9 +17,9 @@ export default function IndexRows({ rows, start = 1, compact }: { rows: IndexRow
             {String(start + i).padStart(2, '0')}
           </span>
           <div>
-            <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
+            <div className="flex flex-col gap-1 md:flex-row md:items-baseline md:justify-between md:gap-6">
               <h3 className={`h-display ${compact ? 'text-[1.375rem] leading-none' : 'h3'}`}>{r.title}</h3>
-              {r.meta && <span className="text-small tabular font-semibold text-fg-2">{r.meta}</span>}
+              {r.meta && <span className="text-small tabular flex-none font-semibold text-fg-2">{r.meta}</span>}
             </div>
             {r.sub && <p className="mt-2 text-[0.8125rem] font-semibold tracking-[0.08em] text-fg-2 uppercase">{r.sub}</p>}
             <p className={`measure text-fg-2 ${compact ? 'mt-1' : 'mt-2'}`}>{r.body}</p>

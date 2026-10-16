@@ -18,20 +18,22 @@ export default function AboutV2({ site }: { site: SiteConfigV2 }) {
                 {p}
               </p>
             ))}
-            {site.credentials && <p className="text-small font-semibold">{site.credentials}</p>}
+            <div className="pt-4">
+              <Button item={site.cta.primary} block />
+            </div>
           </div>
           <img
             src={about.photo.src}
             alt={about.photo.alt}
-            width={630}
-            height={840}
+            width={960}
+            height={639}
             loading="lazy"
             decoding="async"
-            className="aspect-[3/4] w-full object-cover md:col-span-5 md:col-start-8"
+            className="aspect-[3/2] w-full object-cover md:col-span-5 md:col-start-8"
           />
         </div>
       </Section>
-      <Section tone="tint" space="tight" title={{ text: 'How we work' }} layout="side" aside={<Button item={site.cta.primary} block />}>
+      <Section tone="tint" space="tight" title={{ text: 'How we work' }} layout="side" aside={<Button item={site.cta.secondary ?? site.cta.primary} block />}>
         <IndexRows rows={about.values} />
       </Section>
       <Closing site={site} />
