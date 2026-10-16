@@ -7,7 +7,7 @@ The four demos are **fictional businesses** created to show the template in diff
 
 | Demo | Style |
 |---|---|
-| Volt Ridge Electric (trades) | dark, safety orange |
+| Volt Ridge Electric (trades) | light, navy and hi-vis yellow, black-and-white photos (design system v2) |
 | Ironline Athletic Club (gym) | dark, electric lime |
 | Lantern & Crumb Café (cafe) | light, espresso |
 | Mossbank Plant Co. (plant shop) | light, deep teal |
