@@ -42,7 +42,7 @@ export type ThemeV2 = {
   error: string;
 };
 
-export type Photo = { src: string; alt: string };
+export type Photo = { src: string; alt: string; caption?: string };
 /** One row of sites/<id>/photos.json: a public-domain photo found through Openverse. */
 export type PhotoEntry = {
   file: string;

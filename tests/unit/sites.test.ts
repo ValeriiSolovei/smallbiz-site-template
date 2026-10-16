@@ -103,7 +103,7 @@ for (const [id, site] of entries) describe(`site "${id}"`, () => {
     const names = site.form.fields.map((f) => f.name);
     expect(new Set(names).size).toBe(names.length);
     expect(names).not.toContain(HONEYPOT_FIELD);
-    expect(site.form.fields.some((f) => f.type === 'email' && f.required)).toBe(true);
+    expect(site.form.fields.some((f) => (f.type === 'email' || f.type === 'tel') && f.required)).toBe(true);
     for (const f of site.form.fields) if (f.type === 'select') expect(f.options?.length ?? 0).toBeGreaterThan(1);
   });
   it('uses only public-domain photos (no attribution needed on the page)', () => {

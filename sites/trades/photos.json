@@ -17,18 +17,12 @@
   },
   {
     "file": "team.jpg",
-    "alt": "Gloved hands with a screwdriver at a row of meter bases above grey conduit",
-    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/2/2f/Electrician_using_screwdriver_to_install_external_panels_for_meters_in_NJ.JPG",
-    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=31933230",
+    "alt": "Electrician in a hard hat and safety glasses fitting an outlet into a drywall box",
+    "imageUrl": "https://cdn.stocksnap.io/img-thumbs/960w/QJ55PI34SY.jpg",
+    "sourceUrl": "https://stocksnap.io/photo/electrician-electricity-QJ55PI34SY",
     "license": "CC0 1.0",
     "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
-    "creator": "Tomwsulcer",
-    "crop": [
-      230,
-      250,
-      630,
-      840
-    ],
+    "creator": "Michal Jarmoluk",
     "mono": true
   },
   {
@@ -42,33 +36,51 @@
     "mono": true
   },
   {
-    "file": "gallery-4.jpg",
-    "alt": "Hanging filament bulbs glowing in a dark room",
-    "imageUrl": "https://cdn.stocksnap.io/img-thumbs/960w/HHY8J753TD.jpg",
-    "sourceUrl": "https://stocksnap.io/photo/light-bulb-HHY8J753TD",
+    "file": "ev.jpg",
+    "alt": "Home EV charger on a post beside a front walkway and a brick house",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/8/8b/Deta.e_EV_charger_-_2_October_2025.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=176066320",
     "license": "CC0 1.0",
     "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
-    "creator": "Saya Kimura",
+    "creator": "Aethonatic",
+    "crop": [
+      740,
+      57,
+      3000,
+      3000
+    ],
     "mono": true
   },
   {
-    "file": "gallery-5.jpg",
-    "alt": "White rocker light switch on a textured wall",
-    "imageUrl": "https://cdn.stocksnap.io/img-thumbs/960w/GCFFRMA9VR.jpg",
-    "sourceUrl": "https://stocksnap.io/photo/light-switch-GCFFRMA9VR",
+    "file": "lights.jpg",
+    "alt": "Kitchen ceiling with a row of pot lights above two pendant lamps and an island",
+    "imageUrl": "https://images.rawpixel.com/editor_1024/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvZmwxOTUwODUyODcwOC1pbWFnZS1reWNqdXV3by5qcGc.jpg",
+    "sourceUrl": "https://www.rawpixel.com/image/6082595/view-from-dining-area",
     "license": "CC0 1.0",
     "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
-    "creator": "Matt Bango",
+    "creator": "",
+    "crop": [
+      200,
+      0,
+      681,
+      681
+    ],
     "mono": true
   },
   {
-    "file": "gallery-6.jpg",
-    "alt": "Built-in desk outlets with power and USB ports",
-    "imageUrl": "https://pd.w.org/2023/09/27965183d7e3378e4.51836593-1536x2048.jpg",
-    "sourceUrl": "https://wordpress.org/photos/photo/27965183d7/",
+    "file": "panel.jpg",
+    "alt": "Open distribution panel with rows of breakers and neatly routed wires",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/1/12/Small_house_distribution_panel_2.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=76838984",
     "license": "CC0 1.0",
     "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
-    "creator": "Topher",
+    "creator": "Retired electrician",
+    "crop": [
+      0,
+      1100,
+      2923,
+      2923
+    ],
     "mono": true
   }
 ]

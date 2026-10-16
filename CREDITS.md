@@ -55,8 +55,8 @@ Every photo is in the public domain (CC0 or Public Domain Mark) and was found th
 | File | Photo | Creator | Licence |
 |---|---|---|---|
 | public/trades/hero.jpg | [source](https://commons.wikimedia.org/w/index.php?curid=31933227) | Tomwsulcer | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
-| public/trades/team.jpg | [source](https://commons.wikimedia.org/w/index.php?curid=31933230) | Tomwsulcer | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| public/trades/team.jpg | [source](https://stocksnap.io/photo/electrician-electricity-QJ55PI34SY) | Michal Jarmoluk | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 | public/trades/crew.jpg | [source](https://commons.wikimedia.org/w/index.php?curid=15980676) | Chetvorno | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
-| public/trades/gallery-4.jpg | [source](https://stocksnap.io/photo/light-bulb-HHY8J753TD) | Saya Kimura | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
-| public/trades/gallery-5.jpg | [source](https://stocksnap.io/photo/light-switch-GCFFRMA9VR) | Matt Bango | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
-| public/trades/gallery-6.jpg | [source](https://wordpress.org/photos/photo/27965183d7/) | Topher | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| public/trades/ev.jpg | [source](https://commons.wikimedia.org/w/index.php?curid=176066320) | Aethonatic | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| public/trades/lights.jpg | [source](https://www.rawpixel.com/image/6082595/view-from-dining-area) | Unknown | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| public/trades/panel.jpg | [source](https://commons.wikimedia.org/w/index.php?curid=76838984) | Retired electrician | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |

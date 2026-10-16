@@ -7,7 +7,9 @@ const ph = photoSet('trades', photos as PhotoEntry[]);
 
 const phone = '(416) 555-0142';
 const call = { label: `Call ${phone}`, href: telHref(phone) };
-const quote = { label: 'Get a written quote', href: '/contact/' };
+const quote = { label: 'Get a free written quote', href: '/contact/' };
+const licence = 'Licensed electrical contractor, ECRA/ESA · Licence # DEMO';
+const areas = ['Toronto', 'East York', 'North York', 'Scarborough', 'Etobicoke', 'Mississauga', 'Vaughan', 'Markham'];
 
 const trades: SiteConfigV2 = {
   system: 'v2',
@@ -40,19 +42,19 @@ const trades: SiteConfigV2 = {
     shadow: 'none',
     footerTone: 'inverse',
     fonts: { h1: 'Barlow Condensed', body: 'Public Sans' },
-    type: { case: 'uppercase', displayWeight: 800, tracking: '0.01em', leading: 0.9, h1Size: 'clamp(3.25rem, 1.2rem + 7.4vw, 7rem)', voice: 'none' },
+    type: { case: 'uppercase', displayWeight: 800, tracking: '0.01em', leading: 0.9, h1Size: 'clamp(3.25rem, 1.2rem + 8.6vw, 9rem)', voice: 'none' },
   },
   wordmark: { main: 'Volt Ridge', sub: 'Electric' },
-  utilityBar: { left: 'Licensed electrical contractor, ECRA/ESA · Fully insured · Toronto & the GTA', right: '24/7 emergencies' },
+  utilityBar: { left: 'Fully insured · Free written quotes · Toronto, Mississauga, Vaughan and Markham', right: '24/7 emergencies' },
   callBar: { primary: call },
   cta: { primary: call, secondary: quote },
   headerCta: quote,
-  credentials: 'Licensed electrical contractor, ECRA/ESA. Fully insured.',
+  credentials: `${licence}. Fully insured.`,
   contact: {
     phone,
     email: 'hello@voltridge.example',
-    addressLine: 'Serving Toronto, East York, North York, Scarborough and Etobicoke',
-    mapBbox: [-79.64, 43.58, -79.12, 43.86],
+    addressLine: `Serving ${areas.slice(0, -1).join(', ')} and ${areas[areas.length - 1]}`,
+    mapBbox: [-79.78, 43.55, -79.17, 43.92],
     hours: [
       { days: 'Mon–Fri', time: '7:00 am – 6:00 pm' },
       { days: 'Sat', time: '8:00 am – 2:00 pm' },
@@ -62,9 +64,9 @@ const trades: SiteConfigV2 = {
   hero: {
     variant: 'signboard',
     tone: 'inverse',
-    label: 'Licensed electrical contractor, ECRA/ESA',
+    label: licence,
     headline: { text: 'Electricians. On site this week.' },
-    subhead: 'Panel upgrades, EV chargers, renovation wiring and repairs across Toronto and the GTA.',
+    subhead: 'Panel upgrades, EV chargers, renovation wiring and repairs across Toronto, Mississauga, Vaughan and Markham.',
     cta: call,
     secondaryCta: quote,
     photo: ph('hero.jpg'),
@@ -73,7 +75,7 @@ const trades: SiteConfigV2 = {
     { value: '24/7', label: 'Emergency line, a person answers' },
     { value: '1', unit: 'day', label: 'Most panel upgrades, start to finish' },
     { value: '2', unit: 'yr', label: 'Warranty on our workmanship' },
-    { value: '$0', label: 'Quote visits in the GTA' },
+    { value: '2', unit: 'hr', label: 'Arrival windows we keep' },
   ],
   home: [
     {
@@ -82,11 +84,11 @@ const trades: SiteConfigV2 = {
       space: 'tight',
       items: [
         { photo: ph('hero.jpg'), caption: 'Meter base and panel work' },
-        { photo: ph('team.jpg'), caption: 'Meter bases and conduit' },
-        { photo: ph('crew.jpg'), caption: 'Service mast and drop' },
+        { photo: ph('ev.jpg'), caption: 'EV charger on a post' },
+        { photo: ph('lights.jpg'), caption: 'Pot lights and pendants' },
       ],
     },
-    { kind: 'services', tone: 'tint', space: 'regular', title: { text: 'Services' }, label: 'Booked within the week', count: 4 },
+    { kind: 'services', tone: 'tint', space: 'regular', title: { text: 'Services' }, count: 4 },
     {
       kind: 'workorder',
       tone: 'inverse',
@@ -110,7 +112,7 @@ const trades: SiteConfigV2 = {
     fields: [
       { label: 'Customer', value: 'Danforth homeowner (sample)' },
       { label: 'Address', value: 'Danforth Ave, Toronto' },
-      { label: 'Job', value: 'Replace a 100 A fuse panel with a 200 A breaker panel' },
+      { label: 'Job', value: 'Replace a 100 A fuse panel and meter base with a 200 A breaker panel' },
       { label: 'Visit', value: 'Tuesday, 8–10 am window' },
     ],
     checkedTitle: 'What we checked',
@@ -121,7 +123,11 @@ const trades: SiteConfigV2 = {
       'No aluminum or knob-and-tube wiring found',
       'Smoke and CO alarms tested',
     ],
-    price: { label: 'Price, written before work', amount: '$3,850 + HST', note: 'Includes the panel, breakers, permit and ESA inspection.' },
+    price: {
+      label: 'Price, written before work',
+      amount: '$4,600 + HST',
+      note: 'Includes the panel, breakers, meter base, the Toronto Hydro disconnect and reconnect, the permit and the ESA inspection.',
+    },
     permits: [
       { label: 'ESA notification', status: 'Filed' },
       { label: 'Inspection', status: 'Booked' },
@@ -151,43 +157,50 @@ const trades: SiteConfigV2 = {
     { quote: 'Fixed a tripping breaker on a Sunday night. Calm, quick and a fair price.', name: 'Leslieville tenant (sample review)', context: 'Breaker repair · Leslieville' },
   ],
   about: {
-    label: 'One van, then a small crew',
-    headline: 'A small crew that treats your home like ours',
+    label: 'Started with one van',
+    headline: 'Four electricians. Two vans. One written price.',
     story: [
       'Volt Ridge Electric started with one van and a simple rule: explain the work before doing it.',
-      'Today we are a small team covering the GTA, doing everything from a single outlet to full renovation rewires.',
+      'Today we are four licensed electricians with two vans, covering Toronto, Mississauga, Vaughan and Markham, from a single outlet to full renovation rewires.',
     ],
     photo: ph('team.jpg'),
     values: [
-      { title: 'Safety first', body: 'Every job is done to code and tested before we leave.' },
-      { title: 'Respect your time', body: 'Arrival windows we keep, and an update if anything changes.' },
-      { title: 'Honest pricing', body: 'Written quotes and no hidden fees.' },
+      { title: 'Every circuit tested', body: 'We test every circuit we touch and write the readings on your work order.' },
+      { title: 'Two-hour arrival window', body: 'You get a two-hour window, and a text if we are running late.' },
+      { title: 'The price on the sheet', body: 'The price on the work order is the price you pay. Changes need your signature.' },
     ],
   },
-  gallery: ['hero.jpg', 'team.jpg', 'crew.jpg', 'gallery-4.jpg', 'gallery-5.jpg', 'gallery-6.jpg'].map(ph),
+  gallery: [
+    { ...ph('panel.jpg'), caption: 'Panel wiring · East York' },
+    { ...ph('ev.jpg'), caption: 'EV charger · Etobicoke' },
+    { ...ph('lights.jpg'), caption: 'Pot lights · North York' },
+    { ...ph('hero.jpg'), caption: 'Meter base · Danforth' },
+    { ...ph('crew.jpg'), caption: 'Service mast · Scarborough' },
+    { ...ph('team.jpg'), caption: 'Outlet install · Mississauga' },
+  ],
   primary: {
     kind: 'services',
     slug: 'services',
     title: 'Services',
-    intro: 'From small fixes to full rewires. Not sure what you need? Send a quote request and we will call you back.',
+    intro: 'From small fixes to full rewires. Not sure what you need? Ask for a free written quote and we will call you back.',
     services: [
       { name: 'Panel upgrades', description: 'Replace old fuse boxes and 60–100 A panels with a modern 200 A panel.', tags: ['Older homes', 'Renovations'], time: 'Usually 1 day' },
       { name: 'EV charger installation', description: 'Level 2 home chargers installed and ready to use.', tags: ['Garage', 'Driveway'], time: 'Usually half a day' },
       { name: 'Lighting and pot lights', description: 'Indoor and outdoor lighting, dimmers and pot light layouts.', tags: ['Kitchens', 'Basements'], time: 'Usually 1 day' },
-      { name: 'Renovation wiring', description: 'Rough-in and finish wiring for kitchens, basements and additions.', tags: ['Permits handled'], time: 'Rough-in, then finish' },
-      { name: 'Troubleshooting and repairs', description: 'Tripping breakers, dead outlets and flickering lights.', tags: ['Same day'], time: 'Often same day' },
-      { name: 'Small commercial', description: 'Retail and office fit-outs and lighting retrofits.', tags: ['After hours'], time: 'Booked after hours' },
+      { name: 'Renovation wiring', description: 'Rough-in and finish wiring for kitchens, basements and additions.', tags: ['Permits handled'], time: 'Two visits, weeks apart' },
+      { name: 'Troubleshooting and repairs', description: 'Tripping breakers, dead outlets and flickering lights.', tags: ['Breakers', 'Outlets', 'Lighting'], time: 'Often same day' },
+      { name: 'Small commercial', description: 'Retail and office fit-outs and lighting retrofits.', tags: ['Retail', 'Offices'], time: 'Evenings and weekends' },
     ],
-    areas: ['Downtown Toronto', 'East York', 'North York', 'Scarborough', 'Etobicoke', 'York'],
+    areas,
   },
   form: {
-    title: 'Request a free quote',
+    title: 'Get a free written quote',
     intro: 'Tell us about the job and we will get back to you within one business day.',
     submitLabel: 'Send request',
     fields: [
       { name: 'name', label: 'Your name', type: 'text', required: true },
       { name: 'phone', label: 'Phone', type: 'tel', required: true },
-      { name: 'email', label: 'Email', type: 'email', required: true },
+      { name: 'email', label: 'Email (optional)', type: 'email', required: false },
       { name: 'jobType', label: 'Type of job', type: 'select', required: true, options: ['Panel upgrade', 'EV charger', 'Lighting', 'Renovation wiring', 'Repair or troubleshooting', 'Other'] },
       { name: 'area', label: 'Neighbourhood or city', type: 'text', required: true },
       { name: 'details', label: 'Describe the job', type: 'textarea', required: true },
