@@ -59,7 +59,8 @@ export type PhotoEntry = {
 };
 export type NavItem = { label: string; href: string };
 export type Card = { title: string; body: string };
-export type Review = { quote: string; name: string; context?: string };
+/** `rating` is the stars shown on the review (1 to 5, default 5). There is no overall average: sample reviews never add up to a score. */
+export type Review = { quote: string; name: string; context?: string; rating?: 1 | 2 | 3 | 4 | 5 };
 export type Bbox = [minLon: number, minLat: number, maxLon: number, maxLat: number];
 
 export type FieldSpec = {

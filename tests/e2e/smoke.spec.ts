@@ -248,6 +248,14 @@ test(`${site.id}: preloads few, small font files`, async ({ page }) => {
 });
 
 test.describe('v2 guards', () => {
+  test(`${site.id}: each sample review shows its stars with a readable label`, async ({ page }) => {
+    test.skip(site.system !== 'v2', 'v2 only');
+    await page.goto('/');
+    const stars = page.getByRole('img', { name: /^Rated [1-5] out of 5$/ });
+    await expect(stars).toHaveCount(site.reviews.length);
+    await expect(stars.first()).toBeVisible();
+  });
+
   test.skip(site.system !== 'v2', 'only sites on the v2 design system');
 
   for (const route of ROUTES) {
