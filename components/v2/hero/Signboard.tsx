@@ -17,13 +17,13 @@ export default function Signboard({ site }: { site: SiteConfigV2 }) {
           {hero.secondaryCta && <Button item={hero.secondaryCta} kind="secondary" arrow={site.design.button !== 'tab'} />}
         </div>
         {stats && stats.length > 0 && (
-          <dl className="mt-12 grid grid-cols-2 gap-x-8 gap-y-6 border-t border-rule pt-6 md:flex md:flex-wrap md:gap-x-16">
+          <dl className="mt-12 grid grid-cols-2 gap-x-8 gap-y-6 border-t-2 border-rule pt-6 md:flex md:flex-wrap md:gap-x-16">
             {stats.map((s) => (
               <div key={s.label} className="flex flex-col-reverse">
                 <dt className="text-small mt-2 max-w-[18ch] text-fg-2">{s.label}</dt>
                 <dd className="numeral h-display">
                   {s.value}
-                  {s.unit && <span className="ml-1 text-[0.45em]">{s.unit}</span>}
+                  {s.unit && <span className="ml-1 text-[0.45em] font-semibold">{s.unit}</span>}
                 </dd>
               </div>
             ))}

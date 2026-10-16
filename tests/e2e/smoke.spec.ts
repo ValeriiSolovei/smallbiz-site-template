@@ -301,7 +301,10 @@ test.describe('v2 guards', () => {
     await expect(bar.locator('a[href^="tel:"]')).toHaveCount(1);
     const box = await bar.boundingBox();
     expect(Math.round((box?.y ?? 0) + (box?.height ?? 0))).toBe(812);
-    expect(await page.evaluate(() => getComputedStyle(document.body).paddingBottom)).toBe(`${box?.height}px`);
+    // Space for the bar is reserved from the first paint: at the very bottom, the demo notice sits above the bar.
+    await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+    const label = await page.getByTestId('demo-label').boundingBox();
+    expect((label?.y ?? 0) + (label?.height ?? 0)).toBeLessThanOrEqual(812 - (box?.height ?? 0) + 0.5);
     await page.goto('/contact/');
     await expect(bar).toHaveCount(0);
     await page.setViewportSize({ width: 1280, height: 800 });

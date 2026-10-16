@@ -8,7 +8,7 @@ export default function UtilityBar({ left, right, phone }: { left: string; right
         <p className="text-fg-2">{left}</p>
         <p>
           {right}{' '}
-          <a href={telHref(phone)} className="link-action">
+          <a href={telHref(phone)} className="link-action text-link">
             {phone}
           </a>
         </p>

@@ -38,9 +38,14 @@ export default function HeaderBar({ wordmark, nav, cta }: Props) {
   return (
     <header data-tone="base" className="relative z-40 border-b border-rule md:sticky md:top-0">
       <div className="wrap flex min-h-16 items-center justify-between gap-6 py-2">
-        <Link href="/" onClick={close} className="flex min-h-11 flex-col justify-center leading-none">
-          <span className="h-display text-[1.5rem]">{wordmark.main}</span>
-          {wordmark.sub && <span className="mt-1 text-[0.8125rem] font-semibold tracking-[0.2em] text-fg-2 uppercase">{wordmark.sub}</span>}
+        <Link href="/" onClick={close} className="flex min-h-11 items-center gap-3 leading-none">
+          <span aria-hidden="true" data-tone="accent" className="h-display grid h-7 w-7 flex-none place-items-center border-2 border-fg text-[1.125rem]">
+            {wordmark.main.trim()[0]}
+          </span>
+          <span className="flex flex-col">
+            <span className="h-display text-[1.625rem]">{wordmark.main}</span>
+            {wordmark.sub && <span className="font-display mt-0.5 text-[0.875rem] font-semibold tracking-[0.3em] text-fg-2 uppercase">{wordmark.sub}</span>}
+          </span>
         </Link>
         <nav aria-label="Main" className="hidden items-center gap-6 md:flex">
           {nav.map((item) => (

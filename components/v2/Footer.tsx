@@ -35,7 +35,7 @@ export default function Footer({ site, nav }: { site: SiteConfigV2; nav: NavItem
         </div>
         <div className="border-t border-rule py-8 md:border-t-0 md:pl-6">
           <p className={head}>{site.name}</p>
-          <p className="mt-2">{site.tagline}</p>
+          <p className="mt-2">{site.credentials ?? site.tagline}</p>
         </div>
       </div>
       <nav aria-label="Footer" className="wrap flex flex-wrap gap-x-6 py-4">
