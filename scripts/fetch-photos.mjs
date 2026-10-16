@@ -24,6 +24,21 @@ const bySite = {};
 // Sized at download because static export has no image optimizer: large for hero/team, smaller for grids.
 const widthFor = (file) => (/^(hero|team)\./.test(file) ? 1200 : 800);
 
+// Optional per-photo steps before resizing, set in photos.json:
+// "crop": [x, y, width, height] in source pixels, and "mono": true to bake in black and white
+// (a smaller file than a CSS filter, and link previews match the page).
+const GRAY_PROFILE = '/System/Library/ColorSync/Profiles/Generic Gray Gamma 2.2 Profile.icc';
+async function prepare(file, entry) {
+  if (!entry.crop && !entry.mono) return;
+  // sips cannot write every format it reads (WebP), so work on a lossless copy.
+  await run('sips', ['-s', 'format', 'png', file]);
+  if (entry.crop) {
+    const [x, y, w, h] = entry.crop;
+    await run('sips', ['--cropToHeightWidth', String(h), String(w), '--cropOffset', String(y), String(x), file]);
+  }
+  if (entry.mono) await run('sips', ['--matchTo', GRAY_PROFILE, file]);
+}
+
 // macOS `sips`: re-encode as JPEG and shrink to `width` when wider (never upscales).
 // Busy photos (leaves, crowds) stay heavy at 78%, so step the quality down until the file fits the budget.
 const BYTE_BUDGET = 160_000;
@@ -57,6 +72,7 @@ for (const site of siteDirs) {
     const tmp = `${dest}.download`;
     await fs.writeFile(tmp, Buffer.from(await res.arrayBuffer()));
     try {
+      await prepare(tmp, p);
       await toJpeg(tmp, dest, widthFor(p.file));
     } finally {
       await fs.rm(tmp, { force: true });

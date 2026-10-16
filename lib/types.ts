@@ -52,6 +52,10 @@ export type PhotoEntry = {
   license: string;
   licenseUrl: string;
   creator: string;
+  /** [x, y, width, height] in source pixels, applied before resizing. */
+  crop?: [number, number, number, number];
+  /** Bake the photo in black and white. */
+  mono?: boolean;
 };
 export type NavItem = { label: string; href: string };
 export type Card = { title: string; body: string };
@@ -143,6 +147,7 @@ export type Design = {
 export type HomeBlock = { tone: Tone; space: Space } & (
   | { kind: 'strip'; items: { photo: Photo; caption: string }[] }
   | { kind: 'services'; title: Voice; count: number; label?: string }
+  | { kind: 'workorder'; title: Voice; label?: string; body: string }
   | { kind: 'symptoms'; title: Voice; note?: string }
   | { kind: 'faq'; title: Voice }
   | { kind: 'reviews'; title: Voice; variant: 'stack' }
@@ -190,6 +195,21 @@ export type SiteConfigV2 = {
   stats?: Stat[];
   symptoms?: string[];
   faq?: { q: string; a: string }[];
+  workOrder?: WorkOrder;
+  /** One line on licensing and insurance, shown in the footer and on the contact page. */
+  credentials?: string;
+};
+
+/** A filled-in sample work order, shown as one paper sheet. */
+export type WorkOrder = {
+  number: string;
+  fields: { label: string; value: string }[];
+  checkedTitle: string;
+  checked: string[];
+  price: { label: string; amount: string; note: string };
+  permits: { label: string; status: string }[];
+  signoff: string;
+  signatures: [string, string];
 };
 
 export type SiteConfig = SiteConfigV1 | SiteConfigV2;
