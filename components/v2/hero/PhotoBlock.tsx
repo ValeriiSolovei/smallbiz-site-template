@@ -21,7 +21,7 @@ export default function PhotoBlock({ hero, hours }: Props) {
           width={1920}
           height={1279}
           fetchPriority="high"
-          className="block aspect-[4/3] w-full object-cover md:aspect-video md:max-h-[70vh]"
+          className="block aspect-[4/3] w-full object-cover md:aspect-video md:max-h-[58vh]"
         />
       </picture>
       <div data-tone={hero.tone} className="py-12 md:min-h-[360px] md:py-16">
