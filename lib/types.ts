@@ -56,6 +56,10 @@ export type PhotoEntry = {
   crop?: [number, number, number, number];
   /** Bake the photo in black and white. */
   mono?: boolean;
+  /** Output width in px; defaults to 1200 for hero/team and 800 otherwise. */
+  width?: number;
+  /** File size budget in bytes; defaults to 160 000. */
+  maxBytes?: number;
 };
 export type NavItem = { label: string; href: string };
 export type Card = { title: string; body: string };

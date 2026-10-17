@@ -25,7 +25,8 @@ const bySite = {};
 const widthFor = (file) => (/^(hero|team)\./.test(file) ? 1200 : 800);
 
 // Optional per-photo steps before resizing, set in photos.json:
-// "crop": [x, y, width, height] in source pixels, and "mono": true to bake in black and white
+// "crop": [x, y, width, height] in source pixels, "mono": true to bake in black and white,
+// "width" to override the size above, and "maxBytes" for a tighter file budget (a phone-first hero)
 // (a smaller file than a CSS filter, and link previews match the page).
 const GRAY_PROFILE = '/System/Library/ColorSync/Profiles/Generic Gray Gamma 2.2 Profile.icc';
 async function prepare(file, entry) {
@@ -42,15 +43,15 @@ async function prepare(file, entry) {
 // macOS `sips`: re-encode as JPEG and shrink to `width` when wider (never upscales).
 // Busy photos (leaves, crowds) stay heavy at 78%, so step the quality down until the file fits the budget.
 const BYTE_BUDGET = 160_000;
-async function toJpeg(src, dest, width) {
+async function toJpeg(src, dest, width, budget = BYTE_BUDGET) {
   const { stdout } = await run('sips', ['-g', 'pixelWidth', src]);
   const current = Number(/pixelWidth: (\d+)/.exec(stdout)?.[1] ?? 0);
   const resize = current > width ? ['--resampleWidth', String(width)] : [];
   for (const quality of ['78', 'normal', 'low']) {
     await run('sips', ['-s', 'format', 'jpeg', '-s', 'formatOptions', quality, ...resize, src, '--out', dest]);
-    if ((await fs.stat(dest)).size <= BYTE_BUDGET) return;
+    if ((await fs.stat(dest)).size <= budget) return;
   }
-  console.warn(`warning: ${path.relative(root, dest)} is still over ${BYTE_BUDGET} bytes; consider another photo`);
+  console.warn(`warning: ${path.relative(root, dest)} is still over ${budget} bytes; consider another photo`);
 }
 
 for (const site of siteDirs) {
@@ -73,7 +74,7 @@ for (const site of siteDirs) {
     await fs.writeFile(tmp, Buffer.from(await res.arrayBuffer()));
     try {
       await prepare(tmp, p);
-      await toJpeg(tmp, dest, widthFor(p.file));
+      await toJpeg(tmp, dest, p.width ?? widthFor(p.file), p.maxBytes);
     } finally {
       await fs.rm(tmp, { force: true });
     }

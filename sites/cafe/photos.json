@@ -1,12 +1,29 @@
 [
   {
     "file": "hero.jpg",
-    "alt": "Bright cafe corner with cushioned bench seating and small tables by the window",
-    "imageUrl": "https://images.rawpixel.com/editor_1024/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIyLTA0L3Vwd2s2MTcwOTE2NC13aWtpbWVkaWEtaW1hZ2Uta293cXprcGEuanBn.jpg",
-    "sourceUrl": "https://www.rawpixel.com/image/3303531/free-photo-image-zoom-background-cafe-beverage",
+    "alt": "A pile of butter croissants and French pastries, fresh from the oven",
+    "imageUrl": "https://pd.w.org/2022/03/210622cf2763dc374.65124722-2048x1365.jpg",
+    "sourceUrl": "https://wordpress.org/photos/photo/210622cf27/",
     "license": "CC0 1.0",
     "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
-    "creator": ""
+    "creator": "Reyes Martínez",
+    "width": 1920
+  },
+  {
+    "file": "hero-sm.jpg",
+    "alt": "A pile of butter croissants and French pastries, fresh from the oven",
+    "imageUrl": "https://pd.w.org/2022/03/210622cf2763dc374.65124722-2048x1365.jpg",
+    "sourceUrl": "https://wordpress.org/photos/photo/210622cf27/",
+    "license": "CC0 1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "creator": "Reyes Martínez",
+    "crop": [
+      114,
+      0,
+      1820,
+      1365
+    ],
+    "maxBytes": 80000
   },
   {
     "file": "team.jpg",
@@ -70,5 +87,25 @@
     "license": "CC0 1.0",
     "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
     "creator": "Alondra Olivas"
+  },
+  {
+    "file": "room-1.jpg",
+    "alt": "Bright cafe corner with cushioned bench seating and small tables by the window",
+    "imageUrl": "https://images.rawpixel.com/editor_1024/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIyLTA0L3Vwd2s2MTcwOTE2NC13aWtpbWVkaWEtaW1hZ2Uta293cXprcGEuanBn.jpg",
+    "sourceUrl": "https://www.rawpixel.com/image/3303531/free-photo-image-zoom-background-cafe-beverage",
+    "license": "CC0 1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "creator": "",
+    "mono": true
+  },
+  {
+    "file": "room-2.jpg",
+    "alt": "Barista pouring hot water over a pour-over coffee",
+    "imageUrl": "https://cdn.stocksnap.io/img-thumbs/960w/MD4L58LL1E.jpg",
+    "sourceUrl": "https://stocksnap.io/photo/barista-pouring-MD4L58LL1E",
+    "license": "CC0 1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "creator": "Burst",
+    "mono": true
   }
 ]
