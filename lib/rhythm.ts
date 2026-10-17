@@ -1,5 +1,5 @@
 import { contrastRatio } from './contrast';
-import type { SiteConfigV2, Space, ThemeV2, Tone } from './types';
+import type { Design, SiteConfigV2, Space, ThemeV2, Tone } from './types';
 
 const BANDS: Tone[] = ['inverse', 'brand', 'accent'];
 const LIGHT_TONES: Tone[] = ['base', 'tint', 'brand'];
@@ -59,4 +59,9 @@ export function spaceProblems(spaces: Space[]): string[] {
     if (spaces[i] === spaces[i - 1] && spaces[i] === spaces[i - 2]) problems.push(`sections ${i - 2}-${i} all use "${spaces[i]}"`);
   }
   return problems;
+}
+
+/** The tone an inner-page section gets: what the page asks for, or "base" on a single-ground site. */
+export function toneFor(design: Pick<Design, 'rhythm'>, tone: Tone): Tone {
+  return design.rhythm === 'single' ? 'base' : tone;
 }

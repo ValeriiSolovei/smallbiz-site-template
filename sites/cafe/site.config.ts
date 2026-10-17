@@ -1,34 +1,56 @@
-import type { PhotoEntry, SiteConfigV1 } from '@/lib/types';
+import type { PhotoEntry, SiteConfigV2 } from '@/lib/types';
 import { photoSet } from '@/lib/photos';
+import { telHref } from '@/lib/phone';
 import photos from './photos.json';
 
 const ph = photoSet('cafe', photos as PhotoEntry[]);
 
-const cafe: SiteConfigV1 = {
-  system: 'v1',
+const phone = '(416) 555-0118';
+const menu = { label: 'See the menu', href: '/menu/' };
+const call = { label: 'Call', href: telHref(phone) };
+
+const cafe: SiteConfigV2 = {
+  system: 'v2',
   id: 'cafe',
   name: 'Lantern & Crumb Café',
   tagline: 'Neighbourhood café and bakery on Queen East',
   neighbourhood: 'Leslieville',
   indexable: false,
   theme: {
-    mode: 'light',
-    surfaceBase: '#faf6f0',
-    surfaceCard: '#ffffff',
-    surfaceHero: '#f1e6d8',
-    borderDefault: '#e7dccd',
-    textPrimary: '#2b1d14',
-    textSecondary: '#5c4a3d',
-    textMuted: '#7a6656',
-    accent: '#6b3f26',
-    accentHover: '#55311d',
-    accentDim: 'rgba(107, 63, 38, 0.10)',
-    accentGlow: 'rgba(107, 63, 38, 0.22)',
-    accentContrast: '#ffffff',
-    error: '#b42318',
+    mode: 'dark',
+    surfaceBase: '#1e1510',
+    surfaceCard: '#291e17',
+    surfaceBrand: '#4a2a1d',
+    surfaceInverse: '#f2e7d5',
+    borderDefault: '#3e2f24',
+    textPrimary: '#f2e7d5',
+    textSecondary: '#d2c0a8',
+    textMuted: '#ad9a83',
+    accent: '#8fb2ea',
+    accentHover: '#a9c4f0',
+    accentContrast: '#1e1510',
+    accentText: '#9dbcef',
+    error: '#ff9a8a',
   },
+  design: {
+    rhythm: 'single',
+    label: 'rule',
+    button: 'tab',
+    rule: 1,
+    shadow: 'none',
+    footerTone: 'base',
+    fonts: { h1: 'Libre Franklin', body: 'Libre Franklin' },
+    type: { case: 'none', displayWeight: 500, tracking: '-0.015em', leading: 1.02, h1Size: 'clamp(2.125rem, 1rem + 5vw, 5rem)', voice: 'none' },
+    footer: 'line',
+    gallery: 'strip',
+  },
+  wordmark: { main: 'Lantern & Crumb', sub: 'Café · Bakery', voice: '&' },
+  callBar: { primary: menu, secondary: call },
+  cta: { primary: menu, secondary: { label: `Call ${phone}`, href: telHref(phone) } },
+  headerCta: { label: 'Catering', href: '/contact/' },
+  contactLabel: 'Catering across the east end',
   contact: {
-    phone: '(416) 555-0118',
+    phone,
     email: 'hello@lanternandcrumb.example',
     addressLine: 'Queen St E, Leslieville, Toronto',
     mapBbox: [-79.345, 43.658, -79.325, 43.668],
@@ -38,35 +60,46 @@ const cafe: SiteConfigV1 = {
     ],
   },
   hero: {
-    eyebrow: 'Café & bakery · Leslieville',
-    headline: 'Slow coffee, warm pastries, a table by the window.',
-    subhead: 'Baked fresh every morning, with coffee from small Ontario roasters.',
-    cta: { label: 'See the menu', href: '/menu/' },
-    secondaryCta: { label: 'Catering for your event', href: '/contact/' },
+    variant: 'photo-block',
+    tone: 'accent',
+    label: 'Today',
+    headline: { text: 'Oven on at 6. Doors open 7:30. on Queen East', voice: 'on Queen East' },
+    subhead: 'Neighbourhood café and bakery in Leslieville. Baked here every morning, with coffee from small Ontario roasters.',
+    place: 'Queen St E, Leslieville',
+    cta: menu,
     photo: ph('hero.jpg'),
+    photoSmall: ph('hero-sm.jpg'),
   },
-  headerCta: { label: 'Catering', href: '/contact/' },
+  home: [
+    { kind: 'menu', tone: 'base', space: 'regular', title: { text: 'From the counter' }, sections: 2 },
+    {
+      kind: 'room',
+      tone: 'base',
+      space: 'loose',
+      title: { text: 'Room for a long coffee' },
+      story: [
+        'We opened on Queen East with one oven and six stools at the counter. The stools are still there; the oven has company now.',
+        'Bring a book, bring the laptop, bring the dog to the patio. Nobody hurries you out.',
+      ],
+      points: ['Wi-Fi and an outlet at every table', 'Sunny back patio, dogs welcome'],
+      photos: [ph('room-1.jpg'), ph('room-2.jpg')],
+    },
+    { kind: 'reviews', tone: 'base', space: 'regular', title: { text: 'Overheard at the counter' }, variant: 'overheard' },
+    { kind: 'visit', tone: 'base', space: 'tight', title: { text: 'Visit' }, note: 'Catering for 10 to 60 people: ask at the counter or call.' },
+  ],
   highlights: [
     { title: 'Baked in-house', body: 'Croissants, loaves and cookies made here before we open.' },
     { title: 'Local roasters', body: 'Rotating beans from small Ontario roasters.' },
     { title: 'Room to stay', body: 'Wi-Fi, outlets and a sunny back patio.' },
   ],
-  whyUs: {
-    title: 'Why people keep coming back',
-    points: [
-      'Everything baked the same morning',
-      'Dairy-free and gluten-free options every day',
-      'Dog-friendly patio',
-      'Catering for offices and small events',
-    ],
-  },
   reviews: [
-    { quote: 'The cardamom bun is worth the walk from anywhere in the east end.', name: 'Leslieville regular (sample review)' },
-    { quote: 'Quiet enough to work, friendly enough that they know my order.', name: 'Remote worker (sample review)' },
-    { quote: 'Ordered breakfast catering for our team. Everything arrived warm and on time.', name: 'Office manager (sample review)' },
+    { quote: 'The cardamom bun is worth the walk from anywhere in the east end.', name: 'Leslieville regular (sample review)', context: 'Weekday mornings' },
+    { quote: 'Quiet enough to work, friendly enough that they know my order.', name: 'Remote worker (sample review)', context: 'Most afternoons' },
+    { quote: 'Breakfast catering for twenty arrived warm and on time.', name: 'Office manager (sample review)', context: 'Catering' },
+    { quote: 'Best patio on Queen East for a dog and a flat white.', name: 'Dog owner (sample review)', context: 'Weekends', rating: 4 },
   ],
   about: {
-    eyebrow: 'Our story',
+    label: 'Our story',
     headline: 'It started with one oven and a lot of early mornings',
     story: [
       'Lantern & Crumb opened on Queen East as a tiny counter with a single oven and a handful of regulars.',
@@ -122,11 +155,6 @@ const cafe: SiteConfigV1 = {
       { name: 'guests', label: 'Number of guests', type: 'select', required: true, options: ['Under 15', '15–30', '30–60', 'More than 60'] },
       { name: 'details', label: 'What do you need?', type: 'textarea', required: true },
     ],
-  },
-  ctaBand: {
-    headline: 'Hosting something?',
-    body: 'We cater office breakfasts, birthdays and small events across the east end.',
-    cta: { label: 'Request catering', href: '/contact/' },
   },
 };
 

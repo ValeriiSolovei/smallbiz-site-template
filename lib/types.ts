@@ -147,6 +147,10 @@ export type Design = {
   /** Family names the site's fonts module loads (checked by unit and e2e tests). */
   fonts: { h1: string; body: string };
   type: TypeSpec;
+  /** 'infobar': four columns split by hairlines (default). 'line': wordmark, one line of address and hours. */
+  footer?: 'infobar' | 'line';
+  /** 'contact': square contact sheet (default). 'strip': 3-up edge to edge, one column on a phone. */
+  gallery?: 'contact' | 'strip';
 };
 
 export type HomeBlock = { tone: Tone; space: Space } & (
@@ -155,12 +159,17 @@ export type HomeBlock = { tone: Tone; space: Space } & (
   | { kind: 'workorder'; title: Voice; label?: string; body: string }
   | { kind: 'symptoms'; title: Voice; note?: string }
   | { kind: 'faq'; title: Voice }
-  | { kind: 'reviews'; title: Voice; variant: 'stack' }
+  | { kind: 'reviews'; title: Voice; variant: 'stack' | 'overheard' }
   | { kind: 'slab'; label: string; body: string }
+  /** The first `sections` sections of the menu page, on a cream card. */
+  | { kind: 'menu'; title: Voice; sections: number }
+  /** A short story with a drop cap beside two black-and-white snapshots of the room. */
+  | { kind: 'room'; title: Voice; story: string[]; points: string[]; photos: [Photo, Photo] }
+  /** Hours, address and phone; the page ends here. */
+  | { kind: 'visit'; title: Voice; note: string }
 );
 
-export type HeroV2 = {
-  variant: 'signboard';
+type HeroCommon = {
   tone: Tone;
   label: string;
   headline: Voice;
@@ -170,6 +179,20 @@ export type HeroV2 = {
   /** Used for og:image, so it is required even when the hero shows no photo. */
   photo: Photo;
 };
+
+export type HeroV2 =
+  | (HeroCommon & { variant: 'signboard' })
+  | (HeroCommon & {
+      /**
+       * A full-width photo over a colour block that holds the H1. Each sentence of `headline` is one line,
+       * set heavy, light, then in the italic voice; `label` heads today's hours beside it.
+       */
+      variant: 'photo-block';
+      /** Where the hours apply, under them. */
+      place: string;
+      /** An 800 px version of `photo` for phones (the page's largest image there). */
+      photoSmall: Photo;
+    });
 
 export type SiteConfigV2 = {
   system: 'v2';
@@ -181,10 +204,11 @@ export type SiteConfigV2 = {
   theme: ThemeV2;
   contact: Contact;
   design: Design;
-  wordmark: { main: string; sub?: string };
+  /** `voice` is a part of `main` set in the italic voice, like the "&" in a name. */
+  wordmark: { main: string; sub?: string; voice?: string };
   /** Desktop strip above the header. */
   utilityBar?: { left: string; right: string };
-  /** Fixed bar on phones; the primary cell is the call action. */
+  /** Fixed bar on phones; the primary cell is the accent one. One of the two cells must be a call. */
   callBar: { primary: NavItem; secondary?: NavItem };
   /** The primary action repeated word for word at the end of home blocks. */
   cta: { primary: NavItem; secondary?: NavItem };
@@ -201,6 +225,8 @@ export type SiteConfigV2 = {
   symptoms?: string[];
   faq?: { q: string; a: string }[];
   workOrder?: WorkOrder;
+  /** Label over the contact page title; defaults to the tagline. */
+  contactLabel?: string;
   /** One line on licensing and insurance, shown in the footer and on the contact page. */
   credentials?: string;
 };

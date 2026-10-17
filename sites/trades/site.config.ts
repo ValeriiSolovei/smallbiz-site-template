@@ -50,6 +50,7 @@ const trades: SiteConfigV2 = {
   cta: { primary: call, secondary: quote },
   headerCta: quote,
   credentials: `${licence}. Fully insured.`,
+  contactLabel: 'Free written quotes across Toronto',
   contact: {
     phone,
     email: 'hello@voltridge.example',

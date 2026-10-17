@@ -1,4 +1,5 @@
 import type { SiteConfigV2 } from '@/lib/types';
+import { toneFor } from '@/lib/rhythm';
 import PageHeader from '../PageHeader';
 import Section from '../Section';
 import IndexRows from '../IndexRows';
@@ -9,7 +10,7 @@ export default function AboutV2({ site }: { site: SiteConfigV2 }) {
   const { about } = site;
   return (
     <>
-      <PageHeader label={about.label} title={about.headline} />
+      <PageHeader tone={toneFor(site.design, 'brand')} label={about.label} title={about.headline} />
       <Section tone="base" space="regular">
         <div className="grid-12 items-start">
           <div className="space-y-5 md:col-span-6">
@@ -33,7 +34,7 @@ export default function AboutV2({ site }: { site: SiteConfigV2 }) {
           />
         </div>
       </Section>
-      <Section tone="tint" space="tight" title={{ text: 'How we work' }} layout="side" aside={<Button item={site.cta.secondary ?? site.cta.primary} block />}>
+      <Section tone={toneFor(site.design, 'tint')} space="tight" title={{ text: 'How we work' }} layout="side" aside={<Button item={site.cta.secondary ?? site.cta.primary} block />}>
         <IndexRows rows={about.values} />
       </Section>
       <Closing site={site} />

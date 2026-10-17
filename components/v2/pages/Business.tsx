@@ -7,12 +7,27 @@ import Symptoms from '../blocks/Symptoms';
 import Closing from '../Closing';
 import Button from '../Button';
 import Joined from '../Joined';
+import MenuList from '../MenuList';
+import { toneFor } from '@/lib/rhythm';
 
 const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
 /** The business page. Services get their v2 layout; other kinds use the shared components until their site moves over. */
 export default function BusinessV2({ site }: { site: SiteConfigV2 }) {
   const p = site.primary;
+  if (p.kind === 'menu') {
+    return (
+      <>
+        <PageHeader tone={toneFor(site.design, 'brand')} label={site.tagline} title={p.title} intro={p.intro} />
+        <Section tone="base" space="regular">
+          <div data-tone="inverse" className="px-6 py-10 md:px-12 md:py-14">
+            <MenuList sections={p.sections} />
+          </div>
+        </Section>
+        <Closing site={site} />
+      </>
+    );
+  }
   if (p.kind !== 'services') {
     return (
       <>

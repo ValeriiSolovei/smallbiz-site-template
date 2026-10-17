@@ -3,12 +3,13 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
-import type { NavItem } from '@/lib/types';
+import type { NavItem, SiteConfigV2 } from '@/lib/types';
 import Button from './Button';
+import Wordmark from './Wordmark';
 
 const norm = (p: string) => p.replace(/\/+$/, '') || '/';
 
-type Props = { wordmark: { main: string; sub?: string }; nav: NavItem[]; cta: NavItem };
+type Props = { wordmark: SiteConfigV2['wordmark']; nav: NavItem[]; cta: NavItem };
 
 /** Solid header: sticky from 768 px only, since the call bar owns the bottom of a phone screen. */
 export default function HeaderBar({ wordmark, nav, cta }: Props) {
@@ -42,10 +43,7 @@ export default function HeaderBar({ wordmark, nav, cta }: Props) {
           <span aria-hidden="true" data-tone="accent" className="h-display grid h-7 w-7 flex-none place-items-center border-2 border-fg text-[1.125rem]">
             {wordmark.main.trim()[0]}
           </span>
-          <span className="flex flex-col">
-            <span className="h-display text-[1.625rem]">{wordmark.main}</span>
-            {wordmark.sub && <span className="font-display mt-0.5 text-[0.875rem] font-semibold tracking-[0.3em] text-fg-2 uppercase">{wordmark.sub}</span>}
-          </span>
+          <Wordmark wordmark={wordmark} />
         </Link>
         <nav aria-label="Main" className="hidden items-center gap-6 md:flex">
           {nav.map((item) => (
