@@ -8,7 +8,7 @@ import { osmEmbedUrl } from '@/lib/map';
 import { headerCta } from '@/lib/nav';
 import { HONEYPOT_FIELD } from '@/lib/constants';
 import { spaceProblems, toneProblems, toneSequence } from '@/lib/rhythm';
-import { assertVoice } from '@/lib/voice';
+import { assertVoice, sentences } from '@/lib/voice';
 import type { Photo, PhotoEntry, SiteConfig, SiteConfigV1, SiteConfigV2, Voice } from '@/lib/types';
 import fixtureV2 from './fixtures/site-v2';
 
@@ -190,7 +190,10 @@ for (const [name, site] of v2Sites) describe(`v2 site "${name}"`, () => {
       if (b.kind === 'faq') expect(site.faq?.length ?? 0, 'faq').toBeGreaterThanOrEqual(4);
       if (b.kind === 'symptoms') expect(site.symptoms?.length ?? 0, 'symptoms').toBeGreaterThanOrEqual(4);
       if (b.kind === 'services') expect(b.count, 'services count').toBeGreaterThanOrEqual(1);
+      if (b.kind === 'menu') expect(site.primary.kind, 'a menu block needs a menu page').toBe('menu');
     }
+    // The photo-block hero styles its three lines one by one (heavy, light, italic voice).
+    if (site.hero.variant === 'photo-block') expect(sentences(site.hero.headline.text), 'photo-block headline').toHaveLength(3);
     expect(site.home.some((b) => b.kind === 'reviews'), 'a reviews block').toBe(true);
   });
   it('puts a call action in the call bar', () => {
