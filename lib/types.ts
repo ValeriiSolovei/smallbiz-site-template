@@ -81,7 +81,9 @@ export type Service = { name: string; description: string; tags?: string[]; time
 export type ScheduleDay = { day: string; classes: { time: string; name: string; coach: string }[] };
 export type Plan = { name: string; price: string; period: string; features: string[]; featured?: boolean };
 export type Trainer = { name: string; specialty: string; photo: Photo };
-export type Product = { name: string; description: string; price: string; photo: Photo; tags?: string[]; latin?: string };
+/** Where a plant wants to sit, shown on a light scale. */
+export type Light = 'low' | 'medium' | 'bright-indirect' | 'bright';
+export type Product = { name: string; description: string; price: string; photo: Photo; tags?: string[]; latin?: string; light?: Light };
 
 export type PrimaryPage =
   | { kind: 'menu'; slug: 'menu'; title: string; intro: string; sections: MenuSection[] }
@@ -149,8 +151,11 @@ export type Design = {
   type: TypeSpec;
   /** 'infobar': four columns split by hairlines (default). 'line': wordmark, one line of address and hours. */
   footer?: 'infobar' | 'line';
-  /** 'contact': square contact sheet (default). 'strip': 3-up edge to edge, one column on a phone. */
-  gallery?: 'contact' | 'strip';
+  /**
+   * 'contact': square contact sheet (default). 'strip': 3-up edge to edge, one column on a phone.
+   * 'mosaic': the first photo spans two rows and columns, all black and white. 'shelf': tiles with a hard shadow.
+   */
+  gallery?: 'contact' | 'strip' | 'mosaic' | 'shelf';
 };
 
 export type HomeBlock = { tone: Tone; space: Space } & (
@@ -159,7 +164,7 @@ export type HomeBlock = { tone: Tone; space: Space } & (
   | { kind: 'workorder'; title: Voice; label?: string; body: string }
   | { kind: 'symptoms'; title: Voice; note?: string }
   | { kind: 'faq'; title: Voice }
-  | { kind: 'reviews'; title: Voice; variant: 'stack' | 'overheard' }
+  | { kind: 'reviews'; title: Voice; variant: 'stack' | 'overheard' | 'wall' | 'tiles' }
   | { kind: 'slab'; label: string; body: string }
   /** The first `sections` sections of the menu page, on a cream card. */
   | { kind: 'menu'; title: Voice; sections: number }
@@ -167,6 +172,16 @@ export type HomeBlock = { tone: Tone; space: Space } & (
   | { kind: 'room'; title: Voice; story: string[]; points: string[]; photos: [Photo, Photo] }
   /** Hours, address and phone; the page ends here. */
   | { kind: 'visit'; title: Voice; note: string }
+  /** The class schedule as a week board under a rotated word; needs a classes page. */
+  | { kind: 'week'; title: Voice; more: NavItem }
+  /** The coaches as staggered portraits beside a short list. */
+  | { kind: 'coaches'; title: Voice; points: string[] }
+  /** The membership price board; the page ends here. */
+  | { kind: 'plans'; title: Voice; note: string }
+  /** The first `count` products as tiles. */
+  | { kind: 'products'; title: Voice; count: number }
+  /** Three light levels on one scale, with plants for each; the page ends here. */
+  | { kind: 'light'; title: Voice; note: string }
 );
 
 type HeroCommon = {
@@ -192,6 +207,18 @@ export type HeroV2 =
       place: string;
       /** An 800 px version of `photo` for phones (the page's largest image there). */
       photoSmall: Photo;
+    })
+  | (HeroCommon & {
+      /** Text in columns 1-6, a tall black-and-white photo in 7-12 running to the right edge. */
+      variant: 'split';
+      /** A 4:3 crop of `photo` for phones. */
+      photoSmall: Photo;
+    })
+  | (HeroCommon & {
+      /** A colour photo crossing into the next section, with a chip naming the plant and its light. */
+      variant: 'specimen';
+      photoSmall: Photo;
+      chip: { latin: string; light: Light };
     });
 
 export type SiteConfigV2 = {
@@ -229,7 +256,11 @@ export type SiteConfigV2 = {
   contactLabel?: string;
   /** One line on licensing and insurance, shown in the footer and on the contact page. */
   credentials?: string;
+  /** The light guide: one entry per stop on the scale. */
+  lightGuide?: LightStop[];
 };
+
+export type LightStop = { light: Light; name: string; where: string; plants: { latin: string; common: string }[]; care: string };
 
 /** A filled-in sample work order, shown as one paper sheet. */
 export type WorkOrder = {

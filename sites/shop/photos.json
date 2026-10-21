@@ -1,12 +1,36 @@
 [
   {
     "file": "hero.jpg",
-    "alt": "Potted houseplants and trailing vines on a sunny window ledge",
-    "imageUrl": "https://cdn.stocksnap.io/img-thumbs/960w/JOHHVIOMIW.jpg",
-    "sourceUrl": "https://stocksnap.io/photo/potted-plants-JOHHVIOMIW",
+    "alt": "Split monstera leaves against a white wall",
+    "imageUrl": "https://cdn.stocksnap.io/img-thumbs/960w/UDSMYLOVW4.jpg",
+    "sourceUrl": "https://stocksnap.io/photo/indoor-plants-UDSMYLOVW4",
     "license": "CC0 1.0",
     "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
-    "creator": "Burst"
+    "creator": "",
+    "crop": [
+      0,
+      300,
+      960,
+      640
+    ],
+    "width": 960
+  },
+  {
+    "file": "hero-sm.jpg",
+    "alt": "Split monstera leaves against a white wall",
+    "imageUrl": "https://cdn.stocksnap.io/img-thumbs/960w/UDSMYLOVW4.jpg",
+    "sourceUrl": "https://stocksnap.io/photo/indoor-plants-UDSMYLOVW4",
+    "license": "CC0 1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "creator": "",
+    "crop": [
+      0,
+      260,
+      960,
+      720
+    ],
+    "width": 800,
+    "maxBytes": 70000
   },
   {
     "file": "team.jpg",

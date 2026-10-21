@@ -22,7 +22,8 @@ Every photo is in the public domain (CC0 or Public Domain Mark) and was found th
 
 | File | Photo | Creator | Licence |
 |---|---|---|---|
-| public/gym/hero.jpg | [source](https://stocksnap.io/photo/girl-woman-ZFIQC5CZRP) | Scott Webb | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| public/gym/hero.jpg | [source](https://wordpress.org/photos/photo/4556a04d02/) | Faisal Ahammad | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| public/gym/hero-sm.jpg | [source](https://wordpress.org/photos/photo/4556a04d02/) | Faisal Ahammad | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 | public/gym/team.jpg | [source](https://stocksnap.io/photo/gym-interior-LNCLN1NE6K) | Humphrey Muleba | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 | public/gym/trainer-1.jpg | [source](https://stocksnap.io/photo/girl-woman-MRTPJW5I7U) | Scott Webb | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 | public/gym/trainer-2.jpg | [source](https://www.rawpixel.com/image/6031193/photo-image-public-domain-hands-person) | Unknown | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
@@ -38,7 +39,8 @@ Every photo is in the public domain (CC0 or Public Domain Mark) and was found th
 
 | File | Photo | Creator | Licence |
 |---|---|---|---|
-| public/shop/hero.jpg | [source](https://stocksnap.io/photo/potted-plants-JOHHVIOMIW) | Burst | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| public/shop/hero.jpg | [source](https://stocksnap.io/photo/indoor-plants-UDSMYLOVW4) | Unknown | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| public/shop/hero-sm.jpg | [source](https://stocksnap.io/photo/indoor-plants-UDSMYLOVW4) | Unknown | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 | public/shop/team.jpg | [source](https://stocksnap.io/photo/gardening-pots-WV6Q25F8ZJ) | Neslihan Gunaydin | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 | public/shop/product-1.jpg | [source](https://stocksnap.io/photo/indoor-plants-UDSMYLOVW4) | Unknown | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 | public/shop/product-2.jpg | [source](https://wordpress.org/photos/photo/484653103f/) | Bigul Malayi | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |

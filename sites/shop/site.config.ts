@@ -1,34 +1,56 @@
-import type { PhotoEntry, SiteConfigV1 } from '@/lib/types';
+import type { PhotoEntry, SiteConfigV2 } from '@/lib/types';
 import { photoSet } from '@/lib/photos';
+import { telHref } from '@/lib/phone';
 import photos from './photos.json';
 
 const ph = photoSet('shop', photos as PhotoEntry[]);
 
-const shop: SiteConfigV1 = {
-  system: 'v1',
+const phone = '(416) 555-0183';
+const browse = { label: 'Browse plants', href: '/products/' };
+const ask = { label: 'Ask about a plant', href: '/contact/' };
+
+const shop: SiteConfigV2 = {
+  system: 'v2',
   id: 'shop',
   name: 'Mossbank Plant Co.',
-  tagline: 'Houseplants, pots and plant advice on Ossington',
+  tagline: 'Houseplants and pots on Ossington',
   neighbourhood: 'Ossington',
   indexable: false,
   theme: {
     mode: 'light',
-    surfaceBase: '#f5faf8',
-    surfaceCard: '#ffffff',
-    surfaceHero: '#e2f0eb',
-    borderDefault: '#d3e5df',
-    textPrimary: '#12302b',
-    textSecondary: '#3d5b55',
-    textMuted: '#557069',
-    accent: '#0f6e64',
-    accentHover: '#0b5a52',
-    accentDim: 'rgba(15, 110, 100, 0.10)',
-    accentGlow: 'rgba(15, 110, 100, 0.24)',
-    accentContrast: '#ffffff',
-    error: '#b42318',
+    surfaceBase: '#eef1e9',
+    surfaceCard: '#d3dcca',
+    surfaceBrand: '#c4d4bd',
+    surfaceInverse: '#16281e',
+    borderDefault: '#aebba5',
+    textPrimary: '#16281e',
+    textSecondary: '#354a3c',
+    textMuted: '#46594c',
+    accent: '#f4a3b8',
+    accentHover: '#f7b8c8',
+    accentContrast: '#16281e',
+    accentText: '#2b5c3f',
+    error: '#9f2019',
   },
+  design: {
+    rhythm: 'alternate',
+    label: 'italic',
+    button: 'pill',
+    rule: 1,
+    shadow: 'tiles',
+    footerTone: 'tint',
+    fonts: { h1: 'Newsreader', body: 'Newsreader' },
+    type: { case: 'none', displayWeight: 300, tracking: '-0.025em', leading: 1.04, h1Size: 'clamp(2.75rem, 1.4rem + 4.6vw, 5.25rem)', voice: 'italic', voiceWeight: 300 },
+    footer: 'line',
+    gallery: 'shelf',
+  },
+  wordmark: { main: 'Mossbank', sub: 'Plant Co.' },
+  callBar: { primary: ask, secondary: { label: 'Call', href: telHref(phone) } },
+  cta: { primary: browse, secondary: ask },
+  headerCta: ask,
+  contactLabel: 'Send us a photo of your window',
   contact: {
-    phone: '(416) 555-0183',
+    phone,
     email: 'hello@mossbank.example',
     addressLine: 'Ossington Ave, Toronto',
     mapBbox: [-79.43, 43.645, -79.41, 43.655],
@@ -39,35 +61,69 @@ const shop: SiteConfigV1 = {
     ],
   },
   hero: {
-    eyebrow: 'Plant shop · Ossington',
-    headline: 'Plants that fit your light, your space and your schedule.',
-    subhead: 'Houseplants, pots and care advice from people who actually keep plants alive.',
-    cta: { label: 'Browse plants', href: '/products/' },
-    secondaryCta: { label: 'Ask about a plant', href: '/contact/' },
+    variant: 'specimen',
+    tone: 'base',
+    label: 'Plant shop on Ossington Ave',
+    headline: { text: 'Plants for the light you actually have.', voice: 'you actually have.' },
+    subhead: 'Houseplants, pots and care advice from people who keep plants alive in Toronto apartments.',
+    cta: browse,
+    secondaryCta: ask,
     photo: ph('hero.jpg'),
+    photoSmall: ph('hero-sm.jpg'),
+    chip: { latin: 'Monstera deliciosa', light: 'bright-indirect' },
   },
-  headerCta: { label: 'Ask about a plant', href: '/contact/' },
+  home: [
+    { kind: 'products', tone: 'brand', space: 'regular', title: { text: 'On the shelf this week' }, count: 4 },
+    { kind: 'reviews', tone: 'base', space: 'tight', title: { text: 'Customer notes' }, variant: 'tiles' },
+    { kind: 'light', tone: 'inverse', space: 'loose', title: { text: 'What’s your light?', voice: 'light?' }, note: 'Send us a photo of your window.' },
+  ],
+  lightGuide: [
+    {
+      light: 'low',
+      name: 'Low',
+      where: 'A north window, or 2–3 m back from any window.',
+      plants: [
+        { latin: 'Zamioculcas zamiifolia', common: 'ZZ plant' },
+        { latin: 'Sansevieria trifasciata', common: 'snake plant' },
+        { latin: 'Epipremnum aureum', common: 'pothos' },
+      ],
+      care: 'Water every 3 weeks.',
+    },
+    {
+      light: 'medium',
+      name: 'Medium',
+      where: 'An east window, or a metre back from a south or west one.',
+      plants: [
+        { latin: 'Philodendron hederaceum', common: 'heartleaf philodendron' },
+        { latin: 'Peperomia obtusifolia', common: 'baby rubber plant' },
+        { latin: 'Calathea orbifolia', common: 'calathea' },
+      ],
+      care: 'Water when the top 2 cm of soil is dry.',
+    },
+    {
+      light: 'bright',
+      name: 'Bright',
+      where: 'Right at a south or west window, with some direct sun.',
+      plants: [
+        { latin: 'Ficus elastica', common: 'rubber plant' },
+        { latin: 'Strelitzia nicolai', common: 'bird of paradise' },
+        { latin: 'Echeveria', common: 'echeveria' },
+      ],
+      care: 'Water when the soil is dry most of the way down.',
+    },
+  ],
   highlights: [
     { title: 'Matched to your light', body: 'Tell us about your window and we will suggest plants that will thrive.' },
     { title: 'Pots and soil on site', body: 'Pick a pot and we repot your plant while you wait.' },
     { title: 'Care advice for life', body: 'Send us a photo any time your plant looks unhappy.' },
   ],
-  whyUs: {
-    title: 'Why plant people shop here',
-    points: [
-      'Small-batch plants from Ontario growers',
-      'Pet-safe plants clearly labelled',
-      'Free repotting with any pot purchase',
-      'Workshops on propagation and care',
-    ],
-  },
   reviews: [
-    { quote: 'They asked about my apartment before selling me anything. Everything I bought is still alive.', name: 'Trinity Bellwoods neighbour (sample review)' },
-    { quote: 'Best pot selection in the west end, and they repotted my monstera on the spot.', name: 'Ossington regular (sample review)' },
-    { quote: 'The propagation workshop was the most fun Saturday I have had in months.', name: 'Workshop guest (sample review)' },
+    { quote: 'They asked about my apartment before selling me anything. Everything I bought is still alive.', name: 'Trinity Bellwoods neighbour (sample review)', context: 'North-facing condo' },
+    { quote: 'Best pot selection in the west end, and they repotted my monstera on the spot.', name: 'Ossington regular (sample review)', context: 'Repotting' },
+    { quote: 'The propagation workshop was the most fun Saturday I have had in months.', name: 'Workshop guest (sample review)', context: 'Saturday workshop' },
   ],
   about: {
-    eyebrow: 'About the shop',
+    label: 'About the shop',
     headline: 'A small shop for people who want their plants to live',
     story: [
       'Mossbank started as a weekend market stall and grew into a little shop on Ossington.',
@@ -84,20 +140,20 @@ const shop: SiteConfigV1 = {
   primary: {
     kind: 'products',
     slug: 'products',
-    title: 'Featured plants',
+    title: 'On the shelf',
     intro: 'A few favourites in store right now. Stock changes weekly, so send us a message to check availability.',
     products: [
-      { name: 'Monstera deliciosa', description: 'Big split leaves, bright indirect light.', price: '$38', photo: ph('product-1.jpg'), tags: ['Easy care'] },
-      { name: 'Snake plant', description: 'Handles low light and forgetful watering.', price: '$26', photo: ph('product-2.jpg'), tags: ['Low light'] },
-      { name: 'ZZ plant', description: 'Glossy leaves that shrug off low light and missed waterings.', price: '$28', photo: ph('product-3.jpg'), tags: ['Beginner friendly'] },
-      { name: 'Fiddle leaf fig', description: 'A statement plant for a bright corner.', price: '$54', photo: ph('product-4.jpg'), tags: ['Bright light'] },
-      { name: 'Calathea', description: 'Patterned leaves that fold up at night.', price: '$32', photo: ph('product-5.jpg'), tags: ['Pet-safe'] },
-      { name: 'Terracotta pot set', description: 'Three terracotta pots with drainage holes.', price: '$24', photo: ph('product-6.jpg'), tags: ['Pots'] },
+      { name: 'Snake plant', latin: 'Sansevieria trifasciata', light: 'low', description: 'Handles low light and forgetful watering.', price: '$26', photo: ph('product-2.jpg') },
+      { name: 'ZZ plant', latin: 'Zamioculcas zamiifolia', light: 'low', description: 'Glossy leaves that shrug off low light and missed waterings.', price: '$28', photo: ph('product-3.jpg') },
+      { name: 'Fiddle leaf fig', latin: 'Ficus lyrata', light: 'bright', description: 'A statement plant for a bright corner.', price: '$54', photo: ph('product-4.jpg') },
+      { name: 'Calathea', latin: 'Calathea zebrina', light: 'medium', description: 'Patterned leaves that fold up at night.', price: '$32', photo: ph('product-5.jpg') },
+      { name: 'Monstera', latin: 'Monstera deliciosa', light: 'bright-indirect', description: 'Big split leaves, bright indirect light.', price: '$38', photo: ph('product-1.jpg') },
+      { name: 'Terracotta pot set', description: 'Three terracotta pots with drainage holes.', price: '$24', photo: ph('product-6.jpg') },
     ],
   },
   form: {
     title: 'Ask about a plant',
-    intro: 'Looking for something specific or want to check stock? Send us a message.',
+    intro: 'Looking for something specific or want to check stock? Send us a message, with a photo of your window if you like.',
     submitLabel: 'Send message',
     fields: [
       { name: 'name', label: 'Your name', type: 'text', required: true },
@@ -106,11 +162,6 @@ const shop: SiteConfigV1 = {
       { name: 'topic', label: 'What can we help with?', type: 'select', required: true, options: ['Checking stock', 'Plant recommendation', 'Repotting', 'Workshops', 'Something else'] },
       { name: 'message', label: 'Your message', type: 'textarea', required: true },
     ],
-  },
-  ctaBand: {
-    headline: 'Not sure what will survive your apartment?',
-    body: 'Tell us about your light and we will pick a plant for you.',
-    cta: { label: 'Get a recommendation', href: '/contact/' },
   },
 };
 

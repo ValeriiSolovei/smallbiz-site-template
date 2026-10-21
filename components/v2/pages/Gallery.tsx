@@ -20,6 +20,32 @@ function Strip({ site }: { site: SiteConfigV2 }) {
   );
 }
 
+/** Mosaic: the first photo spans two rows and columns, everything in black and white. */
+function Mosaic({ site }: { site: SiteConfigV2 }) {
+  return (
+    <ul className="grid grid-cols-2 gap-1 md:grid-cols-3">
+      {site.gallery.map((p, i) => (
+        <li key={p.src} className={i === 0 ? 'col-span-2 md:row-span-2' : ''}>
+          <img src={p.src} alt={p.alt} width={800} height={800} loading="lazy" decoding="async" className="mono aspect-square h-full w-full object-cover" />
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+/** Shelf: square colour photos as tiles with a hard shadow and wide gaps. */
+function Shelf({ site }: { site: SiteConfigV2 }) {
+  return (
+    <ul className="grid grid-cols-2 gap-x-5 gap-y-8 pr-2 md:grid-cols-3 md:gap-8">
+      {site.gallery.map((p) => (
+        <li key={p.src}>
+          <img src={p.src} alt={p.alt} width={800} height={800} loading="lazy" decoding="async" className="tile aspect-square w-full object-cover" />
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 /** Contact-sheet gallery: square photos with caption plaques, 2 columns on a phone and 3 from 768 px. */
 export default function GalleryV2({ site }: { site: SiteConfigV2 }) {
   const header = <PageHeader tone={toneFor(site.design, 'brand')} label={`${site.gallery.length} photos`} title="Gallery" />;
@@ -37,6 +63,9 @@ export default function GalleryV2({ site }: { site: SiteConfigV2 }) {
       {header}
       <section data-tone="base" data-space="regular">
         <div className="wrap">
+          {site.design.gallery === 'mosaic' && <Mosaic site={site} />}
+          {site.design.gallery === 'shelf' && <Shelf site={site} />}
+          {(site.design.gallery ?? 'contact') === 'contact' && (
           <ul className="grid grid-cols-2 gap-1 md:grid-cols-3">
             {site.gallery.map((p) => (
               <li key={p.src}>
@@ -51,6 +80,7 @@ export default function GalleryV2({ site }: { site: SiteConfigV2 }) {
               </li>
             ))}
           </ul>
+          )}
           <div className="mt-10">
             <Button item={site.cta.primary} block />
           </div>

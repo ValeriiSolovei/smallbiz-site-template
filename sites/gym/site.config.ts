@@ -1,34 +1,55 @@
-import type { PhotoEntry, SiteConfigV1 } from '@/lib/types';
+import type { PhotoEntry, SiteConfigV2 } from '@/lib/types';
 import { photoSet } from '@/lib/photos';
+import { telHref } from '@/lib/phone';
 import photos from './photos.json';
 
 const ph = photoSet('gym', photos as PhotoEntry[]);
 
-const gym: SiteConfigV1 = {
-  system: 'v1',
+const phone = '(416) 555-0167';
+const freeWeek = { label: 'Claim a free week', href: '/contact/' };
+
+const gym: SiteConfigV2 = {
+  system: 'v2',
   id: 'gym',
   name: 'Ironline Athletic Club',
   tagline: 'Small-group strength and conditioning in the Junction',
   neighbourhood: 'The Junction',
   indexable: false,
   theme: {
-    mode: 'dark',
-    surfaceBase: '#0b0c0a',
-    surfaceCard: '#151712',
-    surfaceHero: '#0f1805',
-    borderDefault: '#262922',
-    textPrimary: '#ffffff',
-    textSecondary: '#b5b8b0',
-    textMuted: '#8d9187',
-    accent: '#b6ff2e',
-    accentHover: '#c8ff5c',
-    accentDim: 'rgba(182, 255, 46, 0.14)',
-    accentGlow: 'rgba(182, 255, 46, 0.30)',
-    accentContrast: '#0b0c0a',
-    error: '#ff6b6b',
+    mode: 'light',
+    surfaceBase: '#f2f0eb',
+    surfaceCard: '#dcd7cc',
+    surfaceBrand: '#d8cfc2',
+    surfaceInverse: '#1b1916',
+    borderDefault: '#c4bcae',
+    textPrimary: '#1b1916',
+    textSecondary: '#45413a',
+    textMuted: '#524d46',
+    accent: '#e8784a',
+    accentHover: '#ef8d63',
+    accentContrast: '#1b1916',
+    accentText: '#8f3517',
+    error: '#a3122a',
   },
+  design: {
+    rhythm: 'alternate',
+    label: 'tag',
+    button: 'pill',
+    rule: 1,
+    shadow: 'none',
+    footerTone: 'brand',
+    fonts: { h1: 'Rokkitt', body: 'Hanken Grotesk' },
+    type: { case: 'none', displayWeight: 700, h1Weight: 300, tracking: '-0.01em', leading: 1.0, h1Size: 'clamp(2.75rem, 1.4rem + 5.8vw, 6rem)', voice: 'weight' },
+    footer: 'line',
+    gallery: 'mosaic',
+  },
+  wordmark: { main: 'Ironline', sub: 'Athletic Club' },
+  callBar: { primary: { label: 'Free week', href: '/contact/' }, secondary: { label: 'Call', href: telHref(phone) } },
+  cta: { primary: freeWeek, secondary: { label: `Call ${phone}`, href: telHref(phone) } },
+  headerCta: { label: 'Free week', href: '/contact/' },
+  contactLabel: 'First week free, no contract',
   contact: {
-    phone: '(416) 555-0167',
+    phone,
     email: 'train@ironline.example',
     addressLine: 'Dundas St W near Keele, The Junction, Toronto',
     mapBbox: [-79.485, 43.66, -79.455, 43.672],
@@ -38,34 +59,40 @@ const gym: SiteConfigV1 = {
     ],
   },
   hero: {
-    eyebrow: 'Strength & conditioning · The Junction',
-    headline: 'Get strong. Stay consistent. Have fun doing it.',
-    subhead: 'Small-group classes, open gym and coaching that fits around real life. Your first week is free.',
-    cta: { label: 'Claim a free week', href: '/contact/' },
-    secondaryCta: { label: 'See the schedule', href: '/classes/' },
+    variant: 'split',
+    tone: 'base',
+    label: 'Mon–Fri 6 am–10 pm',
+    headline: { text: 'Twelve to a class. First week free.', voice: 'First week free.' },
+    subhead: 'Small-group strength and conditioning off Dundas West. Every workout scales, from first-timer to competitor.',
+    cta: freeWeek,
+    secondaryCta: { label: 'See this week’s classes', href: '/classes/' },
     photo: ph('hero.jpg'),
+    photoSmall: ph('hero-sm.jpg'),
   },
-  highlights: [
-    { title: 'Small classes', body: 'Twelve people at most, so the coach actually coaches you.' },
-    { title: 'All levels', body: 'Every workout scales, from first-timer to competitor.' },
-    { title: 'Open early and late', body: '6 am to 10 pm on weekdays, with weekend sessions too.' },
+  home: [
+    { kind: 'week', tone: 'inverse', space: 'regular', title: { text: 'This week' }, more: { label: 'Full schedule & membership', href: '/classes/' } },
+    {
+      kind: 'coaches',
+      tone: 'base',
+      space: 'regular',
+      title: { text: 'Coaches who learn your name', voice: 'learn your name' },
+      points: ['Twelve to a class', 'Every workout scales', 'Open 6 am to 10 pm', 'No contract'],
+    },
+    { kind: 'reviews', tone: 'tint', space: 'tight', title: { text: 'From the 6 am class' }, variant: 'wall' },
+    { kind: 'plans', tone: 'inverse', space: 'loose', title: { text: 'Membership' }, note: 'First week free for new members. No contract. Cancel any time.' },
   ],
-  whyUs: {
-    title: 'Why members stay',
-    points: [
-      'Coaches who learn your name and your goals',
-      'Programming that changes every month',
-      'A community that shows up for each other',
-      'No long contracts, cancel any time',
-    ],
-  },
+  highlights: [
+    { title: 'Twelve to a class', body: 'Small enough that the coach actually coaches you.' },
+    { title: 'Every workout scales', body: 'First-timers and competitors train in the same class.' },
+    { title: 'Open 6 am to 10 pm', body: 'On weekdays, with sessions on weekends too.' },
+    { title: 'No contract', body: 'Month to month. Cancel any time.' },
+  ],
   reviews: [
-    { quote: 'I had never lifted before. Six months later I deadlift more than my body weight.', name: 'Member since spring (sample review)' },
-    { quote: 'The 6 am class is the only reason I get to work in a good mood.', name: 'Junction resident (sample review)' },
-    { quote: 'Small enough that coaches notice when you skip a week, in a good way.', name: 'Roncesvalles member (sample review)' },
+    { quote: 'I had never lifted before. Six months later I deadlift more than my body weight.', name: 'Member since spring (sample review)', context: '6 am class' },
+    { quote: 'Small enough that the coach notices when you skip a week, in a good way.', name: 'Roncesvalles member (sample review)', context: 'Evening class' },
   ],
   about: {
-    eyebrow: 'About Ironline',
+    label: 'About Ironline',
     headline: 'A neighbourhood gym, not a factory',
     story: [
       'Ironline opened in a former print shop off Dundas West with one goal: make strength training feel welcoming.',
@@ -131,11 +158,6 @@ const gym: SiteConfigV1 = {
       { name: 'preferredTime', label: 'Best time for you', type: 'select', required: true, options: ['Mornings', 'Lunch', 'Evenings', 'Weekends'] },
       { name: 'goal', label: 'Your main goal (optional)', type: 'textarea', required: false },
     ],
-  },
-  ctaBand: {
-    headline: 'Your first week is on us',
-    body: 'No pressure and no contract. Try a few classes and see if it fits.',
-    cta: { label: 'Claim a free week', href: '/contact/' },
   },
 };
 

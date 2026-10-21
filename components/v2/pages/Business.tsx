@@ -1,5 +1,4 @@
 import type { SiteConfigV2 } from '@/lib/types';
-import PrimaryContent from '@/components/PrimaryContent';
 import PageHeader from '../PageHeader';
 import Section from '../Section';
 import IndexRows from '../IndexRows';
@@ -9,10 +8,12 @@ import Button from '../Button';
 import Joined from '../Joined';
 import MenuList from '../MenuList';
 import { toneFor } from '@/lib/rhythm';
+import WeekDays from '../WeekDays';
+import ProductTile from '../ProductTile';
 
 const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
-/** The business page. Services get their v2 layout; other kinds use the shared components until their site moves over. */
+/** The business page: services, menu, classes or products, each in its v2 layout. */
 export default function BusinessV2({ site }: { site: SiteConfigV2 }) {
   const p = site.primary;
   if (p.kind === 'menu') {
@@ -28,15 +29,48 @@ export default function BusinessV2({ site }: { site: SiteConfigV2 }) {
       </>
     );
   }
-  if (p.kind !== 'services') {
+  if (p.kind === 'classes') {
     return (
       <>
-        <PageHeader label={site.tagline} title={p.title} intro={p.intro} />
-        <section data-tone="base" data-space="regular">
-          <div className="wrap">
-            <PrimaryContent primary={p} />
+        <PageHeader tone={toneFor(site.design, 'tint')} label={site.tagline} title={p.title} intro={p.intro} />
+        <Section tone="base" space="regular">
+          <div>
+            <h2 className="h2 h-display">Weekly schedule</h2>
+            <div className="mt-8">
+              <WeekDays schedule={p.schedule} />
+            </div>
           </div>
-        </section>
+        </Section>
+        <Section tone="tint" space="tight" title={{ text: 'Coaches' }}>
+          <ul className="grid gap-8 md:grid-cols-3 md:gap-6">
+            {p.trainers.map((t) => (
+              <li key={t.name}>
+                <img src={t.photo.src} alt={t.photo.alt} width={800} height={1000} loading="lazy" decoding="async" className="mono aspect-[4/5] w-full object-cover" />
+                <p className="h-display mt-4 text-2xl font-bold">{t.name}</p>
+                <p className="text-small text-fg-2">{t.specialty}</p>
+              </li>
+            ))}
+          </ul>
+        </Section>
+        <Closing site={site} />
+      </>
+    );
+  }
+  if (p.kind === 'products') {
+    return (
+      <>
+        <PageHeader tone={toneFor(site.design, 'tint')} label={site.tagline} title={p.title} intro={p.intro} />
+        <Section tone="base" space="regular">
+          <ul className="grid grid-cols-2 gap-x-5 gap-y-10 pr-2 md:grid-cols-3 md:gap-x-8">
+            {p.products.map((product) => (
+              <ProductTile key={product.name} product={product} />
+            ))}
+          </ul>
+          <div className="mt-12">
+            <Button item={site.cta.primary} block />
+          </div>
+        </Section>
+        <Closing site={site} />
       </>
     );
   }

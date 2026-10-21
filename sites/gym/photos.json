@@ -1,12 +1,39 @@
 [
   {
     "file": "hero.jpg",
-    "alt": "Athlete in a black sports top seen from behind in a dark gym",
-    "imageUrl": "https://cdn.stocksnap.io/img-thumbs/960w/ZFIQC5CZRP.jpg",
-    "sourceUrl": "https://stocksnap.io/photo/girl-woman-ZFIQC5CZRP",
+    "alt": "Rubber dumbbells and curl bars racked by weight in the gym, 10 to 25 kg",
+    "imageUrl": "https://pd.w.org/2026/05/4556a04d02a16a329.70896333.jpg",
+    "sourceUrl": "https://wordpress.org/photos/photo/4556a04d02/",
     "license": "CC0 1.0",
     "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
-    "creator": "Scott Webb"
+    "creator": "Faisal Ahammad",
+    "crop": [
+      0,
+      450,
+      2304,
+      2880
+    ],
+    "mono": true,
+    "width": 1200,
+    "maxBytes": 200000
+  },
+  {
+    "file": "hero-sm.jpg",
+    "alt": "Rubber dumbbells and curl bars racked by weight in the gym, 10 to 25 kg",
+    "imageUrl": "https://pd.w.org/2026/05/4556a04d02a16a329.70896333.jpg",
+    "sourceUrl": "https://wordpress.org/photos/photo/4556a04d02/",
+    "license": "CC0 1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "creator": "Faisal Ahammad",
+    "crop": [
+      0,
+      1440,
+      2304,
+      1728
+    ],
+    "mono": true,
+    "width": 800,
+    "maxBytes": 80000
   },
   {
     "file": "team.jpg",

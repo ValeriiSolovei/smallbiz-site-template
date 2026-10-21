@@ -191,7 +191,11 @@ body {
   html[data-system="v2"] [data-space="tight"] { padding-block: var(--space-tight); }
   html[data-system="v2"] [data-space="regular"] { padding-block: var(--space-regular); }
   html[data-system="v2"] [data-space="loose"] { padding-block: var(--space-loose); }
-  html[data-system="v2"] [data-space][data-after-cross] { padding-top: calc(var(--space-regular) + var(--overlap)); }
+  /* A photo that crosses the seam into the next section does so from 768 px; on a phone it stays in its own section */
+  @media (min-width: 768px) {
+    html[data-system="v2"] [data-space][data-after-cross] { padding-top: calc(var(--space-regular) + var(--overlap)); }
+    html[data-system="v2"] .crossing-md { position: relative; z-index: 2; margin-bottom: calc(-1 * var(--overlap)); }
+  }
   html[data-system="v2"] .crossing { position: relative; z-index: 2; margin-bottom: calc(-1 * var(--overlap)); }
   html[data-system="v2"] .bleed-right { margin-right: calc(-1 * max(var(--gutter), (100vw - var(--container)) / 2)); }
   html[data-system="v2"] .bleed-left { margin-left: calc(-1 * max(var(--gutter), (100vw - var(--container)) / 2)); }
@@ -311,6 +315,8 @@ body {
   html[data-system="v2"] .wordmark-sub { font-family: var(--font-display); font-size: 0.875rem; font-weight: 600; letter-spacing: 0.3em; text-transform: uppercase; }
   html[data-system="v2"][data-label="rule"] .wordmark-sub { font-family: var(--font-body); font-size: var(--fs-label); letter-spacing: 0.16em; }
   html[data-system="v2"] .wordmark-voice { font-family: var(--font-voice); font-style: italic; }
+  html[data-system="v2"][data-label="italic"] .wordmark-sub { font-family: var(--font-voice); font-size: 1.0625rem; font-style: italic; font-weight: 400; letter-spacing: 0; text-transform: none; }
+  html[data-system="v2"][data-label="tag"] .wordmark-sub { font-family: var(--font-body); letter-spacing: 0.08em; }
 
   /* Photo-block hero: the h1 is set in the reading face, three lines heavy, light, then the italic voice */
   html[data-system="v2"] .hero-lockup { font-family: var(--font-body); line-height: 1; letter-spacing: -0.01em; }
@@ -327,6 +333,58 @@ body {
   }
   html[data-system="v2"] .overheard { font-family: var(--font-voice); font-size: clamp(1.5rem, 1rem + 2vw, 2.5rem); font-style: italic; line-height: 1.2; text-wrap: balance; }
   html[data-system="v2"] .byline { font-size: var(--fs-label); font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; }
+
+  /* The italic voice as a plain text style (Latin plant names, kickers) */
+  html[data-system="v2"] .voice { font-family: var(--font-voice); font-style: italic; font-weight: var(--voice-weight, 400); }
+
+  /* Black-and-white environments: photos marked .mono render in grey until they are baked that way */
+  html[data-system="v2"] .mono { filter: grayscale(1) contrast(1.05); }
+
+  /* Gym: the split hero photo is full-bleed on a phone and runs to the right edge from 768 px */
+  html[data-system="v2"] .split-photo { margin-inline: calc(-1 * var(--gutter)); }
+  @media (min-width: 768px) {
+    html[data-system="v2"] .split-photo {
+      margin-left: 0; margin-right: calc(-1 * max(var(--gutter), (100vw - var(--container)) / 2)); min-height: 560px;
+    }
+  }
+  /* Gym: "This week" turned on its side beside the day columns, each day under an accent rule */
+  html[data-system="v2"] .week-word { font-size: var(--fs-h2); line-height: 1; }
+  @media (min-width: 768px) {
+    html[data-system="v2"] .week-word {
+      writing-mode: vertical-rl; transform: rotate(180deg); justify-self: start;
+      font-size: clamp(3.5rem, 5.6vw, 5.5rem); font-weight: 800; line-height: 0.85;
+    }
+  }
+  html[data-system="v2"] .week-day { border-top: 4px solid var(--accent); padding-top: 12px; }
+  /* An inset bar, so the border utilities that split the plans cannot remove it */
+  html[data-system="v2"] .plan-featured { box-shadow: inset 0 6px 0 var(--accent); }
+  html[data-system="v2"] .wall-quote { font-size: clamp(1.375rem, 1rem + 1.2vw, 1.75rem); font-weight: 300; line-height: 1.3; text-wrap: balance; }
+  @media (min-width: 768px) {
+    html[data-system="v2"] .coaches > li:nth-child(3n + 2) { transform: translateY(64px); }
+    html[data-system="v2"] .coaches > li:nth-child(3n) { transform: translateY(128px); }
+    html[data-system="v2"] .coaches { padding-bottom: 128px; }
+  }
+  @media (max-width: 767px) {
+    html[data-system="v2"] .coaches > li:nth-child(even) { margin-left: 24px; }
+  }
+
+  /* Plant shop: tiles carry a hard shadow in the accent; the line-and-dot light scale */
+  html[data-system="v2"][data-shadow="tiles"] .tile { box-shadow: 8px 8px 0 var(--accent); }
+  html[data-system="v2"] .light-scale { display: inline-flex; max-width: 100%; align-items: center; gap: 8px; font-size: var(--fs-small); color: var(--fg-2); }
+  html[data-system="v2"] .light-end { font-family: var(--font-voice); font-style: italic; }
+  html[data-system="v2"] .light-track { position: relative; flex: 0 1 140px; min-width: 40px; height: 1.5px; background: var(--mark); }
+  html[data-system="v2"] .light-dot { position: absolute; top: 50%; width: 10px; height: 10px; border-radius: 9999px; background: var(--mark); transform: translate(-50%, -50%); }
+  html[data-system="v2"] .light-guide { position: relative; display: grid; gap: 40px; padding-left: 36px; }
+  html[data-system="v2"] .light-guide::before { content: ""; position: absolute; left: 5px; top: 6px; bottom: 0; width: 1.5px; background: var(--mark); }
+  html[data-system="v2"] .light-stop { position: relative; }
+  html[data-system="v2"] .light-stop::before {
+    content: ""; position: absolute; left: -36px; top: 8px; width: 12px; height: 12px; border-radius: 9999px; background: var(--mark);
+  }
+  @media (min-width: 768px) {
+    html[data-system="v2"] .light-guide { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: clamp(24px, 4vw, 64px); padding-left: 0; padding-top: 48px; }
+    html[data-system="v2"] .light-guide::before { left: 0; right: 0; top: 5px; bottom: auto; width: auto; height: 1.5px; }
+    html[data-system="v2"] .light-stop::before { left: 0; top: -48px; }
+  }
 
   /* The demo notice never drops below the 13 px floor */
   html[data-system="v2"] [data-testid="demo-label"] { font-size: var(--fs-label); line-height: 1.4; color: var(--fg-3); }
