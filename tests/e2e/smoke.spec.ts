@@ -222,7 +222,7 @@ test(`${site.id}: ships only its own photos and no stray copies of the 404 page`
 // ---- Fonts (every site) and the v2 guards (v2 sites only) ----
 
 const unquote = (family: string) => family.replace(/["']/g, '').trim();
-const fonts = site.system === 'v2' ? site.design.fonts : { h1: 'Inter', body: 'Inter' };
+const fonts = site.design.fonts;
 
 test(`${site.id}: h1 and body use the site's own fonts`, async ({ page }) => {
   await page.goto('/');
@@ -239,8 +239,7 @@ test(`${site.id}: preloads few, small font files`, async ({ page }) => {
   const media = path.join(process.cwd(), 'out', '_next', 'static', 'media');
   const preloaded = fs.readdirSync(media).filter((f) => /\.p\.[^.]+\.woff2$/.test(f));
   const kb = preloaded.reduce((sum, f) => sum + fs.statSync(path.join(media, f)).size, 0) / 1024;
-  if (site.system === 'v2') expect(preloaded.length).toBeLessThanOrEqual(3);
-  else expect(preloaded).toHaveLength(1);
+  expect(preloaded.length).toBeLessThanOrEqual(3);
   expect(kb, `${kb.toFixed(1)} KB`).toBeLessThanOrEqual(FONT_BUDGET_KB[site.id]);
   await page.goto('/');
   const links = await page.locator('link[rel="preload"][as="font"]').evaluateAll((els) => els.map((e) => (e as HTMLLinkElement).href));
@@ -249,14 +248,11 @@ test(`${site.id}: preloads few, small font files`, async ({ page }) => {
 
 test.describe('v2 guards', () => {
   test(`${site.id}: each sample review shows its stars with a readable label`, async ({ page }) => {
-    test.skip(site.system !== 'v2', 'v2 only');
     await page.goto('/');
     const stars = page.getByRole('img', { name: /^Rated [1-5] out of 5$/ });
     await expect(stars).toHaveCount(site.reviews.length);
     await expect(stars.first()).toBeVisible();
   });
-
-  test.skip(site.system !== 'v2', 'only sites on the v2 design system');
 
   for (const route of ROUTES) {
     test(`${site.id} ${route}: nothing spills past the right edge at 375 px`, async ({ page }) => {

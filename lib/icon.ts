@@ -2,9 +2,8 @@ import type { SiteConfig } from './types';
 
 const ESCAPES: Record<string, string> = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' };
 
-/** Corner radius of the favicon square: v1 keeps its rounded square, v2 follows the site's button shape. */
+/** Corner radius of the favicon square: it follows the site's button shape. */
 function iconRadius(site: SiteConfig): number {
-  if (site.system !== 'v2') return 14;
   return site.design.button === 'plate' ? 4 : 32;
 }
 

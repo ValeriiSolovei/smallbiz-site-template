@@ -1,26 +1,7 @@
 export type SiteId = 'trades' | 'gym' | 'cafe' | 'shop';
 
-/** The design system a site renders with. Sites without `system` render with v1. */
-export type SystemId = 'v1' | 'v2';
-
-/** Colour tokens of the v1 design system. */
-export type ThemeV1 = {
-  mode: 'light' | 'dark';
-  surfaceBase: string;
-  surfaceCard: string;
-  surfaceHero: string;
-  borderDefault: string;
-  textPrimary: string;
-  textSecondary: string;
-  textMuted: string;
-  accent: string;
-  accentHover: string;
-  accentDim: string;
-  accentGlow: string;
-  accentContrast: string;
-  error: string;
-};
-export type ThemeTokens = ThemeV1;
+/** The design system a site renders with. v1 was removed on 2026-10-22; every site is v2. */
+export type SystemId = 'v2';
 
 /** Colour tokens of the v2 design system: still 13 colours, every value #rrggbb. */
 export type ThemeV2 = {
@@ -92,28 +73,6 @@ export type PrimaryPage =
   | { kind: 'products'; slug: 'products'; title: string; intro: string; products: Product[] };
 
 type Contact = { phone: string; email: string; addressLine: string; mapBbox: Bbox; hours: { days: string; time: string }[] };
-
-export type SiteConfigV1 = {
-  system?: 'v1';
-  id: SiteId;
-  name: string;
-  tagline: string;
-  neighbourhood: string;
-  indexable: boolean;
-  theme: ThemeV1;
-  contact: Contact;
-  hero: { eyebrow: string; headline: string; subhead: string; cta: NavItem; secondaryCta?: NavItem; photo: Photo };
-  /** Header button; defaults to the hero's main button. Point it at /contact/. */
-  headerCta?: NavItem;
-  highlights: Card[];
-  whyUs: { title: string; points: string[] };
-  reviews: Review[];
-  about: { eyebrow: string; headline: string; story: string[]; photo: Photo; values: Card[] };
-  gallery: Photo[];
-  primary: PrimaryPage;
-  form: FormSpec;
-  ctaBand: { headline: string; body: string; cta: NavItem };
-};
 
 // ---- v2 design system ----
 
@@ -274,4 +233,4 @@ export type WorkOrder = {
   signatures: [string, string];
 };
 
-export type SiteConfig = SiteConfigV1 | SiteConfigV2;
+export type SiteConfig = SiteConfigV2;

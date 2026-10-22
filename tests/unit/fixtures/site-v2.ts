@@ -3,7 +3,7 @@ import { photoSet } from '@/lib/photos';
 import trades from '@/sites/trades/site.config';
 import photos from '@/sites/trades/photos.json';
 
-// A minimal fictional site on the v2 system, so every v2 rule is tested before a real site moves over.
+// A minimal fictional site on the v2 system, so every v2 rule is tested on more than the four real sites.
 // It reuses the electrician's content and photos; only the v2-specific fields are new.
 const ph = photoSet('trades', photos as PhotoEntry[]);
 const call = { label: 'Call (416) 555-0142', href: 'tel:+14165550142' };

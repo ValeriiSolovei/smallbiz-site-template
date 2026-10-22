@@ -8,8 +8,6 @@ import { designDataAttrs, typeToCssVars } from '@/lib/typography';
 import { siteIconDataUri } from '@/lib/icon';
 import { resolveBaseUrl } from '@/lib/base-url';
 import { buildNav, headerCta } from '@/lib/nav';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
 import HeaderBarV2 from '@/components/v2/HeaderBar';
 import UtilityBar from '@/components/v2/UtilityBar';
 import FooterV2 from '@/components/v2/Footer';
@@ -34,9 +32,9 @@ export function generateMetadata(): Metadata {
   };
 }
 
-// v2 lets the page run under the phone's safe areas (the call bar pads itself with env()).
+// The page runs under the phone's safe areas (the call bar pads itself with env()).
 export function generateViewport(): Viewport {
-  return getSite().system === 'v2' ? { viewportFit: 'cover' } : {};
+  return { viewportFit: 'cover' };
 }
 
 const skipLink =
@@ -44,37 +42,21 @@ const skipLink =
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   const site = getSite();
-  if (site.system === 'v2') {
-    const style = { ...themeToCssVars(site.theme, 'v2'), ...typeToCssVars(site.design.type) } as CSSProperties;
-    const nav = buildNav(site);
-    return (
-      <html lang="en-CA" data-scroll-behavior="smooth" data-system="v2" {...designDataAttrs(site.design)} className={`${fontClasses} ${site.theme.mode}`} style={style}>
-        <body data-tone="base" className="flex min-h-screen flex-col font-body">
-          <a href="#main" className={skipLink}>
-            Skip to content
-          </a>
-          {site.utilityBar && <UtilityBar left={site.utilityBar.left} right={site.utilityBar.right} phone={site.contact.phone} />}
-          <HeaderBarV2 wordmark={site.wordmark} nav={nav} cta={headerCta(site)} />
-          <main id="main" tabIndex={-1} className="flex-1 scroll-mt-24 focus:outline-none">
-            {children}
-          </main>
-          <FooterV2 site={site} nav={nav} />
-          <CallBar primary={site.callBar.primary} secondary={site.callBar.secondary} />
-        </body>
-      </html>
-    );
-  }
+  const style = { ...themeToCssVars(site.theme), ...typeToCssVars(site.design.type) } as CSSProperties;
+  const nav = buildNav(site);
   return (
-    <html lang="en-CA" data-scroll-behavior="smooth" data-system="v1" className={`${fontClasses} ${site.theme.mode}`} style={themeToCssVars(site.theme) as CSSProperties}>
-      <body className="flex min-h-screen flex-col font-sans">
+    <html lang="en-CA" data-scroll-behavior="smooth" data-system="v2" {...designDataAttrs(site.design)} className={`${fontClasses} ${site.theme.mode}`} style={style}>
+      <body data-tone="base" className="flex min-h-screen flex-col font-body">
         <a href="#main" className={skipLink}>
           Skip to content
         </a>
-        <Header site={site} />
+        {site.utilityBar && <UtilityBar left={site.utilityBar.left} right={site.utilityBar.right} phone={site.contact.phone} />}
+        <HeaderBarV2 wordmark={site.wordmark} nav={nav} cta={headerCta(site)} />
         <main id="main" tabIndex={-1} className="flex-1 scroll-mt-24 focus:outline-none">
           {children}
         </main>
-        <Footer site={site} />
+        <FooterV2 site={site} nav={nav} />
+        <CallBar primary={site.callBar.primary} secondary={site.callBar.secondary} />
       </body>
     </html>
   );

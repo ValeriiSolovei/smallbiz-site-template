@@ -67,7 +67,7 @@ describe('global CSS', () => {
     expect(selectors.length).toBeGreaterThan(40);
     for (const sel of selectors) for (const part of selectorParts(sel)) expect(part.trim(), sel).toMatch(/^html\[data-system="v2"\]/);
   });
-  it('keeps the skip link on tokens both systems define', () => {
+  it('keeps the skip link on the accent tokens the stylesheet still defines', () => {
     const layout = fs.readFileSync(path.join(root, 'app', 'layout.tsx'), 'utf8');
     expect(layout).toContain('focus:bg-accent');
     expect(layout).toContain('focus:text-accent-contrast');

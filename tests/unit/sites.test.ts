@@ -9,7 +9,7 @@ import { headerCta } from '@/lib/nav';
 import { HONEYPOT_FIELD } from '@/lib/constants';
 import { spaceProblems, toneProblems, toneSequence } from '@/lib/rhythm';
 import { assertVoice, sentences } from '@/lib/voice';
-import type { Photo, PhotoEntry, SiteConfig, SiteConfigV1, SiteConfigV2, Voice } from '@/lib/types';
+import type { Photo, PhotoEntry, SiteConfig, SiteConfigV2, Voice } from '@/lib/types';
 import fixtureV2 from './fixtures/site-v2';
 
 const root = process.cwd();
@@ -18,7 +18,7 @@ function collectPhotos(site: SiteConfig): Photo[] {
   const photos = [site.hero.photo, site.about.photo, ...site.gallery];
   if (site.primary.kind === 'classes') photos.push(...site.primary.trainers.map((t) => t.photo));
   if (site.primary.kind === 'products') photos.push(...site.primary.products.map((p) => p.photo));
-  if (site.system === 'v2') for (const b of site.home) if (b.kind === 'strip') photos.push(...b.items.map((it) => it.photo));
+  for (const b of site.home) if (b.kind === 'strip') photos.push(...b.items.map((it) => it.photo));
   return photos;
 }
 
@@ -53,37 +53,6 @@ for (const [id, site] of entries) describe(`site "${id}"`, () => {
   it('never uses the reserved red #cc2222', () => {
     expect(JSON.stringify(site.theme).toLowerCase()).not.toContain('#cc2222');
   });
-  if (site.system !== 'v2') {
-    it('keeps every text colour readable (WCAG AA 4.5:1) on base and card', () => {
-      const t = (site as SiteConfigV1).theme;
-      for (const fg of [t.textPrimary, t.textSecondary, t.textMuted, t.accent]) {
-        expect(contrastRatio(fg, t.surfaceBase), `${fg} on base`).toBeGreaterThanOrEqual(4.5);
-        expect(contrastRatio(fg, t.surfaceCard), `${fg} on card`).toBeGreaterThanOrEqual(4.5);
-      }
-    });
-    it('keeps button text readable on the accent colour, including on hover', () => {
-      expect(contrastRatio((site as SiteConfigV1).theme.accentContrast, (site as SiteConfigV1).theme.accent)).toBeGreaterThanOrEqual(4.5);
-      expect(contrastRatio((site as SiteConfigV1).theme.accentContrast, (site as SiteConfigV1).theme.accentHover), 'hover').toBeGreaterThanOrEqual(4.5);
-    });
-    it('keeps pill text readable on the tinted pill background', () => {
-      const t = (site as SiteConfigV1).theme;
-      for (const bg of [t.surfaceBase, t.surfaceCard]) {
-        expect(contrastRatio(t.accent, blendOver(t.accentDim, bg)), `accent on accentDim over ${bg}`).toBeGreaterThanOrEqual(4.5);
-      }
-    });
-    it('has a readable error colour that differs from the accent', () => {
-      const t = (site as SiteConfigV1).theme;
-      expect(contrastRatio(t.error, t.surfaceBase), 'error on base').toBeGreaterThanOrEqual(4.5);
-      expect(contrastRatio(t.error, t.surfaceCard), 'error on card').toBeGreaterThanOrEqual(4.5);
-      expect(t.error.toLowerCase()).not.toBe(t.accent.toLowerCase());
-    });
-    it('keeps hero text readable on the hero background', () => {
-      const t = (site as SiteConfigV1).theme;
-      for (const fg of [t.textPrimary, t.textSecondary, t.accent]) {
-        expect(contrastRatio(fg, t.surfaceHero), `${fg} on hero`).toBeGreaterThanOrEqual(4.5);
-      }
-    });
-  }
   it('uses fictional contact details', () => {
     expect(site.contact.phone).toMatch(/^\(\d{3}\) 555-01\d{2}$/);
     expect(site.contact.email).toMatch(/@[a-z0-9-]+\.example$/);
@@ -116,10 +85,8 @@ for (const [id, site] of entries) describe(`site "${id}"`, () => {
   });
   it('declares the fonts its system expects in sites/<id>/fonts.ts', () => {
     const src = fs.readFileSync(path.join(root, 'sites', id, 'fonts.ts'), 'utf8');
-    const loaders = site.system === 'v2' ? [site.design.fonts.h1, site.design.fonts.body] : ['Inter'];
-    for (const family of loaders) expect(src, family).toContain(`${family.replace(/ /g, '_')}(`);
-    if (site.system !== 'v2') expect(src).toContain("variable: '--font-inter'");
-    else expect(src).toContain('--ff-display');
+    for (const family of [site.design.fonts.h1, site.design.fonts.body]) expect(src, family).toContain(`${family.replace(/ /g, '_')}(`);
+    expect(src).toContain('--ff-display');
   });
   it('has every photo on disk with real alt text', () => {
     for (const p of collectPhotos(site)) {
@@ -130,11 +97,11 @@ for (const [id, site] of entries) describe(`site "${id}"`, () => {
   });
 });
 
-// ---- v2 design system: these rules run on the fixture now and on every site once it moves to v2 ----
+// ---- v2 design system: these rules run on the fixture and on every site ----
 
 const v2Sites: [string, SiteConfigV2][] = [
   ['fixture', fixtureV2],
-  ...entries.filter((e): e is [string, SiteConfigV2] => e[1].system === 'v2'),
+  ...entries,
 ];
 
 function blockTitles(site: SiteConfigV2): Voice[] {
